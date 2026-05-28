@@ -152,6 +152,7 @@ export default function ExpenseClaimsPage() {
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
   const [calendarDate, setCalendarDate] = useState(new Date(2026, 4, 1)); // Default to May 2026
   const dateButtonRef = useRef(null);
+  const dateIconRef = useRef(null);
   const calendarRef = useRef(null);
   const [calendarPos, setCalendarPos] = useState({ top: 0, left: 0 });
 
@@ -167,6 +168,7 @@ export default function ExpenseClaimsPage() {
     const handleClickOutside = (e) => {
       if (
         dateButtonRef.current && !dateButtonRef.current.contains(e.target) &&
+        dateIconRef.current && !dateIconRef.current.contains(e.target) &&
         calendarRef.current && !calendarRef.current.contains(e.target)
       ) {
         setIsDateDropdownOpen(false);
@@ -628,7 +630,7 @@ export default function ExpenseClaimsPage() {
 
       {/* Styled React Form Modal */}
       {isModalOpen && (
-        <div style={modalOverlayStyle}>
+        <div className="modal-overlay" style={modalOverlayStyle}>
           {formStatus === 'editing' && (
             <div style={modalContainerStyle}>
               <div style={modalHeaderStyle}>
@@ -693,7 +695,16 @@ export default function ExpenseClaimsPage() {
                           >
                             <span style={{ color: newClaim.date ? '#292929' : '#7a7a7a' }}>{newClaim.date || 'Select date'}</span>
                           </div>
-                          <img src={calendarIcon} style={dateIconStyle} alt="Calendar" />
+                          <img
+                            ref={dateIconRef}
+                            src={calendarIcon}
+                            style={dateIconStyle}
+                            alt="Calendar"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsDateDropdownOpen((isOpen) => !isOpen);
+                            }}
+                          />
 
                           {isDateDropdownOpen && (
                             <div
@@ -988,10 +999,10 @@ export default function ExpenseClaimsPage() {
 
       {/* View Modal */}
       {viewModalClaim && (
-        <div style={modalOverlayStyle}>
+        <div className="modal-overlay" style={modalOverlayStyle}>
           <div style={{ ...modalContainerStyle, width: 'min(370px, calc(100vw - 48px))', height: 'min(756px, calc(100vh - 48px))', maxHeight: 'calc(100vh - 48px)' }}>
             <div style={{ ...modalHeaderStyle, height: '58px', padding: '0 16px' }}>
-              <h3 style={{ ...modalTitleStyle, width: '230px', height: '34px', fontFamily: "'Rubik', var(--font-family)", fontSize: '24px', fontWeight: '500', lineHeight: '140%', letterSpacing: 0, gap: '8px' }}>
+              <h3 style={{ ...modalTitleStyle, flex: 1, minWidth: 0, height: '34px', fontFamily: "'Rubik', var(--font-family)", fontSize: '24px', fontWeight: '500', lineHeight: '140%', letterSpacing: 0, gap: '8px', whiteSpace: 'nowrap', overflow: 'hidden' }}>
                 <img src={viewDetail} alt="View Detail" style={{ width: '18px', height: '18px' }} />
                 View Expense Claim
               </h3>
@@ -1086,7 +1097,7 @@ export default function ExpenseClaimsPage() {
 
       {/* Confirmation Modal */}
       {claimToCancel && (
-        <div style={modalOverlayStyle}>
+        <div className="modal-overlay" style={modalOverlayStyle}>
           {cancelStatus === 'confirm' ? (
             <div style={{ backgroundColor: '#ffffff', borderRadius: '4px', width: '504px', boxShadow: '0 24px 60px rgba(0,0,0,0.22)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <div style={{ backgroundColor: '#1f66c7', padding: '22px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1387,6 +1398,7 @@ const dateIconStyle = {
   width: '18px',
   height: '18px',
   fill: 'none',
+  cursor: 'pointer',
 };
 
 const formActionsStyle = {
