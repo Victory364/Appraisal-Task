@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rubik:wght@500&display=swap');
+
+:root {
+  /* Fowgate Design Token Variables */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Brand Palette */
+  --primary-blue: #0f52ba;
+  --primary-blue-hover: #0c4399;
+  --primary-blue-light: #eff6ff;
+
+  /* Base Neutral Colors */
+  --bg-app: #f4f5f8;
+  --bg-sidebar-start: #292929;
+  --bg-sidebar-end: #111111;
+  --bg-white: #ffffff;
+
+  /* Text Colors */
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --text-white: #ffffff;
+
+  /* Borders and Dividers */
+  --border-light: #e2e8f0;
+  --border-muted: rgba(255, 255, 255, 0.08);
+
+  /* Interaction States */
+  --state-hover-light: rgba(15, 82, 186, 0.04);
+  --state-hover-dark: rgba(255, 255, 255, 0.06);
+  --state-active-dark: rgba(255, 255, 255, 0.1);
+
+  /* Pill Status Colors */
+  --status-green-bg: #e2fbe8;
+  --status-green-text: #22c55e;
+}
+
+/* Base Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: #f3f4f6;
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: stretch;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Master Layout Card Container */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  background-color: var(--bg-white);
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* Main Dashboard flow: sidebar on left, content on right */
+.dashboard-main-area {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+  margin-left: 250px;
+  background-color: var(--bg-white);
+  align-items: stretch;
+}
+
+.page-content-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: 40px;
+}
+
+@media (max-width: 1366px) and (min-width: 901px) {
+  .dashboard-main-area {
+    margin-left: 224px;
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .dashboard-main-area {
+    margin-left: 208px;
+  }
+}
+
+/* Utility to hide scrollbars but allow scrolling */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
