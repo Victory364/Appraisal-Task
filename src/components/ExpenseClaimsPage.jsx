@@ -112,6 +112,9 @@ export default function ExpenseClaimsPage() {
   useEffect(() => {
     sessionStorage.setItem('expense_claims', JSON.stringify(claims));
   }, [claims]);
+  const CLAIMS_PER_PAGE = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageDirection, setPageDirection] = useState('forward');
   const [dropdownOpenFor, setDropdownOpenFor] = useState(null);
   const [viewModalClaim, setViewModalClaim] = useState(null);
   const [modalMode, setModalMode] = useState('add');
@@ -124,6 +127,7 @@ export default function ExpenseClaimsPage() {
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState('All Status');
   const [isDateFocused, setIsDateFocused] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
   const [newClaim, setNewClaim] = useState({
     purpose: '',
     extraNote: '',
@@ -214,6 +218,7 @@ export default function ExpenseClaimsPage() {
     const formattedDate = `${day.toString().padStart(2, '0')} ${monthMap[monthIndex]}, ${year}`;
     const rawDate = `${year}-${(monthIndex + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     setNewClaim({ ...newClaim, date: formattedDate, rawDate: rawDate });
+    setFormErrors((errors) => ({ ...errors, date: '' }));
     setIsDateDropdownOpen(false);
   };
 
@@ -237,6 +242,25 @@ export default function ExpenseClaimsPage() {
     .filter(claim => claim.status === 'Approved')
     .reduce((sum, claim) => sum + parseFloat(claim.amount || 0), 0);
   const balanceToReimburse = totalClaimsAmount - totalReimbursedAmount;
+
+  // Pagination derived values
+  const totalPages = Math.max(1, Math.ceil(claims.length / CLAIMS_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedClaims = claims.slice((safePage - 1) * CLAIMS_PER_PAGE, safePage * CLAIMS_PER_PAGE);
+
+  // Clamp currentPage when claims are deleted and current page no longer exists
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [claims.length, totalPages]);
+
+  const goToPage = (page) => {
+    if (page === currentPage) return;
+    setPageDirection(page > currentPage ? 'forward' : 'backward');
+    setCurrentPage(page);
+    setDropdownOpenFor(null);
+  };
 
   // Format helper for Naira currency
   const formatCurrency = (value) => {
@@ -266,6 +290,7 @@ export default function ExpenseClaimsPage() {
     ]);
     setModalStep(1);
     setFormStatus('editing');
+    setFormErrors({});
     setUploadedFiles(claim.attachments || []);
     setIsModalOpen(true);
     setDropdownOpenFor(null);
@@ -277,6 +302,7 @@ export default function ExpenseClaimsPage() {
     setNewClaim({ purpose: '', extraNote: '', date: '', rawDate: '' });
     setCategories([{ id: 1, type: '', amount: '', details: '', isExpanded: true }]);
     setUploadedFiles([]);
+    setFormErrors({});
   };
 
   const closeClaimModal = () => {
@@ -304,14 +330,56 @@ export default function ExpenseClaimsPage() {
 
   const handleAddClaimSubmit = (e) => {
     e.preventDefault();
-    if (!newClaim.purpose) return;
 
     if (modalStep === 1) {
+      const stepOneErrors = {};
+      if (!newClaim.purpose.trim()) {
+        stepOneErrors.purpose = 'Description is required.';
+      }
+      if (!newClaim.date) {
+        stepOneErrors.date = 'Expense date is required.';
+      }
+
+      if (Object.keys(stepOneErrors).length > 0) {
+        setFormErrors(stepOneErrors);
+        return;
+      }
+
+      setFormErrors({});
       setModalStep(2);
       return;
     }
 
     if (formStatus === 'editing') {
+      const categoryErrors = {};
+      const validCategories = categories.filter((cat) => (
+        cat.type.trim() &&
+        cat.details.trim() &&
+        Number(cat.amount) > 0
+      ));
+
+      categories.forEach((cat, index) => {
+        if (!cat.type.trim()) {
+          categoryErrors[`categoryType-${index}`] = 'Select an expense category.';
+        }
+        if (!cat.amount || Number(cat.amount) <= 0) {
+          categoryErrors[`categoryAmount-${index}`] = 'Enter an amount greater than 0.';
+        }
+        if (!cat.details.trim()) {
+          categoryErrors[`categoryDetails-${index}`] = 'Details are required.';
+        }
+      });
+
+      if (validCategories.length === 0) {
+        categoryErrors.categories = 'Add at least one complete expense category.';
+      }
+
+      if (Object.keys(categoryErrors).length > 0) {
+        setFormErrors(categoryErrors);
+        return;
+      }
+
+      setFormErrors({});
       setFormStatus('confirm');
       return;
     }
@@ -567,63 +635,109 @@ export default function ExpenseClaimsPage() {
                   <th style={{ textAlign: 'center' }}>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {claims.map((claim) => (
-                  <tr
-                    key={claim.id}
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => setDropdownOpenFor(dropdownOpenFor === claim.id ? null : claim.id)}
-                  >
-                    <td style={{ fontWeight: '500', color: '#292929' }}>{claim.date}</td>
-                    <td style={{ maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: '#292929' }}>{claim.purpose}</td>
-                    <td style={{ fontWeight: '700', color: '#292929' }}>{formatCurrency(claim.amount)}</td>
-                    <td style={{ color: '#292929' }}>-</td>
-                    <td>
-                      <span className={`claim-status-pill ${claim.status.toLowerCase()}`}>
-                        {claim.status}
-                      </span>
-                    </td>
-                    <td style={{ position: 'relative', textAlign: 'center', color: '#7a7a7a', fontSize: '18px', fontWeight: 'bold' }}>
-                      <div style={{ cursor: 'pointer', padding: '4px' }}>⋮</div>
-                      {dropdownOpenFor === claim.id && (
-                        <div
-                          onClick={(e) => e.stopPropagation()}
-                          style={{
-                            position: 'absolute',
-                            right: '32px',
-                            top: '24px',
-                            backgroundColor: '#ffffff',
-                            border: '0.5px solid #eaeaea',
-                            borderRadius: '4px',
-                            boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-                            width: '150px',
-                            zIndex: 50,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            padding: '8px 0',
-                            textAlign: 'left',
-                            fontSize: '13px',
-                            fontWeight: '500'
-                          }}>
-                          <div style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', color: '#292929' }} onClick={() => handleView(claim)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><circle cx="10" cy="13" r="2"></circle><line x1="14" y1="17" x2="14.01" y2="17"></line></svg>
-                            View Details
-                          </div>
-                          <div style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', color: '#292929' }} onClick={() => handleEdit(claim)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>
-                            Edit
-                          </div>
-                          <div style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', color: '#e53935' }} onClick={() => handleCancelClaim(claim.id)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                            Cancel
-                          </div>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
             </table>
+            <div className="claims-page-frame">
+              <table
+                key={`page-${safePage}`}
+                className={`claims-table claims-page-slide ${pageDirection}`}
+              >
+                <tbody>
+                  {paginatedClaims.map((claim) => (
+                    <tr
+                      key={claim.id}
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setDropdownOpenFor(dropdownOpenFor === claim.id ? null : claim.id)}
+                    >
+                      <td style={{ fontWeight: '500', color: '#292929' }}>{claim.date}</td>
+                      <td style={{ maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: '#292929' }}>{claim.purpose}</td>
+                      <td style={{ fontWeight: '700', color: '#292929' }}>{formatCurrency(claim.amount)}</td>
+                      <td style={{ color: '#292929' }}>-</td>
+                      <td>
+                        <span className={`claim-status-pill ${claim.status.toLowerCase()}`}>
+                          {claim.status}
+                        </span>
+                      </td>
+                      <td style={{ position: 'relative', textAlign: 'center', color: '#7a7a7a', fontSize: '18px', fontWeight: 'bold' }}>
+                        <div style={{ cursor: 'pointer', padding: '4px' }}>⋮</div>
+                        {dropdownOpenFor === claim.id && (
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                              position: 'absolute',
+                              right: '32px',
+                              top: '24px',
+                              backgroundColor: '#ffffff',
+                              border: '0.5px solid #eaeaea',
+                              borderRadius: '4px',
+                              boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                              width: '150px',
+                              zIndex: 50,
+                              display: 'flex',
+                              flexDirection: 'column',
+                              padding: '8px 0',
+                              textAlign: 'left',
+                              fontSize: '13px',
+                              fontWeight: '500'
+                            }}>
+                            <div style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', color: '#292929' }} onClick={() => handleView(claim)}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><circle cx="10" cy="13" r="2"></circle><line x1="14" y1="17" x2="14.01" y2="17"></line></svg>
+                              View Details
+                            </div>
+                            <div style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', color: '#292929' }} onClick={() => handleEdit(claim)}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>
+                              Edit
+                            </div>
+                            <div style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', color: '#e53935' }} onClick={() => handleCancelClaim(claim.id)}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                              Cancel
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination Controls — hidden when only 1 page */}
+            {totalPages > 1 && (
+              <div className="expense-pagination">
+                <button
+                  className="pagination-btn pagination-arrow"
+                  onClick={() => goToPage(safePage - 1)}
+                  disabled={safePage === 1}
+                  aria-label="Previous page"
+                >
+                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 1L1 6L6 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    className={`pagination-btn pagination-page${page === safePage ? ' active' : ''}`}
+                    onClick={() => goToPage(page)}
+                    aria-label={`Page ${page}`}
+                    aria-current={page === safePage ? 'page' : undefined}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                <button
+                  className="pagination-btn pagination-arrow"
+                  onClick={() => goToPage(safePage + 1)}
+                  disabled={safePage === totalPages}
+                  aria-label="Next page"
+                >
+                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -666,12 +780,16 @@ export default function ExpenseClaimsPage() {
                             placeholder="Type here"
                             maxLength="150"
                             value={newClaim.purpose}
-                            onChange={(e) => setNewClaim({ ...newClaim, purpose: e.target.value })}
-                            style={textareaStyle}
+                            onChange={(e) => {
+                              setNewClaim({ ...newClaim, purpose: e.target.value });
+                              setFormErrors((errors) => ({ ...errors, purpose: '' }));
+                            }}
+                            style={{ ...textareaStyle, ...(formErrors.purpose ? errorFieldStyle : {}) }}
                             required
                           />
                           <span style={counterStyle}>{newClaim.purpose.length}/150</span>
                         </div>
+                        {formErrors.purpose && <div style={errorTextStyle}>{formErrors.purpose}</div>}
                       </div>
 
                       <div style={fieldGroupStyle}>
@@ -690,7 +808,7 @@ export default function ExpenseClaimsPage() {
                         <div style={{ ...dateInputWrapStyle, position: 'relative' }}>
                           <div
                             ref={dateButtonRef}
-                            style={{ ...dateInputStyle, width: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                            style={{ ...dateInputStyle, ...(formErrors.date ? errorFieldStyle : {}), width: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                             onClick={() => setIsDateDropdownOpen(!isDateDropdownOpen)}
                           >
                             <span style={{ color: newClaim.date ? '#292929' : '#7a7a7a' }}>{newClaim.date || 'Select date'}</span>
@@ -769,6 +887,7 @@ export default function ExpenseClaimsPage() {
                             </div>
                           )}
                         </div>
+                        {formErrors.date && <div style={errorTextStyle}>{formErrors.date}</div>}
                       </div>
                     </>
                   ) : (
@@ -801,8 +920,9 @@ export default function ExpenseClaimsPage() {
                                     const newCats = [...categories];
                                     newCats[index].type = e.target.value;
                                     setCategories(newCats);
+                                    setFormErrors((errors) => ({ ...errors, [`categoryType-${index}`]: '', categories: '' }));
                                   }}
-                                  style={selectInputStyle}
+                                  style={{ ...selectInputStyle, ...(formErrors[`categoryType-${index}`] ? errorFieldStyle : {}) }}
                                 >
                                   <option value="">Select</option>
                                   <option>Transportation</option>
@@ -812,6 +932,7 @@ export default function ExpenseClaimsPage() {
                                   <option>Medical</option>
                                   <option>Equipment Purchases</option>
                                 </select>
+                                {formErrors[`categoryType-${index}`] && <div style={errorTextStyle}>{formErrors[`categoryType-${index}`]}</div>}
                               </div>
 
                               <div style={fieldGroupStyle}>
@@ -826,11 +947,13 @@ export default function ExpenseClaimsPage() {
                                       const newCats = [...categories];
                                       newCats[index].amount = e.target.value;
                                       setCategories(newCats);
+                                      setFormErrors((errors) => ({ ...errors, [`categoryAmount-${index}`]: '', categories: '' }));
                                     }}
-                                    style={{ ...inputStyle, paddingLeft: '24px' }}
+                                    style={{ ...inputStyle, ...(formErrors[`categoryAmount-${index}`] ? errorFieldStyle : {}), paddingLeft: '24px' }}
                                     min="0"
                                   />
                                 </div>
+                                {formErrors[`categoryAmount-${index}`] && <div style={errorTextStyle}>{formErrors[`categoryAmount-${index}`]}</div>}
                               </div>
 
                               <div style={detailsGroupStyle}>
@@ -842,9 +965,11 @@ export default function ExpenseClaimsPage() {
                                     const newCats = [...categories];
                                     newCats[index].details = e.target.value;
                                     setCategories(newCats);
+                                    setFormErrors((errors) => ({ ...errors, [`categoryDetails-${index}`]: '', categories: '' }));
                                   }}
-                                  style={detailsTextareaStyle}
+                                  style={{ ...detailsTextareaStyle, ...(formErrors[`categoryDetails-${index}`] ? errorFieldStyle : {}) }}
                                 />
+                                {formErrors[`categoryDetails-${index}`] && <div style={errorTextStyle}>{formErrors[`categoryDetails-${index}`]}</div>}
                               </div>
                             </div>
                           )}
@@ -862,6 +987,7 @@ export default function ExpenseClaimsPage() {
                         </svg>
                         Add Categories
                       </div>
+                      {formErrors.categories && <div style={{ ...errorTextStyle, marginBottom: '12px' }}>{formErrors.categories}</div>}
 
                       <div style={{ marginBottom: '24px' }}>
                         <div style={attachFileStyle}>Attach file</div>
@@ -1264,6 +1390,18 @@ const labelStyle = {
   fontSize: '13px',
   fontWeight: '500',
   color: '#292929'
+};
+
+const errorFieldStyle = {
+  borderColor: '#dc2626',
+  boxShadow: '0 0 0 2px rgba(220, 38, 38, 0.08)'
+};
+
+const errorTextStyle = {
+  marginTop: '6px',
+  color: '#dc2626',
+  fontSize: '12px',
+  lineHeight: '140%'
 };
 
 const textareaWrapStyle = {
