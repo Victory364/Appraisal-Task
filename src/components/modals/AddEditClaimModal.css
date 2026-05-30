@@ -366,6 +366,13 @@
   cursor: pointer;
 }
 
+.modal-overlay .add-edit-add-category:hover,
+.modal-overlay .add-edit-add-category:active {
+  transform: none;
+  box-shadow: none;
+  background: transparent;
+}
+
 .add-edit-category-error {
   margin-bottom: 12px;
 }
