@@ -484,15 +484,13 @@
 }
 
 .add-edit-total {
-  width: calc(100% + 48px);
-  margin-left: -24px;
   padding: 16px 24px;
   border-top: 0.5px solid #eaeaea;
-  border-bottom: 0.5px solid #eaeaea;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   font-size: 14px;
   color: #292929;
+  background-color: #ffffff;
 }

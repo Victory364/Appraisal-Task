@@ -285,13 +285,16 @@ export default function AddEditClaimModal({
                   )}
                 </div>
 
-                <div className="add-edit-total">
-                  <span>Total Amount</span>
-                  <strong>{formatCurrency(totalAmount)}</strong>
-                </div>
               </>
             )}
           </div>
+
+          {modalStep === 2 && (
+            <div className="add-edit-total">
+              <span>Total Amount</span>
+              <strong>{formatCurrency(totalAmount)}</strong>
+            </div>
+          )}
 
           <div className="claim-modal-actions">
             <button type="button" onClick={onClose} className="modal-btn-cancel">Close</button>
