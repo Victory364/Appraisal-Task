@@ -1,1 +1,15 @@
-/* Cleared default styles to prevent layout interference */
+/*
+ * App.css — Application-level style overrides
+ * ---------------------------------------------
+ * This file intentionally has no rules.
+ *
+ * All global resets, CSS custom property tokens (colours, fonts, spacing),
+ * and the master dashboard grid layout are defined in src/index.css so they
+ * load once before any component CSS is parsed.
+ *
+ * If you ever need to override a style that should apply across the WHOLE
+ * app (not just one component), add it here rather than in index.css so the
+ * two files stay focused on different concerns:
+ *   • index.css  → design system tokens + resets
+ *   • App.css    → app-shell / global layout overrides
+ */

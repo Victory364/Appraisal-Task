@@ -224,6 +224,7 @@
   flex-direction: column;
   gap: 24px; /* 24 px gap between: header row → table → pagination */
   width: 100%;
+  min-height: 620px;
 }
 
 
@@ -515,21 +516,51 @@
 .claims-table-wrapper {
   width: 100%;
   overflow: visible;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* The <table> itself — border-collapse removes the default cell spacing */
 .claims-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   text-align: left;
+}
+
+.claims-col-date {
+  width: 16%;
+}
+
+.claims-col-details {
+  width: 34%;
+}
+
+.claims-col-amount {
+  width: 15%;
+}
+
+.claims-col-reimburse {
+  width: 15%;
+}
+
+.claims-col-status {
+  width: 14%;
+}
+
+.claims-col-action {
+  width: 6%;
 }
 
 /* Shared padding and font size for every <th> and <td> */
 .claims-table th,
 .claims-table td {
-  padding: 16px 20px;
+  padding: 14px 12px;
   border-bottom: 1px solid var(--border-light); /* subtle row separator */
   font-size: 13.5px;
+  vertical-align: middle;
 }
 
 /* Header row — slightly blue-grey background to visually separate it from
@@ -538,6 +569,54 @@
   font-weight: 600;
   color: #292929;
   background-color: #eef3f9; /* light steel-blue tint */
+}
+
+.claims-table th:nth-child(3),
+.claims-table th:nth-child(4),
+.claims-table th:nth-child(5),
+.claims-table th:nth-child(6),
+.claims-table td:nth-child(3),
+.claims-table td:nth-child(4),
+.claims-table td:nth-child(5),
+.claims-table td:nth-child(6) {
+  text-align: center;
+}
+
+.claims-date-cell {
+  font-weight: 500;
+  color: #292929;
+  white-space: nowrap;
+}
+
+.claims-details-cell {
+  color: #292929;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.claims-money-cell,
+.claims-reimburse-cell {
+  color: #292929;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.claims-reimburse-cell {
+  font-weight: 500;
+}
+
+.claims-action-cell {
+  position: relative;
+  color: #7a7a7a;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.claims-action-trigger {
+  cursor: pointer;
+  padding: 4px;
 }
 
 /* Very light hover highlight on each data row for scannability */
@@ -851,8 +930,9 @@
 ============================================================================= */
 .claims-page-frame {
   width: 100%;
-  overflow: hidden;  /* clips the sliding row table so it never overflows the card */
+  overflow: visible;
   position: relative;
+  flex: 1;
 }
 
 /* Keyframe: new page slides IN from the RIGHT (going forward in pages) */
@@ -899,6 +979,7 @@
   align-items: center;
   justify-content: flex-end; /* pushes the controls to the right edge of the card */
   gap: 6px;
+  margin-top: auto;
   padding: 16px 4px 4px;    /* 16 px top gap separates it from the table */
 }
 

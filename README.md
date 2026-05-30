@@ -1,16 +1,22 @@
-# React + Vite
+# Fowgate Expense Claims Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React/Vite prototype for a Fowgate HR expense-claims dashboard.
 
-Currently, two official plugins are available:
+For a design-focused presentation, use [DESIGN_WALKTHROUGH.md](./DESIGN_WALKTHROUGH.md). It explains the interface, layout, visual choices, and user flow without walking through the code.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Run Locally
 
-## React Compiler
+```bash
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Main Screen
 
-## Expanding the ESLint configuration
+The app presents:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- A fixed Fowgate sidebar.
+- A My Account header with tabs.
+- An Expense Management page with metric cards.
+- Expense history search, filters, table, and empty state.
+- Add, view, edit, cancel, confirm, and success modal states.
