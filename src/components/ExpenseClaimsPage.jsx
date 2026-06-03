@@ -68,6 +68,13 @@ export default function ExpenseClaimsPage() {
     if (!month) return '';
     return `${year}-${month}-${day.padStart(2, '0')}`;
   };
+
+  const formatDisplayDate = (date = new Date()) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+    const year = date.getFullYear();
+    return `${day} ${month}, ${year}`;
+  };
   const [categories, setCategories] = useState([
     { id: 1, type: '', amount: '', details: '', isExpanded: true }
   ]);
@@ -301,11 +308,7 @@ export default function ExpenseClaimsPage() {
 
     if (modalMode === 'add') {
       const claimId = `CL-${Math.floor(1000 + Math.random() * 9000)}`;
-      const today = new Date();
-      const day = today.getDate().toString().padStart(2, '0');
-      const month = today.toLocaleString('default', { month: 'short' }).toUpperCase();
-      const year = today.getFullYear();
-      const formattedDate = `${day} ${month}, ${year}`;
+      const formattedDate = formatDisplayDate();
       const date = newClaim.date || formattedDate;
 
       const addedClaim = {
@@ -316,17 +319,21 @@ export default function ExpenseClaimsPage() {
         categories: [...categories],
         amount: totalAmount,
         date: date,
+        dateCreated: date,
         rawDate: newClaim.rawDate || parseDateToRaw(date),
-        dateSubmitted: date,
+        dateSubmitted: formattedDate,
         dateApproved: '-',
+        lastEdited: formattedDate,
         status: 'Pending Approval',
         user: { name: 'David Adeniyi', role: 'Sales Manager' },
         attachments
       };
       setClaims([addedClaim, ...claims]);
     } else {
+      const lastEdited = formatDisplayDate();
       setClaims(claims.map(c => {
         if (c.id === editClaimId) {
+          const date = newClaim.date || c.date;
           return {
             ...c,
             purpose: newClaim.purpose,
@@ -334,8 +341,11 @@ export default function ExpenseClaimsPage() {
             category: mainCategory,
             categories: [...categories],
             amount: totalAmount,
-            date: newClaim.date || c.date,
+            date,
+            dateCreated: c.dateCreated || date,
             rawDate: newClaim.rawDate || c.rawDate,
+            dateSubmitted: c.dateSubmitted || c.date || date,
+            lastEdited,
             attachments
           };
         }
@@ -569,7 +579,7 @@ export default function ExpenseClaimsPage() {
                       style={{ cursor: 'pointer' }}
                       onClick={() => setDropdownOpenFor(dropdownOpenFor === claim.id ? null : claim.id)}
                     >
-                      <td className="claims-date-cell">{claim.date}</td>
+                      <td className="claims-date-cell">{claim.dateCreated || claim.date}</td>
                       <td className="claims-details-cell">{claim.purpose}</td>
                       <td className="claims-money-cell">{formatCurrency(claim.amount)}</td>
                       <td className="claims-reimburse-cell">-</td>

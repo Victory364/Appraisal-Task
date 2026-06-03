@@ -5,7 +5,10 @@ import AttachmentIcon from './AttachmentIcon';
 import { formatAttachmentDate, formatFileSize } from './attachmentUtils';
 
 export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
-  const lastEditedDate = claim.lastEdited || claim.updatedAt || claim.dateSubmitted || claim.date || '-';
+  const dateCreated = claim.dateCreated || claim.date || '-';
+  const dateSubmitted = claim.dateSubmitted || claim.dateCreated || claim.date || '-';
+  const dateApproved = claim.dateApproved || '-';
+  const lastEditedDate = claim.lastEdited || claim.updatedAt || dateSubmitted;
 
   return (
     <div className="modal-overlay">
@@ -35,15 +38,15 @@ export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
           <div className="view-detail-dates">
             <div>
               <div>Date Created</div>
-              <strong>{claim.date}</strong>
+              <strong>{dateCreated}</strong>
             </div>
             <div>
               <div>Date Submitted</div>
-              <strong>{claim.dateSubmitted || claim.date}</strong>
+              <strong>{dateSubmitted}</strong>
             </div>
             <div>
               <div>Date Approved</div>
-              <strong>{claim.dateApproved || '-'}</strong>
+              <strong>{dateApproved}</strong>
             </div>
           </div>
 
