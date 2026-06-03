@@ -178,6 +178,10 @@
   color: #3f3f3f;
   font-size: 14px;
   line-height: 1.45;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .view-detail-note-card span {
