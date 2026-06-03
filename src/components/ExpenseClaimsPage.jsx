@@ -661,7 +661,7 @@ export default function ExpenseClaimsPage() {
       </div>
 
       {/* Styled React Form Modal */}
-      {isModalOpen && formStatus === 'editing' && (
+      {isModalOpen && ['editing', 'confirm'].includes(formStatus) && (
         <AddEditClaimModal
           modalMode={modalMode}
           modalStep={modalStep}
@@ -693,6 +693,7 @@ export default function ExpenseClaimsPage() {
 
       {isModalOpen && formStatus === 'confirm' && (
         <SubmitConfirmModal
+          modalMode={modalMode}
           onCancel={() => setFormStatus('editing')}
           onConfirm={confirmSubmit}
         />

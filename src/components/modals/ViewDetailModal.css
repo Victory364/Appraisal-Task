@@ -1,5 +1,5 @@
 .view-detail-modal {
-  width: min(370px, calc(100vw - 48px));
+  width: min(528px, calc(100vw - 48px));
   height: min(780px, calc(100vh - 48px));
   max-height: calc(100vh - 48px);
 }
