@@ -1,7 +1,6 @@
 .claim-status-modal {
-  width: 400px;
-  height: auto;
-  min-height: 200px;
+  width: min(528px, calc(100vw - 48px));
+  height: min(252px, calc(100vh - 48px));
 }
 
 .claim-status-title-icon {

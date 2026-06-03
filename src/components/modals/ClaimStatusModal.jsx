@@ -15,7 +15,7 @@ export function SubmitConfirmModal({ onCancel, onConfirm }) {
           <button onClick={onCancel} className="claim-modal-close">x</button>
         </div>
         <div className="claim-status-copy">
-          Are you sure you want to submit this <strong>Expense Claim</strong>? Ensure all data is correct before proceeding.
+          Are you sure you want to submit this <strong>Expense Claim</strong>? Ensure all details are correct before proceeding.
         </div>
         <div className="claim-modal-actions claim-status-actions">
           <button type="button" onClick={onCancel} className="modal-btn-cancel">Cancel</button>
