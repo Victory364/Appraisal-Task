@@ -35,9 +35,9 @@ test('verify add and edit modals', async ({ page }) => {
   await page.waitForSelector('.claim-status-modal');
 
   // Log Add Modal details
-  const addTitle = await page.locator('.claim-modal-title').textContent();
-  const addClose = await page.locator('.claim-modal-close').textContent();
-  const addCopy = await page.locator('.claim-status-copy').innerHTML();
+  const addTitle = await page.locator('.claim-status-modal .claim-modal-title').textContent();
+  const addClose = await page.locator('.claim-status-modal .claim-modal-close').textContent();
+  const addCopy = await page.locator('.claim-status-modal .claim-status-copy').innerHTML();
   const addCancelStyle = await page.evaluate(() => {
     const btn = document.querySelector('.claim-status-modal .modal-btn-cancel');
     const style = window.getComputedStyle(btn);
@@ -56,7 +56,7 @@ test('verify add and edit modals', async ({ page }) => {
   console.log('Cancel Button Style:', addCancelStyle);
 
   // Confirm claim submission
-  await page.click('.claim-status-confirm-button');
+  await page.click('.claim-status-modal .claim-status-confirm-button');
   
   // Success modal
   await page.waitForSelector('.claim-success-modal');
@@ -79,9 +79,9 @@ test('verify add and edit modals', async ({ page }) => {
   await page.waitForSelector('.claim-status-modal');
 
   // Log Edit Modal details
-  const editTitle = await page.locator('.claim-modal-title').textContent();
-  const editClose = await page.locator('.claim-modal-close').textContent();
-  const editCopy = await page.locator('.claim-status-copy').innerHTML();
+  const editTitle = await page.locator('.claim-status-modal .claim-modal-title').textContent();
+  const editClose = await page.locator('.claim-status-modal .claim-modal-close').textContent();
+  const editCopy = await page.locator('.claim-status-modal .claim-status-copy').innerHTML();
   const editModalClasses = await page.evaluate(() => {
     return document.querySelector('.claim-status-modal').className;
   });

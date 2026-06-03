@@ -4,12 +4,10 @@ import confirmIcon from '../../assets/Fowgate Folder/help-circle.svg';
 import successIllustration from '../../assets/Fowgate Folder/Check for success page.svg';
 
 export function SubmitConfirmModal({ modalMode, onCancel, onConfirm }) {
-  console.log('SubmitConfirmModal modalMode:', modalMode);
   const message = modalMode === 'edit'
     ? (
       <>
-        Are you sure you want to submit the changes made to &nbsp;this<br />
-        <strong>Expense Claim</strong>? Ensure all details are correct before proceeding
+        Are you sure you want to submit the changes made to this <strong>Expense Claim</strong>? Ensure all details are correct before proceeding
       </>
     )
     : (
@@ -26,7 +24,9 @@ export function SubmitConfirmModal({ modalMode, onCancel, onConfirm }) {
             <img src={confirmIcon} alt="Confirm" className="claim-status-title-icon" />
             Confirm Action
           </h3>
-          <button onClick={onCancel} className="claim-modal-close">x</button>
+          <button onClick={onCancel} className="claim-modal-close">
+            {modalMode === 'edit' ? '✕' : 'X'}
+          </button>
         </div>
         <div className="claim-status-copy">
           {message}
