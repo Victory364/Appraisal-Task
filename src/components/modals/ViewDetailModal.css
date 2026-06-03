@@ -5,17 +5,16 @@
 }
 
 .view-detail-header {
-  height: 58px;
-  padding: 0 16px;
+  height: 80px;
+  padding: 0 28px;
 }
 
 .view-detail-title {
   flex: 1;
   min-width: 0;
-  height: 34px;
   font-size: 24px;
-  font-weight: 500;
-  gap: 8px;
+  font-weight: 600;
+  gap: 10px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -26,13 +25,13 @@
 }
 
 .view-detail-close {
-  font-size: 24px;
+  font-size: 32px;
 }
 
 .view-detail-body {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 16px 0;
+  padding: 24px 24px 0;
   box-sizing: border-box;
 }
 
@@ -40,19 +39,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .view-detail-person {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
   min-width: 0;
 }
 
 .view-detail-avatar {
-  width: 34px;
-  height: 34px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background-color: #e9f2ff;
   overflow: hidden;
@@ -66,24 +66,24 @@
 }
 
 .view-detail-name {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: #292929;
 }
 
 .view-detail-role {
-  font-size: 9px;
+  font-size: 13px;
   color: #7a7a7a;
-  margin-top: 3px;
+  margin-top: 5px;
 }
 
 .view-detail-status {
   background-color: #fff0d9;
-  color: #f59e0b;
+  color: #f08a00;
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 10px;
-  font-weight: 500;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 400;
   flex-shrink: 0;
 }
 
@@ -91,60 +91,113 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   background-color: #f3f4f6;
-  border-radius: 6px;
-  padding: 14px 10px;
-  gap: 8px;
-  margin-bottom: 20px;
+  border-radius: 8px;
+  padding: 18px 16px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .view-detail-dates div div {
-  font-size: 9px;
+  font-size: 12px;
   color: #b0b6c0;
-  letter-spacing: 0.6px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   font-weight: 700;
 }
 
 .view-detail-dates strong {
-  font-size: 12px;
+  font-size: 18px;
   color: #292929;
   font-weight: 700;
 }
 
-.view-detail-section-title,
+.view-detail-note-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 24px;
+}
+
+.view-detail-note-card {
+  position: relative;
+  min-height: 214px;
+  padding: 20px 18px 18px;
+  border-radius: 4px;
+  color: #292929;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.view-detail-note-card::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 36px 36px;
+}
+
+.view-detail-note-description {
+  background-color: #ffa79f;
+}
+
+.view-detail-note-description::before {
+  border-color: transparent transparent #de8d86 transparent;
+}
+
+.view-detail-note-extra {
+  background-color: #ffc86f;
+}
+
+.view-detail-note-extra::before {
+  border-color: transparent transparent #e3a93c transparent;
+}
+
+.view-detail-note-title,
 .view-detail-attachments-title {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   color: #292929;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
-.view-detail-section-title {
-  font-size: 12px;
-  margin-bottom: 10px;
+.view-detail-note-card p {
+  margin: 0;
+  color: #3f3f3f;
+  font-size: 14px;
+  line-height: 1.45;
 }
 
-.view-detail-description {
-  font-size: 10px;
-  color: #555555;
-  line-height: 1.7;
-  margin-bottom: 20px;
+.view-detail-note-card span {
+  margin-top: auto;
+  color: #7a5960;
+  font-size: 13px;
+  font-style: italic;
 }
 
 .view-detail-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 9px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  margin-bottom: 0;
 }
 
 .view-detail-table th {
   text-align: left;
-  padding: 10px 8px;
+  padding: 14px 16px;
   color: #292929;
   font-weight: 700;
   background-color: #f0f1f3;
+  border-right: 1px solid #e5e7eb;
+}
+
+.view-detail-table th:last-child {
+  border-right: none;
 }
 
 .view-detail-table th:nth-child(1) {
@@ -157,11 +210,11 @@
 
 .view-detail-table th:nth-child(3) {
   width: 22%;
-  text-align: right;
+  text-align: left;
 }
 
 .view-detail-table td {
-  padding: 13px 8px;
+  padding: 18px 16px;
   color: #292929;
   border-bottom: 1px solid #eaeaea;
 }
@@ -174,36 +227,40 @@
 }
 
 .view-detail-table td:nth-child(3) {
-  text-align: right;
+  text-align: left;
   font-weight: 700;
 }
 
 .view-detail-total {
   display: flex;
   justify-content: space-between;
-  padding: 14px 8px;
+  padding: 18px 16px;
   font-weight: 700;
   color: #292929;
-  font-size: 11px;
+  font-size: 15px;
   border-bottom: 1px solid #eaeaea;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .view-detail-total span:last-child {
   color: #1f66c7;
 }
 
+.view-detail-attachments-title {
+  margin-bottom: 14px;
+}
+
 .view-detail-attachment {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 0;
+  gap: 14px;
+  padding: 14px 0;
   border-bottom: 1px solid #eeeeee;
 }
 
 .view-detail-attachment-icon {
-  width: 26px;
-  height: 30px;
+  width: 36px;
+  height: 42px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -212,7 +269,7 @@
 }
 
 .view-detail-attachment-icon > div {
-  transform: scale(0.72);
+  transform: scale(1);
   transform-origin: center;
 }
 
@@ -223,7 +280,7 @@
 
 .view-detail-attachment-text div {
   color: #292929;
-  font-size: 12px;
+  font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -232,8 +289,8 @@
 .view-detail-attachment-text span,
 .view-detail-attachment-date {
   color: #8a8a8a;
-  font-size: 10px;
-  margin-top: 4px;
+  font-size: 14px;
+  margin-top: 6px;
 }
 
 .view-detail-attachment-date {
@@ -242,7 +299,7 @@
 }
 
 .view-detail-footer {
-  padding: 14px;
+  padding: 16px 20px;
   background-color: #ffffff;
   display: flex;
   justify-content: flex-end;
@@ -250,8 +307,37 @@
 }
 
 .view-detail-button {
-  width: 70px;
-  height: 38px;
+  width: 102px;
+  height: 44px;
   background-color: #eaf2ff;
   color: #1f66c7;
+}
+
+@media (max-width: 560px) {
+  .view-detail-header {
+    padding: 0 20px;
+  }
+
+  .view-detail-body {
+    padding: 20px 20px 0;
+  }
+
+  .view-detail-note-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .view-detail-dates {
+    gap: 10px;
+    padding: 16px 12px;
+  }
+
+  .view-detail-dates strong {
+    font-size: 14px;
+  }
+
+  .view-detail-table,
+  .view-detail-attachment-text span,
+  .view-detail-attachment-date {
+    font-size: 12px;
+  }
 }

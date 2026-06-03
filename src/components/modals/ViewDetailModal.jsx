@@ -5,6 +5,8 @@ import AttachmentIcon from './AttachmentIcon';
 import { formatAttachmentDate, formatFileSize } from './attachmentUtils';
 
 export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
+  const lastEditedDate = claim.lastEdited || claim.updatedAt || claim.dateSubmitted || claim.date || '-';
+
   return (
     <div className="modal-overlay">
       <div className="claim-modal view-detail-modal">
@@ -13,7 +15,7 @@ export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
             <img src={viewDetailIcon} alt="View Detail" />
             View Expense Claim
           </h3>
-          <button onClick={onClose} className="claim-modal-close view-detail-close">x</button>
+          <button onClick={onClose} className="claim-modal-close view-detail-close">&times;</button>
         </div>
 
         <div className="hide-scrollbar view-detail-body">
@@ -45,8 +47,18 @@ export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
             </div>
           </div>
 
-          <div className="view-detail-section-title">Description</div>
-          <div className="view-detail-description">{claim.purpose}</div>
+          <div className="view-detail-note-grid">
+            <div className="view-detail-note-card view-detail-note-description">
+              <div className="view-detail-note-title">Description</div>
+              <p>{claim.purpose}</p>
+              <span>Last edited: {lastEditedDate}</span>
+            </div>
+            <div className="view-detail-note-card view-detail-note-extra">
+              <div className="view-detail-note-title">Extra Note</div>
+              <p>{claim.extraNote || 'No extra note provided.'}</p>
+              <span>Last edited: {lastEditedDate}</span>
+            </div>
+          </div>
 
           <table className="view-detail-table">
             <thead>
@@ -84,7 +96,7 @@ export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
               </div>
               <div className="view-detail-attachment-text">
                 <div>{file.name}</div>
-                <span>File - {formatFileSize(file.size)}</span>
+                <span>2 pages &bull; {formatFileSize(file.size)}</span>
               </div>
               <div className="view-detail-attachment-date">{formatAttachmentDate(file.lastModified)}</div>
             </div>

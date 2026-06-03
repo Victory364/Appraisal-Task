@@ -4,6 +4,7 @@ import confirmIcon from '../../assets/Fowgate Folder/help-circle.svg';
 import successIllustration from '../../assets/Fowgate Folder/Check for success page.svg';
 
 export function SubmitConfirmModal({ modalMode, onCancel, onConfirm }) {
+  console.log('SubmitConfirmModal modalMode:', modalMode);
   const message = modalMode === 'edit'
     ? (
       <>
