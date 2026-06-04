@@ -539,31 +539,8 @@ export default function ExpenseClaimsPage() {
           </div>
         ) : (
           <div className="claims-table-wrapper">
-            <table className="claims-table">
-              <colgroup>
-                <col className="claims-col-date" />
-                <col className="claims-col-details" />
-                <col className="claims-col-amount" />
-                <col className="claims-col-reimburse" />
-                <col className="claims-col-status" />
-                <col className="claims-col-action" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>Date Created</th>
-                  <th>Details</th>
-                  <th>Amount</th>
-                  <th>Reimburse</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
             <div className="claims-page-frame">
-              <table
-                key={`page-${safePage}`}
-                className={`claims-table claims-page-slide ${pageDirection}`}
-              >
+              <table className="claims-table">
                 <colgroup>
                   <col className="claims-col-date" />
                   <col className="claims-col-details" />
@@ -572,7 +549,20 @@ export default function ExpenseClaimsPage() {
                   <col className="claims-col-status" />
                   <col className="claims-col-action" />
                 </colgroup>
-                <tbody>
+                <thead>
+                  <tr>
+                    <th>Date Created</th>
+                    <th>Details</th>
+                    <th>Amount</th>
+                    <th>Reimburse</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody
+                  key={`page-${safePage}`}
+                  className={`claims-page-slide ${pageDirection}`}
+                >
                   {paginatedClaims.map((claim) => (
                     <tr
                       key={claim.id}

@@ -571,13 +571,7 @@
   background-color: #eef3f9; /* light steel-blue tint */
 }
 
-.claims-table th:nth-child(3),
-.claims-table th:nth-child(4),
-.claims-table th:nth-child(5),
 .claims-table th:nth-child(6),
-.claims-table td:nth-child(3),
-.claims-table td:nth-child(4),
-.claims-table td:nth-child(5),
 .claims-table td:nth-child(6) {
   text-align: center;
 }
