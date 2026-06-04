@@ -324,7 +324,7 @@ export default function ExpenseClaimsPage() {
         dateSubmitted: formattedDate,
         dateApproved: '-',
         lastEdited: formattedDate,
-        status: 'Pending Approval',
+        status: 'Pending',
         user: { name: 'David Adeniyi', role: 'Sales Manager' },
         attachments
       };
