@@ -45,6 +45,71 @@ export default function AddEditClaimModal({
     setCategories(nextCategories);
   };
 
+  const getUploadId = (file, index) => (
+    `${file.webkitRelativePath || file.name}-${file.lastModified}-${file.size}-${index}`
+  );
+
+  const updateUploadProgress = (uploadId, progress, loadedBytes, status = 'uploading') => {
+    setUploadedFiles((currentFiles) => currentFiles.map((file) => (
+      file.uploadId === uploadId
+        ? {
+            ...file,
+            progress: Math.min(100, Math.max(0, progress)),
+            loadedBytes,
+            status
+          }
+        : file
+    )));
+  };
+
+  const trackFileRead = (file, uploadId, getProgressState) => {
+    const reader = new FileReader();
+
+    reader.onprogress = (event) => {
+      if (!event.lengthComputable) return;
+      const { progress, loadedBytes } = getProgressState(event.loaded);
+      updateUploadProgress(uploadId, progress, loadedBytes);
+    };
+
+    reader.onloadend = () => {
+      const { progress, loadedBytes } = getProgressState(file.size);
+      updateUploadProgress(uploadId, progress || 100, loadedBytes, 'complete');
+    };
+
+    reader.onerror = () => {
+      updateUploadProgress(uploadId, 0, 0, 'failed');
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
+  const handlePickedFiles = (fileList) => {
+    const selectedFiles = Array.from(fileList || []);
+    if (selectedFiles.length === 0) return;
+
+    const uploadEntries = selectedFiles.map((file, index) => ({
+      ...getAttachmentMeta(file),
+      uploadId: getUploadId(file, index),
+      progress: 0,
+      loadedBytes: 0,
+      totalBytes: file.size,
+      status: 'uploading'
+    }));
+
+    setUploadedFiles((currentFiles) => [...currentFiles, ...uploadEntries]);
+
+    selectedFiles.forEach((file, index) => {
+      const uploadId = uploadEntries[index].uploadId;
+
+      trackFileRead(file, uploadId, (loaded) => {
+        return {
+          progress: file.size > 0 ? (loaded / file.size) * 100 : 100,
+          loadedBytes: loaded
+        };
+      });
+    });
+  };
+
   return (
     <div className="modal-overlay">
       <div className="claim-modal">
@@ -250,13 +315,7 @@ export default function AddEditClaimModal({
                       multiple
                       accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                       onChange={(event) => {
-                        const selectedFiles = Array.from(event.target.files || []);
-                        if (selectedFiles.length > 0) {
-                          setUploadedFiles((currentFiles) => [
-                            ...currentFiles,
-                            ...selectedFiles.map(getAttachmentMeta)
-                          ]);
-                        }
+                        handlePickedFiles(event.target.files);
                         event.target.value = '';
                       }}
                     />
@@ -268,16 +327,28 @@ export default function AddEditClaimModal({
                   {uploadedFiles.length > 0 && (
                     <div className="add-edit-upload-list">
                       {uploadedFiles.map((file, index) => (
-                        <div key={`${file.name}-${file.lastModified}-${index}`} className="add-edit-upload-item">
+                        <div key={`${file.uploadId || file.name}-${file.lastModified}-${index}`} className="add-edit-upload-item">
                           <AttachmentIcon file={file} />
                           <div className="add-edit-upload-text">
                             <div>
                               <strong>{file.name}</strong>
                               <span>{(file.size / 1024).toFixed(0)}KB</span>
                             </div>
-                            <div className="add-edit-upload-progress">
-                              <span />
+                            <div
+                              className="add-edit-upload-progress"
+                              role="progressbar"
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                              aria-valuenow={Math.round(file.progress ?? 100)}
+                              aria-label={`${file.name} upload progress`}
+                            >
+                              <span style={{ width: `${file.progress ?? 100}%` }} />
                             </div>
+                            <small className={`add-edit-upload-status ${file.status === 'failed' ? 'is-failed' : ''}`}>
+                              {file.status === 'failed'
+                                ? 'Failed'
+                                : `${Math.round(file.progress ?? 100)}% complete`}
+                            </small>
                           </div>
                         </div>
                       ))}
