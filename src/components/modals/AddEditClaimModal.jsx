@@ -49,7 +49,7 @@ export default function AddEditClaimModal({
     <div className="modal-overlay">
       <div className="claim-modal">
         <div className="claim-modal-header">
-          <h3 className="claim-modal-title">
+          <h3 className="claim-modal-title add-edit-title">
             <svg viewBox="0 0 24 24" className="claim-modal-title-icon" aria-hidden="true">
               <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3v2zm-3-7V3.5L18.5 9H13z" />
             </svg>
