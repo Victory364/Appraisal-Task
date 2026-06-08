@@ -16,15 +16,12 @@
  */
 
 /* ─── 1. GOOGLE FONTS ────────────────────────────────────────────────────────
-   Inter  — the default body/UI font used for all regular text.
+   Rubik  — the default body/UI font used across the application.
             Loaded at weights 300 (light), 400 (regular), 500 (medium),
             600 (semi-bold), 700 (bold).
-   Rubik  — used specifically for headings, metric values, and the sidebar
-            labels to add a slightly rounded, distinctive character.
-            Loaded at weight 500 only (the one weight used in the design).
    display=swap ensures text remains visible while the fonts are downloading.
    ─────────────────────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rubik:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
 
 
 /* ─── 2. CSS CUSTOM PROPERTIES (DESIGN TOKENS) ───────────────────────────────
@@ -37,9 +34,9 @@
    ─────────────────────────────────────────────────────────────────────────── */
 :root {
   /* ── Typography ─────────────────────────────────────────────────────────
-     --font-family is the full fallback stack. Inter is first choice;
+     --font-family is the full fallback stack. Rubik is first choice;
      the rest guarantee readable text even if the Google Fonts CDN is down. */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  --font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Helvetica, Arial, sans-serif;
 
   /* ── Brand Blue Palette ─────────────────────────────────────────────────
@@ -130,6 +127,13 @@ body {
   align-items: flex-start;
   -webkit-font-smoothing: antialiased;   /* crisp fonts on macOS/iOS */
   -moz-osx-font-smoothing: grayscale;    /* crisp fonts on Firefox/macOS */
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-family);
 }
 
 

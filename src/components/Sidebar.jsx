@@ -56,6 +56,7 @@ import shieldIcon     from '../assets/Fowgate Folder/Frame-2.svg';
 import chartIcon      from '../assets/Fowgate Folder/Frame-3.svg';
 import reportIcon     from '../assets/Fowgate Folder/pie-chart.svg';
 import buildingIcon   from '../assets/Fowgate Folder/document-attachment.svg';
+import appraisalIcon  from '../assets/Fowgate Folder/Full start.svg';
 
 
 // ── Icon Lookup Map ────────────────────────────────────────────────────────
@@ -99,7 +100,7 @@ function SidebarIcon({ type, altText }) {
 
 
 // ── Sidebar Component ──────────────────────────────────────────────────────
-export default function Sidebar({ activeItem = 'My Account' }) {
+export default function Sidebar({ activeItem = 'My Account', onNavChange }) {
 
   /**
    * navGroups — the full navigation data structure
@@ -116,8 +117,8 @@ export default function Sidebar({ activeItem = 'My Account' }) {
     {
       title: 'General',
       items: [
-        { name: 'Dashboard',  icon: 'dashboard' },
-        { name: 'My Account', icon: 'user' },
+        { name: 'Dashboard',    icon: 'dashboard' },
+        { name: 'My Account',   icon: 'user' },
       ],
     },
     {
@@ -192,18 +193,17 @@ export default function Sidebar({ activeItem = 'My Account' }) {
                     key={itemIdx}
                     className={`sidebar-menu-item ${isSelected ? 'active' : ''}`}
                   >
-                    {/*
-                      href is constructed from the item name:
-                      "My Account" → "#my-account"
-                      This allows deep-linking to sections in a real app.
-                    */}
                     <a
                       href={`#${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                       className="menu-item-link"
+                      onClick={(e) => {
+                        if (item.tab && onNavChange) {
+                          e.preventDefault();
+                          onNavChange(item.tab);
+                        }
+                      }}
                     >
-                      {/* Icon image — rendered white by CSS filter */}
                       <SidebarIcon type={item.icon} altText={item.name} />
-                      {/* Item label text */}
                       <span>{item.name}</span>
                     </a>
                   </li>

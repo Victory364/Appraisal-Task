@@ -35,7 +35,7 @@ import searchIcon from '../assets/Fowgate Folder/search-normal.svg';
 import bellIcon   from '../assets/Fowgate Folder/Group 1226.svg';
 
 
-export default function Header({ activeTab = 'Expense Claims' }) {
+export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
 
   /**
    * tabs — all navigation tabs shown in the horizontal sub-nav row.
@@ -144,6 +144,12 @@ export default function Header({ activeTab = 'Expense Claims' }) {
               key={idx}
               href={`#${tab.toLowerCase().replace(/\s+/g, '-')}`}
               className={`sub-nav-tab-item ${isActive ? 'active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                if (onTabChange) {
+                  onTabChange(tab);
+                }
+              }}
             >
               {tab}
             </a>

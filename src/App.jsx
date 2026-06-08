@@ -24,16 +24,50 @@
  */
 
 // Layout components — each lives in its own file inside /components
+import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 
-// The main feature page rendered in this prototype
+// The main feature pages
 import ExpenseClaimsPage from './components/ExpenseClaimsPage';
+import MyAppraisalsPage from './components/MyAppraisalsPage';
 
 // App-level CSS (currently just a comment; global styles live in index.css)
 import './App.css';
 
 function App() {
+  // Track which header tab is currently active
+  const [activeTab, setActiveTab] = useState('Expense Claims');
+
+  // Render the correct page component based on the active tab
+  const renderPage = () => {
+    switch (activeTab) {
+      case 'My Appraisals':
+        return <MyAppraisalsPage />;
+      case 'Expense Claims':
+        return <ExpenseClaimsPage />;
+      default:
+        // Placeholder for tabs not yet implemented
+        return (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '400px',
+            color: '#94a3b8',
+            gap: '12px'
+          }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4M12 16h.01" />
+            </svg>
+            <p style={{ fontSize: '15px', fontWeight: '500' }}>{activeTab} — Coming Soon</p>
+          </div>
+        );
+    }
+  };
+
   return (
     /**
      * dashboard-container
@@ -53,15 +87,15 @@ function App() {
       <main className="dashboard-main-area">
 
         {/* Header — "My Account" title, search bar, bell, profile, and
-            the horizontal tab row. activeTab keeps "Expense Claims"
+            the horizontal tab row. activeTab keeps the selected tab
             underlined in blue.                                          */}
-        <Header activeTab="Expense Claims" />
+        <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Scrollable page body — wraps the Expense Claims feature page.
+        {/* Scrollable page body — wraps the active feature page.
             The page-content-wrapper class adds 40 px bottom padding so
             content is never flush against the bottom of the viewport.  */}
-        <div className="page-content-wrapper">
-          <ExpenseClaimsPage />
+        <div className={`page-content-wrapper${activeTab === 'My Appraisals' ? ' appraisals-content-wrapper' : ''}`}>
+          {renderPage()}
         </div>
 
       </main>
