@@ -20,7 +20,8 @@ import fullStarIcon from '../assets/Fowgate Folder/Full start.svg';
 import halfStarIcon from '../assets/Fowgate Folder/Hlaf star.svg';
 import noStarIcon   from '../assets/Fowgate Folder/No star.svg';
 import successIcon  from '../assets/Fowgate Folder/Check for success page.svg';
-import helpIcon     from '../assets/Fowgate Folder/help-circle.svg';
+import helpIcon from '../assets/Fowgate Folder/help-circle.svg';
+import InfoIcon from '../assets/Fowgate Folder/info.svg';
 
 
 // ── StarRating helper ────────────────────────────────────────────────────────
@@ -189,6 +190,14 @@ function buildInitialScores() {
   return s;
 }
 
+function ratingRemark(score) {
+  if (score >= 4.5) return 'Excellent';
+  if (score >= 3.5) return 'Very Good';
+  if (score >= 2.5) return 'Good';
+  if (score >= 1.5) return 'Fair';
+  return 'Needs Improvement';
+}
+
 // ── Main component ───────────────────────────────────────────────────────────
 export default function MyAppraisalsPage() {
   const [activeMemberId, setActiveMemberId] = useState('tm1'); // Samuel Adeyemi selected by default
@@ -268,6 +277,7 @@ export default function MyAppraisalsPage() {
 
   const avgValue   = overallAvg();
   const avgDisplay = avgValue > 0 ? avgValue.toFixed(1) : '0.0';
+  const avgRemark  = ratingRemark(avgValue);
   const activeDisplayScore = scoreForMember(activeMember);
 
   // ── Sub-components ─────────────────────────────────────────────────────────
@@ -449,14 +459,26 @@ export default function MyAppraisalsPage() {
               </div>
             </div>
 
-            {/* Appraise banner */}
-            <div className="appraisals-appraise-banner">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-              </svg>
-              Appraise
-            </div>
+            {!isSubmitted && (
+              <div className="appraisals-appraise-banner">
+                 <img src={InfoIcon}  alt="info" />
+                Appraise
+              </div>
+            )}
 
+            {isSubmitted ? (
+              <div className="appraisals-submitted-summary-row">
+                <span className="appraisals-summary-label">Appraisal Summary</span>
+                <div className="appraisals-summary-stars-wrap">
+                  <div className="appraisals-summary-stars">
+                    <StarRating score={avgValue} size={20} />
+                  </div>
+                  <span className="appraisals-summary-score">{avgDisplay}</span>
+                  <span className="appraisals-summary-remark">({avgRemark})</span>
+                </div>
+              </div>
+            ) : (
+              <>
             {/* Rating sections */}
             <div className="appraisals-sections-wrap">
               {DEFAULT_SECTIONS.map(section => {
@@ -520,6 +542,8 @@ export default function MyAppraisalsPage() {
                 {isSubmitted ? 'Appraisal Submitted ✓' : 'Submit Appraisal'}
               </button>
             </div>
+              </>
+            )}
 
           </div>{/* end appraisals-right */}
         </div>{/* end appraisals-body */}
@@ -537,7 +561,7 @@ export default function MyAppraisalsPage() {
               <button className="appraisal-modal-close" onClick={() => setShowConfirmModal(false)} aria-label="Close">✕</button>
             </div>
             <div className="appraisal-modal-body">
-              Are you sure you want to submit this appraisal for <strong>{activeMember.name} ?</strong> Once submitted, changes may not be allowed
+              <p>Are you sure you want to submit this appraisal for <strong>{activeMember.name}?</strong> Once submitted, changes may not be allowed.</p>
             </div>
             <div className="appraisal-modal-actions">
               <button className="appraisal-btn-cancel" onClick={() => setShowConfirmModal(false)}>Cancel</button>
@@ -558,8 +582,7 @@ export default function MyAppraisalsPage() {
             <img src={successIcon} alt="Success" className="appraisal-success-icon" />
             <h3 className="appraisal-success-title" id="success-modal-title">Appraisal Submitted!</h3>
             <p className="appraisal-success-copy">
-              The appraisal for <strong>{activeMember.name}</strong> has been submitted successfully.
-              You will be notified once it has been reviewed.
+              Appraisal submitted successfully! Reach out if you have questions.
             </p>
             <button
               className="appraisal-success-btn"
