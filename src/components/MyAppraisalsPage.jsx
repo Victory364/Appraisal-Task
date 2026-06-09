@@ -21,7 +21,7 @@ import halfStarIcon from '../assets/Fowgate Folder/Hlaf star.svg';
 import noStarIcon   from '../assets/Fowgate Folder/No star.svg';
 import successIcon  from '../assets/Fowgate Folder/Check for success page.svg';
 import helpIcon from '../assets/Fowgate Folder/help-circle.svg';
-import InfoIcon from '../assets/Fowgate Folder/info.svg';
+import InfoIcon from '../assets/Fowgate Folder/Info.svg';
 
 
 // ── StarRating helper ────────────────────────────────────────────────────────
