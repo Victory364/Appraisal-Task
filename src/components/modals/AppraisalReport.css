@@ -11,15 +11,21 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Slide-in Modal Container */
 .modal-container {
   position: fixed;
   top: 16px;
-  right: -500px; /* Start off-screen */
+  right: -500px;
+  /* Start off-screen */
   width: 480px;
   height: calc(100vh - 32px);
   background-color: #ffffff;
@@ -34,7 +40,8 @@
 }
 
 .modal-container.open {
-  right: 16px; /* Slide in with padding from the edge */
+  right: 16px;
+  /* Slide in with padding from the edge */
 }
 
 /* Header */
@@ -239,13 +246,13 @@
   .modal-container.open {
     right: 16px;
   }
-  
+
   .rating-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .rating-desc {
     padding-right: 0;
   }

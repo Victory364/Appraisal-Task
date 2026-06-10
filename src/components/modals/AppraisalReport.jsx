@@ -1,5 +1,10 @@
 import fullStarIcon from '../../assets/Fowgate Folder/Full start.svg';
+import halfStarIcon from '../../assets/Fowgate Folder/Hlaf star.svg';
+import arrowDownIcon from '../../assets/Fowgate Folder/arrow-down-01.svg';
 import './AppraisalReport.css';
+
+// Returns the correct star icon: full star for 5, half star for anything under 5
+const getStarIcon = (score) => score >= 5 ? fullStarIcon : halfStarIcon;
 
 const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
   if (!isOpen) return null;
@@ -20,24 +25,24 @@ const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
 
   const reportSections = sections.length
     ? sections.map(section => ({
-        ...section,
-        average: sectionAverage(section),
-        rows: section.metrics.map(metric => ({
-          id: metric.id,
-          label: metric.label,
-          score: scores[metric.id] ?? 0,
-        })),
-      }))
+      ...section,
+      average: sectionAverage(section),
+      rows: section.metrics.map(metric => ({
+        id: metric.id,
+        label: metric.label,
+        score: scores[metric.id] ?? 0,
+      })),
+    }))
     : [{ id: 'team', title: 'Team Appraisal', average: 4, rows: fallbackRows }];
 
   return (
     <>
       {/* Backdrop */}
       <div className="modal-backdrop" onClick={onClose}></div>
-      
+
       {/* Slide-in Modal */}
       <div className={`modal-container ${isOpen ? 'open' : ''}`}>
-        
+
         {/* Header */}
         <div className="modal-header">
           <div className="modal-header-left">
@@ -54,10 +59,12 @@ const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
 
         {/* Content */}
         <div className="modal-content">
-          
+
           <div className="date-filter">
             <span className="date-text">24 Dec, 2024 - <span className="highlight-q3">Q3</span></span>
-            <span className="dropdown-icon">v</span>
+            <span className="dropdown-icon">
+              <img src={arrowDownIcon} alt="dropdown" style={{ width: '16px', height: '16px' }} />
+            </span>
           </div>
 
           {reportSections.map(section => (
@@ -74,7 +81,7 @@ const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
                   <div className="rating-row" key={row.id}>
                     <span className="rating-desc">{row.label}</span>
                     <div className="rating-score">
-                      <img src={fullStarIcon} alt="" className="report-star-icon" />
+                      <img src={getStarIcon(row.score)} alt="" className="report-star-icon" />
                       <span>{row.score ? row.score.toFixed(1) : '0.0'}</span>
                     </div>
                   </div>

@@ -13,15 +13,16 @@ import { useState } from 'react';
 import './MyAppraisalsPage.css';
 import AppraisalReport from './modals/AppraisalReport';
 
-import searchIcon   from '../assets/Fowgate Folder/search-normal.svg';
+import searchIcon from '../assets/Fowgate Folder/search-normal.svg';
 import locationIcon from '../assets/Fowgate Folder/location.svg';
 import downloadIcon from '../assets/Fowgate Folder/download-04.svg';
 import fullStarIcon from '../assets/Fowgate Folder/Full start.svg';
 import halfStarIcon from '../assets/Fowgate Folder/Hlaf star.svg';
-import noStarIcon   from '../assets/Fowgate Folder/No star.svg';
-import successIcon  from '../assets/Fowgate Folder/Check for success page.svg';
+import noStarIcon from '../assets/Fowgate Folder/No star.svg';
+import successIcon from '../assets/Fowgate Folder/Check for success page.svg';
 import helpIcon from '../assets/Fowgate Folder/help-circle.svg';
 import InfoIcon from '../assets/Fowgate Folder/Info.svg';
+
 
 
 // ── StarRating helper ────────────────────────────────────────────────────────
@@ -30,7 +31,7 @@ function StarRating({ score = 0, size = 14 }) {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     let src = noStarIcon, alt = 'No star';
-    if (scoreVal >= i)          { src = fullStarIcon; alt = 'Full star'; }
+    if (scoreVal >= i) { src = fullStarIcon; alt = 'Full star'; }
     else if (scoreVal >= i - 0.75) { src = halfStarIcon; alt = 'Half star'; }
     stars.push(<img key={i} src={src} alt={alt} style={{ width: size, height: size }} />);
   }
@@ -171,6 +172,8 @@ const DEFAULT_SECTIONS = [
     metrics: [
       { id: 's1', label: 'Improvement in certain areas' },
       { id: 's2', label: 'Understanding of the role' },
+      { id: 's3', label: 'Understanding of the role' },
+      { id: 's4', label: 'Understanding of the role' },
     ],
   },
   {
@@ -201,25 +204,43 @@ function ratingRemark(score) {
 // ── Main component ───────────────────────────────────────────────────────────
 export default function MyAppraisalsPage() {
   const [activeMemberId, setActiveMemberId] = useState('tm1'); // Samuel Adeyemi selected by default
-  const [searchQuery, setSearchQuery]       = useState('');
-  const [allScores, setAllScores]           = useState({ tm1: buildInitialScores() });
-  const [submittedMap, setSubmittedMap]     = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [allScores, setAllScores] = useState({ tm1: buildInitialScores() });
+  const [submittedMap, setSubmittedMap] = useState({});
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
+  const [showInfoDropdown, setShowInfoDropdown] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('24 Dec, 2024 - Q3');
 
-  const allMembers   = [SELF_MEMBER, ...TEAM_MEMBERS];
+  const dates = [
+    '24 Dec, 2024 - Q3',
+    '2 Jul, 2024 - Q2',
+    '28 Mar, 2024 - Q1',
+    '28 Dec, 2023 - Q3',
+    '15 Sep, 2023 - Q2',
+    '10 Jun, 2023 - Q1',
+    '20 Dec, 2022 - Q3',
+    '14 Jul, 2022 - Q2'
+  ];
+
+  const allMembers = [SELF_MEMBER, ...TEAM_MEMBERS];
   const activeMember = allMembers.find(m => m.id === activeMemberId) || TEAM_MEMBERS[0];
   const activeScores = allScores[activeMemberId] || buildInitialScores();
-  const isSubmitted  = !!submittedMap[activeMemberId];
-  const allMetricIds  = DEFAULT_SECTIONS.flatMap(s => s.metrics.map(m => m.id));
+  const isSubmitted = !!submittedMap[activeMemberId];
+
+  const visibleSections = activeMember.isSelf
+    ? DEFAULT_SECTIONS.filter(s => s.id === 'self-appraisal')
+    : DEFAULT_SECTIONS;
+
+  const visibleMetricIds = visibleSections.flatMap(s => s.metrics.map(m => m.id));
 
   const filterMembers = list =>
     list.filter(m => {
       const q = searchQuery.toLowerCase();
       return m.name.toLowerCase().includes(q) ||
-             m.role.toLowerCase().includes(q) ||
-             (m.department || '').toLowerCase().includes(q);
+        m.role.toLowerCase().includes(q) ||
+        (m.department || '').toLowerCase().includes(q);
     });
 
   const filteredSelf = filterMembers([SELF_MEMBER]);
@@ -235,7 +256,7 @@ export default function MyAppraisalsPage() {
   };
 
   const overallAvg = () => {
-    const scored = allMetricIds
+    const scored = visibleMetricIds
       .map(id => activeScores[id])
       .filter(v => typeof v === 'number' && !Number.isNaN(v));
     return scored.length ? scored.reduce((a, b) => a + b, 0) / scored.length : 0;
@@ -248,19 +269,24 @@ export default function MyAppraisalsPage() {
       return Number.isNaN(s) ? 0.0 : s;
     }
 
-    const scored = allMetricIds
+    const memberSections = member.isSelf
+      ? DEFAULT_SECTIONS.filter(s => s.id === 'self-appraisal')
+      : DEFAULT_SECTIONS;
+    const memberMetricIds = memberSections.flatMap(s => s.metrics.map(m => m.id));
+
+    const scored = memberMetricIds
       .map(id => scores[id])
       .filter(v => typeof v === 'number' && !Number.isNaN(v));
-    
+
     if (scored.length > 0) {
       return scored.reduce((a, b) => a + b, 0) / scored.length;
     }
-    
+
     const s = Number(member.score);
     return Number.isNaN(s) ? 0.0 : s;
   };
 
-  const hasAllScores = allMetricIds.every(id => activeScores[id] !== null);
+  const hasAllScores = visibleMetricIds.every(id => activeScores[id] !== null);
 
   const handleSelectMember = id => {
     setActiveMemberId(id);
@@ -275,9 +301,9 @@ export default function MyAppraisalsPage() {
     }));
   };
 
-  const avgValue   = overallAvg();
+  const avgValue = overallAvg();
   const avgDisplay = avgValue > 0 ? avgValue.toFixed(1) : '0.0';
-  const avgRemark  = ratingRemark(avgValue);
+  const avgRemark = ratingRemark(avgValue);
   const activeDisplayScore = scoreForMember(activeMember);
 
   // ── Sub-components ─────────────────────────────────────────────────────────
@@ -435,8 +461,8 @@ export default function MyAppraisalsPage() {
                 </span>
                 <span className="appraisals-email-tag">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
                   </svg>
                   {activeMember.email}
                 </span>
@@ -460,35 +486,85 @@ export default function MyAppraisalsPage() {
             </div>
 
             {!isSubmitted && (
-              <div className="appraisals-appraise-banner">
-                 <img src={InfoIcon}  alt="info" />
-                Appraise
+              <div className={`appraisals-appraise-banner${activeMember.isSelf ? ' self-appraisal' : ''}`}>
+                {activeMember.isSelf ? (
+                  <>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                      <img src={InfoIcon} alt="info" />
+                      Self Appraisal
+                    </div>
+                    <div className="appraisals-date-filter-container" style={{ position: 'relative', display: 'inline-block' }}>
+                      <div className="appraisals-date-filter" onClick={() => setShowInfoDropdown(prev => !prev)}>
+                        <span className="appraisals-date-filter-text">
+                          {selectedDate.split(' - ')[0]} - <span className="appraisals-highlight-q">{selectedDate.split(' - ')[1]}</span>
+                        </span>
+                      </div>
+                      {showInfoDropdown && (
+                        <>
+                          <div className="appraisals-info-dropdown-backdrop" onClick={() => setShowInfoDropdown(false)} />
+                          <div className="appraisals-info-dropdown" style={{ right: 0, left: 'auto' }}>
+                            {dates.map((d, i) => (
+                              <div
+                                key={i}
+                                className={`appraisals-info-dropdown-item${selectedDate === d ? ' active' : ''}`}
+                                onClick={() => {
+                                  setSelectedDate(d);
+                                  setShowInfoDropdown(false);
+                                }}
+                              >
+                                {d}
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="appraisals-info-container" style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', height: '18px' }}>
+                      <img
+                        src={InfoIcon}
+                        alt="info"
+                        style={{ cursor: 'pointer', display: 'block' }}
+                        onClick={() => setShowInfoDropdown(prev => !prev)}
+                      />
+                      {showInfoDropdown && (
+                        <>
+                          <div className="appraisals-info-dropdown-backdrop" onClick={() => setShowInfoDropdown(false)} />
+                          <div className="appraisals-info-dropdown">
+                            {dates.map((d, i) => (
+                              <div
+                                key={i}
+                                className={`appraisals-info-dropdown-item${selectedDate === d ? ' active' : ''}`}
+                                onClick={() => {
+                                  setSelectedDate(d);
+                                  setShowInfoDropdown(false);
+                                }}
+                              >
+                                {d}
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    Appraise
+                  </>
+                )}
               </div>
             )}
 
-            {isSubmitted ? (
-              <div className="appraisals-submitted-summary-row">
-                <span className="appraisals-summary-label">Appraisal Summary</span>
-                <div className="appraisals-summary-stars-wrap">
-                  <div className="appraisals-summary-stars">
-                    <StarRating score={avgValue} size={20} />
-                  </div>
-                  <span className="appraisals-summary-score">{avgDisplay}</span>
-                  <span className="appraisals-summary-remark">({avgRemark})</span>
-                </div>
-              </div>
-            ) : (
-              <>
             {/* Rating sections */}
             <div className="appraisals-sections-wrap">
-              {DEFAULT_SECTIONS.map(section => {
+              {visibleSections.map(section => {
                 const avg = sectionAvg(section.id);
                 const secMetrics = section.metrics.map(m => m.id);
                 const ratedMetrics = secMetrics.filter(id => activeScores[id] !== null && activeScores[id] !== undefined);
-                
+
                 let pillText = '0.0';
                 let isCalculating = false;
-                
+
                 if (ratedMetrics.length === 0) {
                   pillText = '0.0';
                 } else if (ratedMetrics.length < secMetrics.length) {
@@ -520,29 +596,42 @@ export default function MyAppraisalsPage() {
               })}
 
               {/* Appraisal Summary */}
-              <div className="appraisals-summary-row">
-                <span className="appraisals-summary-label">Appraisal Summary</span>
-                <div className="appraisals-summary-stars-wrap">
-                  <div className="appraisals-summary-stars">
-                    <StarRating score={avgValue} size={16} />
+              {isSubmitted ? (
+                <div className="appraisals-submitted-summary-row">
+                  <span className="appraisals-summary-label">Appraisal Summary</span>
+                  <div className="appraisals-summary-stars-wrap">
+                    <div className="appraisals-summary-stars">
+                      <StarRating score={avgValue} size={20} />
+                    </div>
+                    <span className="appraisals-summary-score">{avgDisplay}</span>
+                    <span className="appraisals-summary-remark">({avgRemark})</span>
                   </div>
-                  <span className="appraisals-summary-score">{avgDisplay}</span>
                 </div>
-              </div>
+              ) : (
+                <div className="appraisals-summary-row">
+                  <span className="appraisals-summary-label">Appraisal Summary</span>
+                  <div className="appraisals-summary-stars-wrap">
+                    <div className="appraisals-summary-stars">
+                      <StarRating score={avgValue} size={16} />
+                    </div>
+                    <span className="appraisals-summary-score">{avgDisplay}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Submit button */}
-            <div className="appraisals-submit-row">
-              <button
-                id="appraisals-submit-btn"
-                className="appraisals-submit-btn"
-                onClick={() => hasAllScores && !isSubmitted && setShowConfirmModal(true)}
-                disabled={isSubmitted || !hasAllScores}
-              >
-                {isSubmitted ? 'Appraisal Submitted ✓' : 'Submit Appraisal'}
-              </button>
-            </div>
-              </>
+            {/* Submit button — hidden once submitted */}
+            {!isSubmitted && (
+              <div className="appraisals-submit-row">
+                <button
+                  id="appraisals-submit-btn"
+                  className="appraisals-submit-btn"
+                  onClick={() => hasAllScores && setShowConfirmModal(true)}
+                  disabled={!hasAllScores}
+                >
+                  Submit Appraisal
+                </button>
+              </div>
             )}
 
           </div>{/* end appraisals-right */}

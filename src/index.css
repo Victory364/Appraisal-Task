@@ -44,27 +44,29 @@
      It is used for buttons, active tab underlines, focus rings, and links.
      --primary-blue-light is the very pale tint used for ghost button
      backgrounds and hover states on white surfaces. */
-  --primary-blue:       #0f52ba;
-  --primary-blue-hover: #0c4399;   /* darkened 10 % for hover states */
-  --primary-blue-light: #eff6ff;   /* very pale blue for ghost backgrounds */
+  --primary-blue: #0f52ba;
+  --primary-blue-hover: #0c4399;
+  /* darkened 10 % for hover states */
+  --primary-blue-light: #eff6ff;
+  /* very pale blue for ghost backgrounds */
 
   /* ── Background Colours ─────────────────────────────────────────────────
      --bg-app is the page-level light grey background behind all cards.
      --bg-sidebar-start / end are the two gradient stops on the sidebar.
      --bg-white is aliased so components can reference the concept of
      "white background" without hard-coding #ffffff everywhere. */
-  --bg-app:           #f4f5f8;
+  --bg-app: #f4f5f8;
   --bg-sidebar-start: #292929;
-  --bg-sidebar-end:   #111111;
-  --bg-white:         #ffffff;
+  --bg-sidebar-end: #111111;
+  --bg-white: #ffffff;
 
   /* ── Text Colours ───────────────────────────────────────────────────────
      A three-level hierarchy: primary (near-black), secondary (slate grey),
      muted (lighter grey), and white (for text on dark backgrounds). */
-  --text-primary:   #1e293b;
+  --text-primary: #1e293b;
   --text-secondary: #64748b;
-  --text-muted:     #94a3b8;
-  --text-white:     #ffffff;
+  --text-muted: #94a3b8;
+  --text-white: #ffffff;
 
   /* ── Borders & Dividers ─────────────────────────────────────────────────
      --border-light is a pale grey used on card edges and input borders
@@ -78,15 +80,20 @@
      These semi-transparent values are layered on top of an existing
      background colour so hover/active tints work on any surface without
      knowing the exact background colour. */
-  --state-hover-light:  rgba(15, 82, 186, 0.04);  /* blue tint on light bg */
-  --state-hover-dark:   rgba(255, 255, 255, 0.06); /* white tint on dark bg */
-  --state-active-dark:  rgba(255, 255, 255, 0.10); /* stronger white on dark bg */
+  --state-hover-light: rgba(15, 82, 186, 0.04);
+  /* blue tint on light bg */
+  --state-hover-dark: rgba(255, 255, 255, 0.06);
+  /* white tint on dark bg */
+  --state-active-dark: rgba(255, 255, 255, 0.10);
+  /* stronger white on dark bg */
 
   /* ── Status / Badge Colours ─────────────────────────────────────────────
      Green pill used in the metric cards' growth badge and the Approved
      status pill in the claims table. */
-  --status-green-bg:   #e2fbe8; /* pale green background */
-  --status-green-text: #22c55e; /* vivid green text for contrast */
+  --status-green-bg: #e2fbe8;
+  /* pale green background */
+  --status-green-text: #22c55e;
+  /* vivid green text for contrast */
 }
 
 
@@ -116,17 +123,21 @@
    ─────────────────────────────────────────────────────────────────────────── */
 body {
   font-family: var(--font-family);
-  background-color: #f3f4f6;   /* slight warm grey page background */
+  background-color: #f3f4f6;
+  /* slight warm grey page background */
   color: var(--text-primary);
-  min-height: 100vh;            /* at least full viewport height */
+  min-height: 100vh;
+  /* at least full viewport height */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   display: flex;
   justify-content: stretch;
   align-items: flex-start;
-  -webkit-font-smoothing: antialiased;   /* crisp fonts on macOS/iOS */
-  -moz-osx-font-smoothing: grayscale;    /* crisp fonts on Firefox/macOS */
+  -webkit-font-smoothing: antialiased;
+  /* crisp fonts on macOS/iOS */
+  -moz-osx-font-smoothing: grayscale;
+  /* crisp fonts on Firefox/macOS */
 }
 
 button,
@@ -163,7 +174,8 @@ select {
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: none;        /* full viewport width — no max constraint */
+  max-width: none;
+  /* full viewport width — no max constraint */
   min-height: 100vh;
   background-color: var(--bg-white);
   border-radius: 0;
@@ -182,9 +194,12 @@ select {
 .dashboard-main-area {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;       /* take all remaining width */
-  min-width: 0;       /* prevent flex overflow bug */
-  margin-left: 250px; /* offset for the fixed 250 px sidebar */
+  flex-grow: 1;
+  /* take all remaining width */
+  min-width: 0;
+  /* prevent flex overflow bug */
+  margin-left: 250px;
+  /* offset for the fixed 250 px sidebar */
   background-color: var(--bg-white);
   align-items: stretch;
 }
@@ -236,7 +251,10 @@ select {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and legacy Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and legacy Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }

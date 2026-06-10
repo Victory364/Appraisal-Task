@@ -28,7 +28,9 @@
  */
 
 // Component-scoped styles — header layout, search bar, bell, profile, tabs
+import { useState } from 'react';
 import './Header.css';
+import NotificationPanel from './modals/NotificationPanel';
 
 // Search and bell icon assets imported from the shared Fowgate asset folder
 import searchIcon from '../assets/Fowgate Folder/search-normal.svg';
@@ -36,6 +38,12 @@ import bellIcon   from '../assets/Fowgate Folder/Group 1226.svg';
 
 
 export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
+  const [notifOpen, setNotifOpen] = useState(false);
+
+  const handleBellClick = () => {
+    console.log("Notification bell clicked. Toggle state to:", !notifOpen);
+    setNotifOpen(prev => !prev);
+  };
 
   /**
    * tabs — all navigation tabs shown in the horizontal sub-nav row.
@@ -58,11 +66,12 @@ export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
   ];
 
   return (
-    /**
+    <>
+    {/**
      * <header> is the correct semantic HTML5 element for a page header.
      * fowgate-header applies the white background, bottom border, and the
      * flex-column layout that stacks the top bar above the tab row.
-     */
+     */}
     <header className="fowgate-header">
 
       {/* ── Row 1: Top Bar ─────────────────────────────────────────────────
@@ -94,13 +103,15 @@ export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
         {/* Right action area — bell + profile grouped with a gap         */}
         <div className="header-actions-area">
 
-          {/* Notification Bell Button
-              aria-label makes it accessible to screen readers since there
-              is no visible text label on this icon-only button.
-              bell-badge-dot is the red circle indicating unread notifications. */}
-          <button className="alert-bell-button" aria-label="Notifications">
+          {/* Notification Bell Button */}
+          <button
+            className={`alert-bell-button${notifOpen ? ' active' : ''}`}
+            aria-label="Notifications"
+            id="header-bell-btn"
+            onClick={handleBellClick}
+          >
             <img src={bellIcon} alt="Notifications" />
-            <span className="bell-badge-dot" /> {/* red dot badge */}
+            <span className="bell-badge-dot" />
           </button>
 
           {/* Profile Dropdown Trigger
@@ -158,5 +169,12 @@ export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
       </nav>
 
     </header>
+
+    {/* Notification panel — rendered outside <header> so it overlays the page */}
+    <NotificationPanel
+      isOpen={notifOpen}
+      onClose={() => setNotifOpen(false)}
+    />
+  </>
   );
 }

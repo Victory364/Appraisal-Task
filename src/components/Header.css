@@ -192,6 +192,12 @@
   border-color: #cbd5e1;
 }
 
+/* Active state — panel is open */
+.alert-bell-button.active {
+  background-color: #eff6ff;
+  border-color: #0f52ba;
+}
+
 /* Bell icon inside the button */
 .alert-bell-button svg {
   width: 20px;
