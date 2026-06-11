@@ -588,30 +588,31 @@ export default function MyAppraisalsPage() {
                 );
               })}
 
-              {/* Appraisal Summary */}
-              {isSubmitted ? (
-                <div className="appraisals-submitted-summary-row">
-                  <span className="appraisals-summary-label">Appraisal Summary</span>
-                  <div className="appraisals-summary-stars-wrap">
-                    <div className="appraisals-summary-stars">
-                      <StarRating score={avgValue} size={20} />
-                    </div>
-                    <span className="appraisals-summary-score">{avgDisplay}</span>
-                    <span className="appraisals-summary-remark">({avgRemark})</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="appraisals-summary-row">
-                  <span className="appraisals-summary-label">Appraisal Summary</span>
-                  <div className="appraisals-summary-stars-wrap">
-                    <div className="appraisals-summary-stars">
-                      <StarRating score={avgValue} size={16} />
-                    </div>
-                    <span className="appraisals-summary-score">{avgDisplay}</span>
-                  </div>
-                </div>
-              )}
             </div>
+
+            {/* Appraisal Summary */}
+            {isSubmitted ? (
+              <div className="appraisals-submitted-summary-row">
+                <span className="appraisals-summary-label">Appraisal Summary</span>
+                <div className="appraisals-summary-stars-wrap">
+                  <div className="appraisals-summary-stars">
+                    <StarRating score={avgValue} size={20} />
+                  </div>
+                  <span className="appraisals-summary-score">{avgDisplay}</span>
+                  <span className="appraisals-summary-remark">({avgRemark})</span>
+                </div>
+              </div>
+            ) : (
+              <div className="appraisals-summary-row">
+                <span className="appraisals-summary-label">Appraisal Summary</span>
+                <div className="appraisals-summary-stars-wrap">
+                  <div className="appraisals-summary-stars">
+                    <StarRating score={avgValue} size={16} />
+                  </div>
+                  <span className="appraisals-summary-score">{avgDisplay}</span>
+                </div>
+              </div>
+            )}
 
             {/* Submit button — hidden once submitted */}
             {!isSubmitted && (
