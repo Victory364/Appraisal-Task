@@ -13,7 +13,9 @@ import {
   Users,
   Plus,
   X,
+  FileText,
 } from 'lucide-react';
+import alfredBeckettAvatar from './Access/Fowgate Folder/alfred_beckett.png';
 
 function DashboardIcon({ className }) {
   return (
@@ -182,6 +184,18 @@ function LoanHeaderIcon() {
   );
 }
 
+function LoanDetailsHeaderIcon() {
+  return (
+    <svg className="loan-header-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M5.2 2.6h6.4l3.2 3.2v11.6H5.2V2.6Z" fill="#ffffff" />
+      <path d="M11.6 2.6v3.2h3.2" stroke="#2563c7" strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M6.8 8.1h6.4" stroke="#2563c7" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M6.8 11.1h6.4" stroke="#2563c7" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M6.8 14.1h4" stroke="#2563c7" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 const navSections = [
   {
     title: 'GENERAL',
@@ -287,6 +301,13 @@ function formatMoney(amount, currency) {
   return `${currency.symbol}${Number(amount || 0).toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+  })}`;
+}
+
+function formatMoneyNoDecimals(amount, currency) {
+  return `${currency.symbol}${Number(amount || 0).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   })}`;
 }
 
@@ -422,9 +443,15 @@ function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan }) {
     return (
       <div className="loan-modal-overlay success-overlay" role="presentation" onClick={handleFinishLoan}>
         <div className={`request-submitted-modal ${isEditing ? 'changes-saved-modal' : ''}`} role="dialog" aria-modal="true" aria-labelledby="request-submitted-title" onClick={(event) => event.stopPropagation()}>
-          <div className={isEditing ? 'changes-saved-icon' : 'success-dot'}>✓</div>
-          <h2 id="request-submitted-title">{isEditing ? 'Changes Saved!' : 'Request Submitted!'}</h2>
-          <p>{isEditing ? 'The loan application has been updated to reflect the latest change' : 'The loan has been successfully submitted and the HR has been notified'}</p>
+          <div className={isEditing ? 'changes-saved-icon' : 'success-dot'}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div className="success-copy">
+            <h2 id="request-submitted-title">{isEditing ? 'Changes Saved!' : 'Request Submitted!'}</h2>
+            <p>{isEditing ? 'The loan application has been updated to reflect the latest change' : 'The loan has been successfully submitted and the HR has been notified'}</p>
+          </div>
           <button className="success-okay-button" type="button" onClick={handleFinishLoan}>Okay</button>
         </div>
       </div>
@@ -484,50 +511,51 @@ function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan }) {
             <button type="button">Advances</button>
           </div>
 
-          <label className="form-field">
-            <span>Employee</span>
-            <input value="Alfred Beckett" readOnly />
-          </label>
+          <div className="loan-form-fields">
+            <label className="form-field">
+              <span>Employee</span>
+              <input value="Alfred Beckett" readOnly />
+            </label>
 
-          <label className="form-field">
-            <span>Purpose of the Loan</span>
-            <select className="native-select" value={selectedPurpose} onChange={(event) => setSelectedPurpose(event.target.value)}>
-              <option value="">Select</option>
-              {loanPurposes.map((purpose) => (
-                <option key={purpose} value={purpose}>{purpose}</option>
-              ))}
-            </select>
-          </label>
+            <label className="form-field">
+              <span>Purpose of the Loan</span>
+              <select className="native-select" value={selectedPurpose} onChange={(event) => setSelectedPurpose(event.target.value)}>
+                <option value="">Select</option>
+                {loanPurposes.map((purpose) => (
+                  <option key={purpose} value={purpose}>{purpose}</option>
+                ))}
+              </select>
+            </label>
 
-          <label className="form-field">
-            <span>Amount</span>
-            <div className="amount-input amount-country-input">
-              <input
-                inputMode="decimal"
-                placeholder="Enter amount"
-                value={loanAmount}
-                onChange={(event) => setLoanAmount(event.target.value)}
-              />
-              <button className="amount-country-button" type="button">
-                <span className="nigeria-flag" aria-hidden="true" />
-                {selectedCurrency.code}
-                <ChevronDown size={13} />
-              </button>
-            </div>
-          </label>
+            <label className="form-field">
+              <span>Amount</span>
+              <div className="amount-input amount-country-input">
+                <input
+                  inputMode="decimal"
+                  placeholder="Enter amount"
+                  value={loanAmount}
+                  onChange={(event) => setLoanAmount(event.target.value)}
+                />
+                <div className="amount-country-button" aria-label={`Currency ${selectedCurrency.code}`}>
+                  <span className="nigeria-flag" aria-hidden="true" />
+                  {selectedCurrency.code}
+                </div>
+              </div>
+            </label>
 
-          <label className="form-field">
-            <span>Duration of the loan</span>
-            <div className="amount-input">
-              <input
-                inputMode="numeric"
-                placeholder="Enter number of month"
-                value={loanDuration}
-                onChange={(event) => setLoanDuration(event.target.value)}
-              />
-              <div className="input-addon">Months</div>
-            </div>
-          </label>
+            <label className="form-field">
+              <span>Duration of the loan</span>
+              <div className="amount-input">
+                <input
+                  inputMode="numeric"
+                  placeholder="Enter number of month"
+                  value={loanDuration}
+                  onChange={(event) => setLoanDuration(event.target.value)}
+                />
+                <div className="input-addon">Months</div>
+              </div>
+            </label>
+          </div>
         </div>
 
         <div className="new-loan-footer">
@@ -539,21 +567,56 @@ function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan }) {
   );
 }
 
+function JaneSmithAvatar({ size = 20 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ borderRadius: '50%', flexShrink: 0 }}
+    >
+      <circle cx="16" cy="16" r="16" fill="#e0f2fe" />
+      {/* Hair back */}
+      <path d="M9 16.5c0-4.5 3-7.5 7-7.5s7 3 7 7.5v2h-14v-2z" fill="#1e293b" />
+      {/* Face */}
+      <circle cx="16" cy="17" r="7" fill="#fed7aa" />
+      {/* Eyes */}
+      <circle cx="14" cy="16" r="1" fill="#1e293b" />
+      <circle cx="18" cy="16" r="1" fill="#1e293b" />
+      {/* Mask */}
+      <path d="M12.5 18.5c0-1 1-1.5 3.5-1.5s3.5.5 3.5 1.5v2c0 1-1 2-3.5 2s-3.5-1-3.5-2v-2z" fill="#0f172a" />
+      {/* Straps */}
+      <path d="M12.5 19L10 18" stroke="#0f172a" strokeWidth="0.8" />
+      <path d="M19.5 19L22 18" stroke="#0f172a" strokeWidth="0.8" />
+    </svg>
+  );
+}
+
 function LoanDetailsModal({ loan, onClose }) {
   const [openSections, setOpenSections] = useState({
-    history: true,
     approval: true,
-    terms: true,
+    loanTerms: true,
   });
   const duration = Math.max(Number(loan.duration || 1), 1);
   const monthlyAmount = loan.amount / duration;
   const repaymentTotal = monthlyAmount * duration;
-  const monthLabels = ['Apr 2024', 'May 2024', 'Jun 2024', 'Jul 2024', 'Aug 2024', 'Sep 2024', 'Oct 2024', 'Nov 2024', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025'];
-  const paymentRows = Array.from({ length: Math.min(duration, 12) }, (_, index) => ({
-    month: monthLabels[index] || `Month ${index + 1}`,
-    dueDate: `${index + 24} ${monthLabels[index] || 'Month'}`,
-    amount: monthlyAmount,
-  }));
+  const isApproved = loan.status === 'Ongoing';
+
+  // Generate payment rows with correct last-day-of-month due dates
+  const startYear = 2024;
+  const startMonth = 3; // April = index 3 (0-based)
+  const paymentRows = Array.from({ length: Math.min(duration, 12) }, (_, index) => {
+    const date = new Date(startYear, startMonth + index, 1);
+    const monthName = date.toLocaleString('en-US', { month: 'short' });
+    const year = date.getFullYear();
+    const monthLabel = `${monthName} ${year}`;
+    // Last day of month
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const dueDate = `${monthName} ${lastDay}, ${year}`;
+    return { month: monthLabel, dueDate, amount: monthlyAmount };
+  });
 
   function toggleSection(section) {
     setOpenSections((currentSections) => ({
@@ -567,7 +630,7 @@ function LoanDetailsModal({ loan, onClose }) {
       <div className="loan-details-modal" role="dialog" aria-modal="true" aria-labelledby="loan-details-title" onClick={(event) => event.stopPropagation()}>
         <div className="loan-details-header">
           <div className="loan-details-title">
-            <span className="document-mark" />
+            <LoanDetailsHeaderIcon />
             <h2 id="loan-details-title">Loan Details</h2>
           </div>
           <button className="new-loan-close" type="button" aria-label="Close loan details" onClick={onClose}>
@@ -577,17 +640,19 @@ function LoanDetailsModal({ loan, onClose }) {
 
         <div className="loan-details-body">
           <div className="borrower-row">
-            <div className="borrower-avatar">AB</div>
+            <img className="borrower-avatar-img" src={alfredBeckettAvatar} alt="Alfred Beckett" />
             <div>
               <strong>Alfred Beckett</strong>
               <span>Audit Manager</span>
             </div>
-            <span className="active-pill">Completed</span>
+            <span className={`active-pill ${loan.status.toLowerCase()}`}>
+              {loan.status === 'Ongoing' ? '• Ongoing' : loan.status}
+            </span>
           </div>
 
           <div className="loan-detail-summary">
             <div>
-              <strong>{formatMoney(loan.amount, loan.currency)}</strong>
+              <strong>{formatMoneyNoDecimals(loan.amount, loan.currency)}</strong>
               <span>LOAN AMOUNT</span>
             </div>
             <div>
@@ -598,50 +663,6 @@ function LoanDetailsModal({ loan, onClose }) {
               <strong>{loan.purpose.replace(' Loan', '')}</strong>
               <span>LOAN PURPOSE</span>
             </div>
-          </div>
-
-          <div className="loan-history-details-panel">
-            <button
-              className="details-section-title"
-              type="button"
-              aria-expanded={openSections.history}
-              onClick={() => toggleSection('history')}
-            >
-              <strong>Loan History Details</strong>
-              <ChevronDown className={openSections.history ? 'section-chevron open' : 'section-chevron'} size={16} />
-            </button>
-            {openSections.history && (
-              <div className="loan-history-details-grid">
-                <div>
-                  <span>Date Taken</span>
-                  <strong>{loan.dateTaken}</strong>
-                </div>
-                <div>
-                  <span>Loan Amount</span>
-                  <strong>{formatMoney(loan.amount, loan.currency)}</strong>
-                </div>
-                <div>
-                  <span>Loan Duration</span>
-                  <strong>{loan.duration} months</strong>
-                </div>
-                <div>
-                  <span>Balance</span>
-                  <strong>{formatMoney(loan.balance, loan.currency)}</strong>
-                </div>
-                <div>
-                  <span>Loan Purpose</span>
-                  <strong>{loan.purpose}</strong>
-                </div>
-                <div>
-                  <span>Repayment Status</span>
-                  <strong><span className="repayment-status">{loan.status}</span></strong>
-                </div>
-                <div>
-                  <span>Action</span>
-                  <strong>View Details</strong>
-                </div>
-              </div>
-            )}
           </div>
 
           <div className="approval-info-panel">
@@ -658,15 +679,18 @@ function LoanDetailsModal({ loan, onClose }) {
               <div className="approval-info-grid">
                 <div>
                   <span>Approve Loan Amount</span>
-                  <strong>{formatMoney(loan.amount, loan.currency)}</strong>
+                  <strong>{isApproved ? formatMoney(loan.amount, loan.currency) : formatMoney(0, loan.currency)}</strong>
                 </div>
                 <div>
                   <span>Approve Loan Duration</span>
-                  <strong>{loan.duration} Months</strong>
+                  <strong>{isApproved ? `${loan.duration} Months` : '-'}</strong>
                 </div>
                 <div>
-                  <span>Approved By</span>
-                  <strong>Jane Smith</strong>
+                  <span>{isApproved ? 'Approved By' : 'Rejected By'}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <JaneSmithAvatar size={20} />
+                    <strong>Jane Smith</strong>
+                  </div>
                 </div>
                 <div>
                   <span>Repayment Method</span>
@@ -674,11 +698,11 @@ function LoanDetailsModal({ loan, onClose }) {
                 </div>
                 <div>
                   <span>Approval Date</span>
-                  <strong>February 10, 2024</strong>
+                  <strong>{isApproved ? 'February 10, 2024' : '-'}</strong>
                 </div>
                 <div>
                   <span>Loan Disbursal Date</span>
-                  <strong>February 26, 2024</strong>
+                  <strong>{isApproved ? 'February 26, 2024' : '-'}</strong>
                 </div>
               </div>
             )}
@@ -710,13 +734,13 @@ function LoanDetailsModal({ loan, onClose }) {
             <button
               className="details-section-title"
               type="button"
-              aria-expanded={openSections.terms}
-              onClick={() => toggleSection('terms')}
+              aria-expanded={openSections.loanTerms}
+              onClick={() => toggleSection('loanTerms')}
             >
-              <strong>Loan Terms & Payment Schedule</strong>
-              <ChevronDown className={openSections.terms ? 'section-chevron open' : 'section-chevron'} size={16} />
+              <strong>Loan Terms &amp; Payment Schedule</strong>
+              <ChevronDown className={openSections.loanTerms ? 'section-chevron open' : 'section-chevron'} size={16} />
             </button>
-            {openSections.terms && (
+            {openSections.loanTerms && (
               <div className="loan-terms-grid">
                 <div>
                   <span>Monthly Payment</span>
@@ -726,7 +750,7 @@ function LoanDetailsModal({ loan, onClose }) {
                   <span>Total Repayment</span>
                   <strong>{formatMoney(repaymentTotal, loan.currency)}</strong>
                 </div>
-                <div>
+                <div className="loan-terms-full-row">
                   <span>Outstanding Balance</span>
                   <strong className="green-balance">{formatMoney(0, loan.currency)}</strong>
                 </div>
@@ -742,6 +766,7 @@ function LoanDetailsModal({ loan, onClose }) {
     </div>
   );
 }
+
 
 function CancelLoanModal({ onClose, onConfirm }) {
   const [isCancelled, setIsCancelled] = useState(false);
