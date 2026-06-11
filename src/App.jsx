@@ -422,7 +422,7 @@ function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan }) {
     return (
       <div className="loan-modal-overlay success-overlay" role="presentation" onClick={handleFinishLoan}>
         <div className={`request-submitted-modal ${isEditing ? 'changes-saved-modal' : ''}`} role="dialog" aria-modal="true" aria-labelledby="request-submitted-title" onClick={(event) => event.stopPropagation()}>
-          <div className={isEditing ? 'changes-saved-icon' : 'success-dot'}>{isEditing ? '✓' : ''}</div>
+          <div className={isEditing ? 'changes-saved-icon' : 'success-dot'}>✓</div>
           <h2 id="request-submitted-title">{isEditing ? 'Changes Saved!' : 'Request Submitted!'}</h2>
           <p>{isEditing ? 'The loan application has been updated to reflect the latest change' : 'The loan has been successfully submitted and the HR has been notified'}</p>
           <button className="success-okay-button" type="button" onClick={handleFinishLoan}>Okay</button>
