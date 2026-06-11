@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import fullStarIcon from '../../assets/Fowgate Folder/Full start.svg';
 import halfStarIcon from '../../assets/Fowgate Folder/Hlaf star.svg';
 import arrowDownIcon from '../../assets/Fowgate Folder/arrow-down-01.svg';
@@ -6,7 +7,21 @@ import './AppraisalReport.css';
 // Returns the correct star icon: full star for 5, half star for anything under 5
 const getStarIcon = (score) => score >= 5 ? fullStarIcon : halfStarIcon;
 
+const DATES = [
+  '24 Dec, 2024 - Q3',
+  '2 Jul, 2024 - Q2',
+  '28 Mar, 2024 - Q1',
+  '28 Dec, 2023 - Q3',
+  '15 Sep, 2023 - Q2',
+  '10 Jun, 2023 - Q1',
+  '20 Dec, 2022 - Q3',
+  '14 Jul, 2022 - Q2'
+];
+
 const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
+  const [selectedDate, setSelectedDate] = useState('24 Dec, 2024 - Q3');
+  const [showDropdown, setShowDropdown] = useState(false);
+
   if (!isOpen) return null;
 
   const sectionAverage = section => {
@@ -60,11 +75,34 @@ const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
         {/* Content */}
         <div className="modal-content">
 
-          <div className="date-filter">
-            <span className="date-text">24 Dec, 2024 - <span className="highlight-q3">Q3</span></span>
-            <span className="dropdown-icon">
-              <img src={arrowDownIcon} alt="dropdown" style={{ width: '16px', height: '16px' }} />
-            </span>
+          <div className="date-filter-container" style={{ position: 'relative', display: 'inline-block' }}>
+            <div className="date-filter" onClick={() => setShowDropdown(prev => !prev)}>
+              <span className="date-text">
+                {selectedDate.split(' - ')[0]} - <span className="highlight-q3">{selectedDate.split(' - ')[1]}</span>
+              </span>
+              <span className="dropdown-icon">
+                <img src={arrowDownIcon} alt="dropdown" style={{ width: '16px', height: '16px' }} />
+              </span>
+            </div>
+            {showDropdown && (
+              <>
+                <div className="dropdown-backdrop" onClick={() => setShowDropdown(false)} />
+                <div className="report-dropdown">
+                  {DATES.map((d, i) => (
+                    <div
+                      key={i}
+                      className={`report-dropdown-item${selectedDate === d ? ' active' : ''}`}
+                      onClick={() => {
+                        setSelectedDate(d);
+                        setShowDropdown(false);
+                      }}
+                    >
+                      {d}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           {reportSections.map(section => (

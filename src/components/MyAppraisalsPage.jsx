@@ -532,19 +532,12 @@ export default function MyAppraisalsPage() {
                       {showInfoDropdown && (
                         <>
                           <div className="appraisals-info-dropdown-backdrop" onClick={() => setShowInfoDropdown(false)} />
-                          <div className="appraisals-info-dropdown">
-                            {dates.map((d, i) => (
-                              <div
-                                key={i}
-                                className={`appraisals-info-dropdown-item${selectedDate === d ? ' active' : ''}`}
-                                onClick={() => {
-                                  setSelectedDate(d);
-                                  setShowInfoDropdown(false);
-                                }}
-                              >
-                                {d}
-                              </div>
-                            ))}
+                          <div className="appraisals-info-dropdown legend-dropdown">
+                            <div className="appraisals-info-dropdown-item">1 - Strongly Agree</div>
+                            <div className="appraisals-info-dropdown-item">2 - Agree</div>
+                            <div className="appraisals-info-dropdown-item">3 - Sometimes Agree</div>
+                            <div className="appraisals-info-dropdown-item">4 - Disagree</div>
+                            <div className="appraisals-info-dropdown-item">5 - Strongly Disagree</div>
                           </div>
                         </>
                       )}
