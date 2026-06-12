@@ -1231,6 +1231,9 @@ button {
   align-items: center;
   justify-content: center;
   padding-top: 0;
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .confirm-action-modal {
@@ -1315,16 +1318,12 @@ button {
 .success-overlay {
   align-items: center;
   justify-content: center;
-  padding-top: 0;
-  background: rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .request-submitted-modal {
-  position: fixed;
-  top: 308px;
-  left: calc(50% - 236px);
   width: 472px;
   height: 408px;
   display: flex;
@@ -1334,7 +1333,7 @@ button {
   gap: 40px;
   padding: 40px 46.5px 36px;
   background: #ffffff;
-  border-radius: 4px;
+  border-radius: 10px;
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1345,7 +1344,7 @@ button {
 .request-submitted-modal .success-okay-button {
   width: 380px;
   height: 50px;
-  margin-top: 20px;
+  margin-top: auto;
   align-self: center;
 }
 
@@ -1382,15 +1381,12 @@ button {
 }
 
 .changes-saved-modal {
-  top: 308px;
-  left: calc(50% - 236px);
   width: 472px;
   height: 408px;
   min-height: 408px;
   justify-content: flex-start;
   gap: 40px;
   padding: 40px 46.5px 36px;
-  transform: none;
 }
 
 .changes-saved-icon {
@@ -1442,7 +1438,7 @@ button {
 .changes-saved-modal .success-okay-button {
   width: 380px;
   height: 50px;
-  margin-top: 20px;
+  margin-top: auto;
   padding: 12px 10px;
   font-size: 14px;
   border-radius: 6px;
@@ -1493,7 +1489,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 0;
+  margin-top: auto;
   padding: 12px 10px;
   border-radius: 6px;
   background: #1b5fc1;
@@ -1502,44 +1498,76 @@ button {
 }
 
 .application-cancelled-modal {
-  width: 404px;
-  min-height: 290px;
+  width: 472px;
+  height: 408px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 28px 40px;
+  justify-content: flex-start;
+  gap: 40px;
+  padding: 40px 46.5px 36px;
   background: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.24);
+  border-radius: 10px;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
   text-align: center;
+  box-sizing: border-box;
+  z-index: 70;
 }
 
 .cancel-success-icon {
-  width: 58px;
-  height: 58px;
+  position: relative;
+  width: 100px;
+  height: 100px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 22px;
+  flex-shrink: 0;
   border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 0 14px #dcfce7;
+  background: #e8f7ee;
   color: #ffffff;
-  font-size: 2rem;
-  font-weight: 700;
+}
+
+.cancel-success-icon::before {
+  content: '';
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #2faa59;
+}
+
+.cancel-success-icon svg {
+  position: relative;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
 }
 
 .application-cancelled-modal h2 {
   margin: 0;
   color: #2b2d31;
-  font-size: 1.45rem;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: 0;
 }
 
 .application-cancelled-modal p {
-  margin: 10px 0 28px;
+  margin: 0 auto;
+  width: 380px;
+  max-width: 380px;
+  display: block;
+  text-align: center;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   color: #4b5563;
-  line-height: 1.35;
+  font-family: Rubik, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0;
 }
 
 .loan-table-wrap {
@@ -1588,9 +1616,23 @@ button {
   font-size: 0.78rem;
 }
 
-.repayment-status.cancelled {
+.repayment-status.cancelled,
+.repayment-status.rejected {
   background: #ffffff;
   color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.repayment-status.completed {
+  background: #ffffff;
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.repayment-status.ongoing {
+  background: #ffffff;
+  color: #1558bd;
+  border-color: rgba(21, 88, 189, 0.2);
 }
 
 .loan-action-button {
@@ -1799,10 +1841,29 @@ button {
   flex-direction: column;
   gap: 12px;
   padding: 20px 24px 16px;
-  overflow-y: auto;
+  overflow-y: scroll;
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: #dbe3ef transparent;
+}
+
+.loan-details-body::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+  display: block !important;
+}
+
+.loan-details-body::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.loan-details-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 99px !important;
+}
+
+.loan-details-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8 !important;
 }
 
 .borrower-row {
@@ -1810,6 +1871,7 @@ button {
   grid-template-columns: 40px 1fr auto;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .borrower-avatar {
@@ -1868,8 +1930,22 @@ button {
   background-color: #1558bd;
 }
 
+.active-pill.rejected {
+  background: #fee2e2;
+  color: #ef4444 !important;
+}
+
+.active-pill.completed {
+  background: #dcfce7;
+  color: #22c55e !important;
+}
+
+.active-pill.pending {
+  background: #fef3c7;
+  color: #d97706 !important;
+}
+
 .loan-history-details-panel,
-.approval-info-panel,
 .loan-terms-panel {
   margin-top: 0;
   border-radius: 4px;
@@ -1892,10 +1968,16 @@ button {
 
 .approval-info-panel {
   width: 100%;
+  box-sizing: border-box;
   border-radius: 8px;
   background: #ffffff;
-  border: 1px solid #eaeaea;
+  border: 0.5px solid #eaeaea;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .loan-terms-panel {
@@ -1905,13 +1987,14 @@ button {
   border: 1px solid #eaeaea;
   overflow: hidden;
   margin-top: 0;
+  flex-shrink: 0;
 }
 
-.approval-info-panel .details-section-title,
 .loan-terms-panel .details-section-title {
   width: 100%;
   min-height: 52px;
   height: 52px;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -1919,13 +2002,39 @@ button {
   padding: 14px 18px;
   border: 0;
   border-bottom: 1px solid #eaeaea;
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
   background: #f7f8fa;
   box-sizing: border-box;
 }
 
-.loan-terms-panel .details-section-title {
-  border-radius: 8px;
+.approval-info-panel .details-section-title {
+  width: 100%;
+  min-height: 54px;
+  height: 54px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px 20px;
+  border: 0;
+  border-bottom: 1px solid #eaeaea;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: #f3f2f2;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.approval-info-panel .details-section-title strong {
+  color: #2b2d31;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 140%;
+}
+
+.approval-info-panel .details-section-title .section-chevron {
+  color: #2b2d31;
 }
 
 .loan-terms-panel .details-section-title[aria-expanded='true'] {
@@ -1941,7 +2050,6 @@ button {
 }
 
 .loan-history-details-grid,
-.approval-info-grid,
 .loan-terms-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1950,18 +2058,22 @@ button {
   background: #ffffff;
 }
 
-.approval-info-grid {
-  width: 100%;
-  box-sizing: border-box;
-}
-
 .loan-terms-grid {
   width: 100%;
   box-sizing: border-box;
 }
 
+.approval-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  padding: 16px;
+}
+
 .loan-history-details-grid div,
-.approval-info-grid div,
 .loan-terms-grid div {
   display: grid;
   gap: 5px;
@@ -1970,8 +2082,14 @@ button {
 }
 
 .loan-history-details-grid div:last-child,
-.approval-info-grid div:nth-last-child(-n + 2),
 .loan-terms-grid div:last-child {
+  border-bottom: none;
+}
+
+.approval-info-grid div {
+  display: grid;
+  gap: 4px;
+  padding: 0;
   border-bottom: none;
 }
 
@@ -1983,17 +2101,29 @@ button {
 }
 
 .loan-history-details-grid span,
-.approval-info-grid span,
 .loan-terms-grid span {
   color: #6b7280;
   font-size: 0.66rem;
 }
 
 .loan-history-details-grid strong,
-.approval-info-grid strong,
 .loan-terms-grid strong {
   color: #2b2d31;
   font-size: 0.72rem;
+}
+
+.approval-info-grid span {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 140%;
+}
+
+.approval-info-grid strong {
+  color: #2b2d31;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
 }
 
 .loan-terms-grid span {
@@ -2026,6 +2156,7 @@ button {
   border-radius: 8px;
   background: #f5f6f8;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .loan-detail-summary div {
@@ -2069,21 +2200,23 @@ button {
 }
 
 .loan-details-body h3 {
-  margin: 16px 0 8px;
+  margin: 12px 0 4px;
   color: #1f2937;
   font-size: 0.95rem;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .payment-breakdown-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.85rem;
-  margin-top: 10px;
+  margin-top: 4px;
+  flex-shrink: 0;
 }
 
 .payment-breakdown-table th {
-  padding: 12px 14px;
+  padding: 8px 12px;
   background: #f8fafc;
   color: #4b5563;
   font-weight: 600;
@@ -2092,7 +2225,7 @@ button {
 }
 
 .payment-breakdown-table td {
-  padding: 14px 14px;
+  padding: 8px 12px;
   border-bottom: 1px solid #f1f5f9;
   color: #1f2937;
 }
@@ -2104,6 +2237,47 @@ button {
   color: #22c55e;
   font-size: 0.72rem;
   font-weight: 700;
+}
+
+.unpaid-pill {
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.pending-pill {
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #d97706;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.rejected-pill {
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.breakdown-month {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.breakdown-due-date {
+  color: #6b7280 !important;
+}
+
+.breakdown-amount-paid {
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .loan-details-footer {

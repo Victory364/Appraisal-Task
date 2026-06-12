@@ -594,6 +594,61 @@ function JaneSmithAvatar({ size = 20 }) {
   );
 }
 
+function parseDateTaken(dateStr) {
+  const monthsMap = {
+    jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+    jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+  };
+  let startMonth = 4; // May
+  let startYear = 2026;
+  if (dateStr) {
+    const parts = dateStr.split(/[\s,]+/);
+    for (const part of parts) {
+      const clean = part.toLowerCase().substring(0, 3);
+      if (monthsMap[clean] !== undefined) {
+        startMonth = monthsMap[clean];
+      } else if (/^\d{4}$/.test(part)) {
+        startYear = parseInt(part, 10);
+      }
+    }
+  }
+  return { startMonth, startYear };
+}
+
+function addDaysToDateString(dateStr, daysToAdd) {
+  const monthsMap = {
+    jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+    jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+  };
+  const monthsArr = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+  let startDay = 1;
+  let startMonth = 4; // May
+  let startYear = 2026;
+  
+  if (dateStr) {
+    const parts = dateStr.split(/[\s,]+/);
+    for (const part of parts) {
+      const clean = part.toLowerCase().substring(0, 3);
+      if (monthsMap[clean] !== undefined) {
+        startMonth = monthsMap[clean];
+      } else if (/^\d{4}$/.test(part)) {
+        startYear = parseInt(part, 10);
+      } else if (/^\d{1,2}$/.test(part)) {
+        startDay = parseInt(part, 10);
+      }
+    }
+  }
+
+  const date = new Date(startYear, startMonth, startDay);
+  date.setDate(date.getDate() + daysToAdd);
+  
+  const mName = monthsArr[date.getMonth()];
+  return `${date.getDate()} ${mName}, ${date.getFullYear()}`;
+}
+
 function LoanDetailsModal({ loan, onClose }) {
   const [openSections, setOpenSections] = useState({
     approval: true,
@@ -602,11 +657,10 @@ function LoanDetailsModal({ loan, onClose }) {
   const duration = Math.max(Number(loan.duration || 1), 1);
   const monthlyAmount = loan.amount / duration;
   const repaymentTotal = monthlyAmount * duration;
-  const isApproved = loan.status === 'Ongoing';
+  const isApproved = loan.status === 'Ongoing' || loan.status === 'Completed';
 
   // Generate payment rows with correct last-day-of-month due dates
-  const startYear = 2024;
-  const startMonth = 3; // April = index 3 (0-based)
+  const { startMonth, startYear } = parseDateTaken(loan.dateTaken);
   const paymentRows = Array.from({ length: Math.min(duration, 12) }, (_, index) => {
     const date = new Date(startYear, startMonth + index, 1);
     const monthName = date.toLocaleString('en-US', { month: 'short' });
@@ -615,7 +669,7 @@ function LoanDetailsModal({ loan, onClose }) {
     // Last day of month
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     const dueDate = `${monthName} ${lastDay}, ${year}`;
-    return { month: monthLabel, dueDate, amount: monthlyAmount };
+    return { month: monthLabel, dueDate, amount: monthlyAmount, rawDate: date };
   });
 
   function toggleSection(section) {
@@ -646,7 +700,7 @@ function LoanDetailsModal({ loan, onClose }) {
               <span>Audit Manager</span>
             </div>
             <span className={`active-pill ${loan.status.toLowerCase()}`}>
-              {loan.status === 'Ongoing' ? '• Ongoing' : loan.status}
+              {loan.status === 'Ongoing' ? '• Ongoing' : (loan.status === 'Completed' || loan.status === 'Rejected' ? `• ${loan.status}` : loan.status)}
             </span>
           </div>
 
@@ -679,30 +733,27 @@ function LoanDetailsModal({ loan, onClose }) {
               <div className="approval-info-grid">
                 <div>
                   <span>Approve Loan Amount</span>
-                  <strong>{isApproved ? formatMoney(loan.amount, loan.currency) : formatMoney(0, loan.currency)}</strong>
+                  <strong>-</strong>
                 </div>
                 <div>
                   <span>Approve Loan Duration</span>
-                  <strong>{isApproved ? `${loan.duration} Months` : '-'}</strong>
+                  <strong>-</strong>
                 </div>
                 <div>
-                  <span>{isApproved ? 'Approved By' : 'Rejected By'}</span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <JaneSmithAvatar size={20} />
-                    <strong>Jane Smith</strong>
-                  </div>
+                  <span>Approved By</span>
+                  <strong>-</strong>
                 </div>
                 <div>
                   <span>Repayment Method</span>
-                  <strong>Payroll Deduction</strong>
+                  <strong>-</strong>
                 </div>
                 <div>
                   <span>Approval Date</span>
-                  <strong>{isApproved ? 'February 10, 2024' : '-'}</strong>
+                  <strong>-</strong>
                 </div>
                 <div>
                   <span>Loan Disbursal Date</span>
-                  <strong>{isApproved ? 'February 26, 2024' : '-'}</strong>
+                  <strong>-</strong>
                 </div>
               </div>
             )}
@@ -719,14 +770,53 @@ function LoanDetailsModal({ loan, onClose }) {
               </tr>
             </thead>
             <tbody>
-              {paymentRows.map((row) => (
-                <tr key={row.month}>
-                  <td>{row.month}</td>
-                  <td>{row.dueDate}</td>
-                  <td>{formatMoney(row.amount, loan.currency)}</td>
-                  <td><span className="paid-pill">Paid</span></td>
-                </tr>
-              ))}
+              {paymentRows.map((row) => {
+                let statusText = 'Paid';
+                let statusClass = 'paid-pill';
+                let displayedAmount = row.amount;
+
+                if (loan.status === 'Rejected') {
+                  displayedAmount = 0;
+                  statusText = 'Rejected';
+                  statusClass = 'rejected-pill';
+                } else if (loan.status === 'Cancelled') {
+                  displayedAmount = 0;
+                  statusText = 'Unpaid';
+                  statusClass = 'unpaid-pill';
+                } else if (loan.status === 'Pending') {
+                  displayedAmount = 0;
+                  statusText = 'Pending';
+                  statusClass = 'pending-pill';
+                } else if (loan.status === 'Completed') {
+                  displayedAmount = row.amount;
+                  statusText = 'Paid';
+                  statusClass = 'paid-pill';
+                } else if (loan.status === 'Ongoing') {
+                  // Compare row due date with June 11, 2026
+                  const today = new Date(2026, 5, 11);
+                  const endOfMonth = new Date(row.rawDate.getFullYear(), row.rawDate.getMonth() + 1, 0);
+                  const isPast = endOfMonth < today;
+
+                  if (isPast) {
+                    displayedAmount = row.amount;
+                    statusText = 'Paid';
+                    statusClass = 'paid-pill';
+                  } else {
+                    displayedAmount = 0;
+                    statusText = 'Pending';
+                    statusClass = 'pending-pill';
+                  }
+                }
+
+                return (
+                  <tr key={row.month}>
+                    <td className="breakdown-month">{row.month}</td>
+                    <td className="breakdown-due-date">{row.dueDate}</td>
+                    <td className="breakdown-amount-paid">{formatMoney(displayedAmount, loan.currency)}</td>
+                    <td><span className={statusClass}>{statusText}</span></td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
 
@@ -752,7 +842,12 @@ function LoanDetailsModal({ loan, onClose }) {
                 </div>
                 <div className="loan-terms-full-row">
                   <span>Outstanding Balance</span>
-                  <strong className="green-balance">{formatMoney(0, loan.currency)}</strong>
+                  <strong className="green-balance">
+                    {formatMoney(
+                      loan.status === 'Ongoing' || loan.status === 'Pending' ? loan.balance : 0,
+                      loan.currency
+                    )}
+                  </strong>
                 </div>
               </div>
             )}
@@ -775,9 +870,15 @@ function CancelLoanModal({ onClose, onConfirm }) {
     return (
       <div className="loan-modal-overlay success-overlay" role="presentation" onClick={onConfirm}>
         <div className="application-cancelled-modal" role="dialog" aria-modal="true" aria-labelledby="application-cancelled-title" onClick={(event) => event.stopPropagation()}>
-          <div className="cancel-success-icon">✓</div>
-          <h2 id="application-cancelled-title">Application Cancelled!</h2>
-          <p>Your loan application has been cancelled successfully.</p>
+          <div className="cancel-success-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div className="success-copy">
+            <h2 id="application-cancelled-title">Application Cancelled!</h2>
+            <p>Your loan application has been cancelled successfully.</p>
+          </div>
           <button className="success-okay-button" type="button" onClick={onConfirm}>Okay</button>
         </div>
       </div>
