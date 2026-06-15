@@ -14,6 +14,7 @@ import {
   Plus,
   X,
   FileText,
+  HelpCircle,
 } from 'lucide-react';
 import alfredBeckettAvatar from './Access/Fowgate Folder/alfred_beckett.png';
 
@@ -187,11 +188,10 @@ function LoanHeaderIcon() {
 function LoanDetailsHeaderIcon() {
   return (
     <svg className="loan-header-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M5.2 2.6h6.4l3.2 3.2v11.6H5.2V2.6Z" fill="#ffffff" />
-      <path d="M11.6 2.6v3.2h3.2" stroke="#2563c7" strokeWidth="1.2" strokeLinejoin="round" />
-      <path d="M6.8 8.1h6.4" stroke="#2563c7" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M6.8 11.1h6.4" stroke="#2563c7" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M6.8 14.1h4" stroke="#2563c7" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4 2.5C4 2.22386 4.22386 2 4.5 2H12L16 6V17.5C16 17.7761 15.7761 18 15.5 18H4.5C4.22386 18 4 17.7761 4 17.5V2.5Z" fill="#ffffff" />
+      <path d="M12 2V6H16L12 2Z" fill="#dbeafe" />
+      <rect x="6.5" y="9.5" width="5" height="2" rx="0.5" fill="#2563c7" />
+      <rect x="6.5" y="13.5" width="7.5" height="2" rx="0.5" fill="#2563c7" />
     </svg>
   );
 }
@@ -464,7 +464,7 @@ function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan }) {
         <div className="confirm-action-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-action-title" onClick={(event) => event.stopPropagation()}>
           <div className="confirm-action-header">
             <div className="confirm-action-title">
-              <Info size={18} />
+              <HelpCircle size={18} />
               <h2 id="confirm-action-title">Confirm Action</h2>
             </div>
             <button className="new-loan-close" type="button" aria-label="Close confirmation" onClick={() => setIsConfirming(false)}>
@@ -649,6 +649,44 @@ function addDaysToDateString(dateStr, daysToAdd) {
   return `${date.getDate()} ${mName}, ${date.getFullYear()}`;
 }
 
+function getApprovalAndDisbursalDates(dateTakenStr) {
+  const monthsMap = {
+    jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+    jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+  };
+  let day = 25;
+  let month = 4; // May
+  let year = 2026;
+  if (dateTakenStr) {
+    const parts = dateTakenStr.split(/[\s,]+/);
+    for (const part of parts) {
+      const clean = part.toLowerCase().substring(0, 3);
+      if (monthsMap[clean] !== undefined) {
+        month = monthsMap[clean];
+      } else if (/^\d{4}$/.test(part)) {
+        year = parseInt(part, 10);
+      } else if (/^\d{1,2}$/.test(part)) {
+        day = parseInt(part, 10);
+      }
+    }
+  }
+  
+  const disbursalDate = new Date(year, month, day);
+  const approvalDate = new Date(year, month, day);
+  approvalDate.setDate(disbursalDate.getDate() - 16);
+  
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+  
+  return {
+    approvalDateStr: formatter.format(approvalDate),
+    disbursalDateStr: formatter.format(disbursalDate)
+  };
+}
+
 function LoanDetailsModal({ loan, onClose }) {
   const [openSections, setOpenSections] = useState({
     approval: true,
@@ -731,29 +769,54 @@ function LoanDetailsModal({ loan, onClose }) {
             </button>
             {openSections.approval && (
               <div className="approval-info-grid">
-                <div>
-                  <span>Approve Loan Amount</span>
-                  <strong>-</strong>
+                <div className="approval-info-row">
+                  <div className="approval-info-item">
+                    <span>Approve Loan Amount</span>
+                    <strong>
+                      {isApproved ? formatMoney(loan.amount, loan.currency) : '-'}
+                    </strong>
+                  </div>
+                  <div className="approval-info-item">
+                    <span>Approve Loan Duration</span>
+                    <strong>
+                      {isApproved ? `${loan.duration} ${Number(loan.duration) === 1 ? 'Month' : 'Months'}` : '-'}
+                    </strong>
+                  </div>
                 </div>
-                <div>
-                  <span>Approve Loan Duration</span>
-                  <strong>-</strong>
+                <div className="approval-info-row">
+                  <div className="approval-info-item">
+                    <span>Approved By</span>
+                    <strong>
+                      {isApproved ? (
+                        <>
+                          <JaneSmithAvatar size={20} />
+                          Jane Smith
+                        </>
+                      ) : (
+                        '-'
+                      )}
+                    </strong>
+                  </div>
+                  <div className="approval-info-item">
+                    <span>Repayment Method</span>
+                    <strong>
+                      {isApproved ? 'Payroll Deduction' : '-'}
+                    </strong>
+                  </div>
                 </div>
-                <div>
-                  <span>Approved By</span>
-                  <strong>-</strong>
-                </div>
-                <div>
-                  <span>Repayment Method</span>
-                  <strong>-</strong>
-                </div>
-                <div>
-                  <span>Approval Date</span>
-                  <strong>-</strong>
-                </div>
-                <div>
-                  <span>Loan Disbursal Date</span>
-                  <strong>-</strong>
+                <div className="approval-info-row">
+                  <div className="approval-info-item">
+                    <span>Approval Date</span>
+                    <strong>
+                      {isApproved ? getApprovalAndDisbursalDates(loan.dateTaken).approvalDateStr : '-'}
+                    </strong>
+                  </div>
+                  <div className="approval-info-item">
+                    <span>Loan Disbursal Date</span>
+                    <strong>
+                      {isApproved ? getApprovalAndDisbursalDates(loan.dateTaken).disbursalDateStr : '-'}
+                    </strong>
+                  </div>
                 </div>
               </div>
             )}
@@ -890,7 +953,7 @@ function CancelLoanModal({ onClose, onConfirm }) {
       <div className="confirm-action-modal" role="dialog" aria-modal="true" aria-labelledby="cancel-loan-title" onClick={(event) => event.stopPropagation()}>
         <div className="confirm-action-header">
           <div className="confirm-action-title">
-            <Info size={18} />
+            <HelpCircle size={18} />
             <h2 id="cancel-loan-title">Confirm Action</h2>
           </div>
           <button className="new-loan-close" type="button" aria-label="Close cancel confirmation" onClick={onClose}>
@@ -1000,7 +1063,7 @@ function LoanManagement({ onNewLoan, loans, onCancelLoan, onEditLoan }) {
                   <td>{loan.duration} months</td>
                   <td>{formatMoney(loan.balance, loan.currency)}</td>
                   <td>{loan.purpose}</td>
-                  <td><span className={`repayment-status ${loan.status === 'Cancelled' ? 'cancelled' : ''}`}>{loan.status}</span></td>
+                  <td><span className={`repayment-status ${loan.status.toLowerCase()}`}>{loan.status}</span></td>
                   <td className="loan-action-cell">
                     <button
                       className="loan-action-button"
