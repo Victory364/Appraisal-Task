@@ -68,7 +68,7 @@ const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
             </div>
           </div>
           <button className="close-button" onClick={onClose}>
-            X
+            ✕
           </button>
         </div>
 
