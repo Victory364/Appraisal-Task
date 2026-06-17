@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import fullStarIcon from '../../assets/Fowgate Folder/Full start.svg';
-imporut halfStarIcon from '../../assets/Fowgate Folder/Hlaf star.svg';
+import halfStarIcon from '../../assets/Fowgate Folder/Hlaf star.svg';
 import arrowDownIcon from '../../assets/Fowgate Folder/arrow-down-01.svg';
 import './AppraisalReport.css';
 
