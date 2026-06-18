@@ -284,13 +284,13 @@ const loanStats = [
 ];
 
 const loanPurposes = [
-  'Medical Loan',
-  'Education Loan',
-  'Personal Loan',
-  'Buying Assets Loan',
-  'Business And Investment Loan',
-  'Debt consolidation Loan',
-  'Build Credit History Loan',
+  'Medical',
+  'Education',
+  'Personal',
+  'Buying Assets',
+  'Business And Investment',
+  'Debt consolidation',
+  'Build Credit History',
 ];
 
 const currencyOptions = [
