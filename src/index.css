@@ -789,18 +789,14 @@ button {
   inset: 0;
   z-index: 60;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding-top: 0;
+  align-items: center;
+  justify-content: center;
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(5px);
 }
 
 .new-loan-modal {
-  position: fixed;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   width: 528px;
   height: 744px;
   display: flex;
