@@ -912,6 +912,15 @@ button {
   font-size: 0.84rem;
 }
 
+.form-field > span {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0px;
+  color: #282828;
+}
+
 .form-field input {
   height: 48px;
   width: 100%;
