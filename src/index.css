@@ -1337,7 +1337,7 @@ button {
 }
 
 .request-submitted-modal {
-  width: 472px;
+  width: 477px;
   height: 408px;
   display: flex;
   flex-direction: column;
@@ -1345,7 +1345,7 @@ button {
   justify-content: flex-start;
   gap: 40px;
   padding: 40px 46.5px 36px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 10px;
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(20px);
@@ -1394,7 +1394,7 @@ button {
 }
 
 .changes-saved-modal {
-  width: 472px;
+  width: 477px;
   height: 408px;
   min-height: 408px;
   justify-content: flex-start;
@@ -1511,7 +1511,7 @@ button {
 }
 
 .application-cancelled-modal {
-  width: 472px;
+  width: 477px;
   height: 408px;
   display: flex;
   flex-direction: column;
@@ -1519,9 +1519,11 @@ button {
   justify-content: flex-start;
   gap: 40px;
   padding: 40px 46.5px 36px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 10px;
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   text-align: center;
   box-sizing: border-box;
   z-index: 70;
