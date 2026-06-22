@@ -1,0 +1,382 @@
+.loan-workspace {
+  margin: 48px 38px 0;
+  min-height: calc(100vh - 260px);
+  background: #ffffff;
+  border: 0;
+  padding: 0 0 48px;
+}
+
+.loan-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 0 36px;
+}
+
+.loan-header h2 {
+  margin: 0;
+  color: #2b2d31;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.loan-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #6b7280;
+  font-size: 1.22rem;
+  font-weight: 700;
+}
+
+.loan-filter button,
+.loan-status-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #2b2d31;
+  min-height: 60px;
+  padding: 0 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loan-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.loan-stat-card {
+  min-height: 150px;
+  padding: 26px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.loan-stat-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #64748b;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.loan-stat-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.loan-stat-value-row strong {
+  color: #2b2d31;
+  font-size: 2rem;
+}
+
+.loan-stat-value-row span {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #22c55e;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.loan-history-bar {
+  display: grid;
+  grid-template-columns: auto minmax(280px, 330px) 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 30px 30px 28px;
+  border: 1px solid #dbe3ef;
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: #ffffff;
+}
+
+.loan-history-bar h3 {
+  margin: 0;
+  color: #2b2d31;
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+
+.loan-history-search {
+  height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #9ca3af;
+}
+
+.loan-history-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  color: #2b2d31;
+  font-size: 1.05rem;
+}
+
+.loan-status-button {
+  grid-column: 4;
+}
+
+.new-loan-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 62px;
+  padding: 0 24px;
+  border-radius: 6px;
+  background: #1558f6;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 10px 22px rgba(21, 88, 246, 0.22);
+  border: none;
+  cursor: pointer;
+}
+
+.loan-empty-state {
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #2b2d31;
+  text-align: center;
+}
+
+.loan-empty-state strong {
+  margin-top: 24px;
+  font-size: 1.1rem;
+}
+
+.loan-empty-state p {
+  margin: 8px 0 0;
+  color: #6b7280;
+}
+
+.loan-empty-icon {
+  position: relative;
+  width: 220px;
+  height: 239px;
+}
+
+.loan-empty-illustration {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.loan-table-wrap {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #dbe3ef;
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  padding: 0 30px 72px;
+  background: #ffffff;
+}
+
+.loan-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #1f2937;
+  font-size: 16px;
+}
+
+.loan-history-table thead {
+  background: #eaf2ff;
+}
+
+.loan-history-table th,
+.loan-history-table td {
+  padding: 22px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eef2f6;
+  vertical-align: middle;
+}
+
+.loan-history-table th {
+  font-weight: 700;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.loan-history-table td:nth-child(2) {
+  font-weight: 700;
+  color: #111827;
+}
+
+.repayment-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fef3c7;
+  color: #d97706;
+  border: none;
+}
+
+.repayment-status.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.repayment-status.cancelled,
+.repayment-status.rejected {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.repayment-status.completed {
+  background: #e8f7ee;
+  color: #22c55e;
+}
+
+.repayment-status.ongoing {
+  background: #eaf2ff;
+  color: #1558bd;
+}
+
+.loan-action-button {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.loan-action-button span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #2b2d31;
+}
+
+.loan-action-cell {
+  position: relative;
+}
+
+.loan-action-menu {
+  position: absolute;
+  top: 38px;
+  right: 8px;
+  z-index: 8;
+  width: 150px;
+  padding: 8px 0;
+  border: 1px solid #edf0f4;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.16);
+}
+
+.loan-action-menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #ffffff;
+  color: #2b2d31;
+  text-align: left;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+}
+
+.loan-action-menu button:hover {
+  background: #f3f4f6;
+}
+
+.loan-action-menu .danger-action {
+  color: #ef4444;
+}
+
+.action-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  position: relative;
+  color: currentColor;
+}
+
+.document-icon {
+  border: 1.8px solid currentColor;
+  border-radius: 2px;
+}
+
+.document-icon::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -1px;
+  width: 5px;
+  height: 5px;
+  border-left: 1.8px solid currentColor;
+  border-bottom: 1.8px solid currentColor;
+  background: #ffffff;
+}
+
+.edit-icon::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 7px;
+  width: 13px;
+  height: 3px;
+  border: 1.8px solid currentColor;
+  border-radius: 999px;
+  transform: rotate(-45deg);
+}
+
+.cancel-icon {
+  border: 1.8px solid currentColor;
+  border-radius: 50%;
+}
+
+.cancel-icon::before,
+.cancel-icon::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 5px;
+  width: 6px;
+  height: 1.6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.cancel-icon::before {
+  transform: rotate(45deg);
+}
+
+.cancel-icon::after {
+  transform: rotate(-45deg);
+}

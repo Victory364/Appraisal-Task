@@ -1,0 +1,507 @@
+.loan-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.details-overlay {
+  align-items: center;
+  justify-content: center;
+  padding-top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.loan-details-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 528px;
+  height: 744px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 0.5px solid rgba(15, 23, 42, 0.18);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.24);
+}
+
+.loan-details-header {
+  width: 100%;
+  height: 78px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: #1b5fc1;
+  border-bottom: 0.5px solid rgba(15, 23, 42, 0.18);
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.loan-details-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+}
+
+.loan-details-title h2 {
+  margin: 0;
+  font-family: Rubik, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.new-loan-close {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+.new-loan-close svg {
+  width: 22px;
+  height: 22px;
+}
+
+.loan-details-body {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px 16px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #dbe3ef transparent;
+}
+
+.loan-details-body::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+  display: block !important;
+}
+
+.loan-details-body::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.loan-details-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 99px !important;
+}
+
+.loan-details-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8 !important;
+}
+
+.borrower-row {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.borrower-avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.borrower-row strong {
+  display: block;
+  color: #2b2d31;
+  font-size: 0.85rem;
+}
+
+.borrower-row span {
+  color: #6b7280;
+  font-size: 0.7rem;
+}
+
+.active-pill {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #22c55e !important;
+  font-weight: 700;
+  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.active-pill.ongoing {
+  background: #eaf2ff;
+  color: #1558bd !important;
+}
+
+.active-pill.ongoing::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #1558bd;
+}
+
+.active-pill.rejected {
+  background: #fee2e2;
+  color: #ef4444 !important;
+}
+
+.active-pill.completed {
+  background: #dcfce7;
+  color: #22c55e !important;
+}
+
+.active-pill.pending {
+  background: #fef3c7;
+  color: #d97706 !important;
+}
+
+.loan-detail-summary {
+  width: 100%;
+  min-height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 0;
+  padding: 16px 18px;
+  border-radius: 8px;
+  background: #f5f6f8;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.loan-detail-summary div {
+  flex: 1;
+  display: grid;
+  gap: 5px;
+  text-align: left;
+}
+
+.loan-detail-summary div + div {
+  border-left: 0;
+}
+
+.loan-detail-summary strong {
+  color: #000000;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.loan-detail-summary span {
+  color: #7d8085;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.approval-info-panel {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 0.5px solid #eaeaea;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.details-section-title {
+  min-height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: #2b2d31;
+  text-align: left;
+  cursor: pointer;
+}
+
+.approval-info-panel .details-section-title {
+  width: 100%;
+  min-height: 54px;
+  height: 54px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px 20px;
+  border: 0;
+  border-bottom: 1px solid #eaeaea;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: #f3f2f2;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.approval-info-panel .details-section-title strong {
+  color: #1f2937;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 140%;
+}
+
+.approval-info-panel .details-section-title .section-chevron {
+  display: none;
+}
+
+.section-chevron {
+  transition: transform 0.2s ease;
+}
+
+.section-chevron.open {
+  transform: rotate(180deg);
+}
+
+.approval-info-grid {
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  padding: 8px 20px;
+}
+
+.approval-info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  padding: 18px 0;
+}
+
+.approval-info-row:not(:last-child) {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.approval-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.approval-info-item span {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 140%;
+}
+
+.approval-info-item strong {
+  color: #17171f;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 140%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loan-details-body h3 {
+  margin: 12px 0 4px;
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.payment-breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+
+.payment-breakdown-table th {
+  padding: 12px 16px;
+  background: #f9fafb;
+  color: #374151;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.payment-breakdown-table td {
+  padding: 16px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #1f2937;
+  vertical-align: middle;
+}
+
+.paid-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #e8f7ee;
+  color: #22c55e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.unpaid-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pending-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #d97706;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rejected-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.breakdown-month {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.breakdown-due-date {
+  color: #4b5563 !important;
+}
+
+.breakdown-amount-paid {
+  font-weight: 700;
+  color: #111827;
+}
+
+.loan-terms-panel {
+  width: 100%;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  overflow: hidden;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.loan-terms-panel .details-section-title {
+  width: 100%;
+  min-height: 52px;
+  height: 52px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 18px;
+  border: 0;
+  border-bottom: 1px solid #eaeaea;
+  border-radius: 8px;
+  background: #f7f8fa;
+  box-sizing: border-box;
+}
+
+.loan-terms-panel .details-section-title[aria-expanded='true'] {
+  border-radius: 8px 8px 0 0;
+}
+
+.loan-terms-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 12px 18px;
+  background: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.loan-terms-grid div {
+  display: grid;
+  gap: 5px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.loan-terms-grid div:last-child {
+  border-bottom: none;
+}
+
+.loan-terms-full-row {
+  grid-column: 1 / -1;
+  border-top: 1px solid #eef0f3;
+  margin-top: 4px;
+  padding-top: 12px !important;
+}
+
+.loan-terms-grid span {
+  color: #6b7280;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.loan-terms-grid strong {
+  color: #2b2d31;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.green-balance {
+  color: #16a34a !important;
+  font-size: 0.92rem !important;
+}
+
+.loan-details-footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 24px;
+  border-top: 1px solid #edf0f4;
+}
+
+.report-close-button {
+  min-width: 132px;
+  padding: 14px 22px;
+  border-radius: 6px;
+  background: #eaf2ff;
+  color: #1558bd;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}

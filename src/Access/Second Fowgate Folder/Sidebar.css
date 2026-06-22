@@ -1,0 +1,353 @@
+/* =============================================================================
+   Sidebar.css
+   -----------------------------------------------------------------------------
+   Styles for the Fowgate left navigation sidebar.
+   The sidebar is fixed-positioned on the left edge of the viewport so it
+   stays visible as the page content scrolls.
+
+   Visual layout (top to bottom):
+     1. Fowgate logo + fading divider line
+     2. Nav groups — each has a grey uppercase title and a list of items
+     3. Subtle horizontal divider between groups
+     4. Active item — white left-border + bold white text + brighter icon
+
+   Dark gradient background (#292929 → #111111) gives it a premium, modern
+   look that contrasts clearly with the white content area on the right.
+============================================================================= */
+
+
+/* =============================================================================
+   1. SIDEBAR CONTAINER
+   -----------------------------------------------------------------------------
+   The <aside> element itself. Fixed position means it does NOT scroll with the
+   page — it stays pinned to the left edge at all times.
+
+   The gradient goes from charcoal (#292929) at the top to near-black (#111111)
+   at the bottom, giving depth without being flat.
+
+   overflow-y: auto allows the nav list to scroll if there are many items, while
+   overflow-x: hidden prevents any content from peeking outside the sidebar width.
+
+   The thin right border (--border-muted) is a semi-transparent white line that
+   creates a subtle visual separation from the white main content area.
+============================================================================= */
+.fowgate-sidebar {
+  /* Size — matches the margin-left on .dashboard-main-area in index.css */
+  width: 250px;
+  flex: 0 0 250px;        /* fixed width — never grow or shrink in flex layout */
+
+  /* Full height — sidebar covers the entire viewport height */
+  height: 100vh;
+  max-height: 100vh;
+
+  /* Shape */
+  border-radius: 10px 0 0 10px; /* only rounds the top-left / bottom-left corners */
+  background: linear-gradient(180deg, #292929 0%, #111111 100%);
+
+  /* Positioning — fixed so it stays in place while content scrolls */
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;  /* above all page content but below modals */
+
+  /* Internal layout — flex column so logo, divider, and nav stack vertically */
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0;          /* vertical breathing room, no horizontal padding here */
+  box-sizing: border-box;
+
+  /* Scrolling — horizontal hidden, vertical auto for very long nav lists */
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  /* Right-edge separator from the white page content */
+  border-right: 1px solid var(--border-muted);
+}
+
+
+/* =============================================================================
+   2. CUSTOM SCROLLBAR
+   -----------------------------------------------------------------------------
+   When the nav list is taller than the viewport the sidebar scrolls vertically.
+   The default browser scrollbar is too prominent on a dark background, so we
+   replace it with a very thin, semi-transparent white track that fades nicely.
+   ::-webkit-scrollbar targets Chrome, Safari, and Chromium-based Edge.
+============================================================================= */
+.fowgate-sidebar::-webkit-scrollbar {
+  width: 4px;  /* 4 px is barely visible but still usable */
+}
+.fowgate-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1); /* very faint white thumb */
+  border-radius: 2px;
+}
+
+
+/* =============================================================================
+   3. SIDEBAR LOGO AREA
+   -----------------------------------------------------------------------------
+   The Fowgate logo sits at the very top of the sidebar inside this container.
+   The bottom padding + margin create spacing between the logo and the first
+   nav group below it.
+
+   The ::after pseudo-element draws the fading horizontal line under the logo.
+   Using a gradient (transparent → white → transparent) gives it a soft glow
+   effect rather than a hard border.
+============================================================================= */
+.sidebar-logo-container {
+  padding: 0 24px 28px;  /* left/right padding aligns with nav items below */
+  margin-bottom: 24px;
+  position: relative;    /* needed so ::after can be absolutely positioned */
+}
+
+/* Fading gradient line beneath the logo area */
+.sidebar-logo-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  /* Fades from transparent on the left → 38% white in the middle → transparent */
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.38),
+    transparent
+  );
+}
+
+/* The actual <img> tag containing the Fowgate wordmark */
+.sidebar-logo-img {
+  display: block;
+  max-width: 160px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  /* Blue glow shadow under the logo — reinforces the Fowgate brand colour */
+  box-shadow: 0 4px 14px rgba(0, 76, 255, 0.35);
+}
+
+
+/* =============================================================================
+   4. HORIZONTAL DIVIDER
+   -----------------------------------------------------------------------------
+   Separates nav groups from each other and from the logo area.
+   Same fading gradient technique as the logo ::after — soft and premium-looking
+   compared to a plain solid line.
+============================================================================= */
+.sidebar-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  margin-bottom: 24px; /* space below the divider before the next nav group */
+}
+
+
+/* =============================================================================
+   5. NAV GROUP  (e.g. "GENERAL", "COLLABORATION", "HCM", "OPERATIONS")
+   -----------------------------------------------------------------------------
+   Each section of the sidebar is a .sidebar-nav-group containing:
+     • A .group-header label (the uppercase section title)
+     • A .sidebar-menu-list with the clickable nav items
+
+   The ::after pseudo-element draws the same fading line at the bottom of every
+   group (the actual <div class="sidebar-divider"> handles the between-group
+   spacing; the ::after is just for the bottom edge of the group area itself).
+============================================================================= */
+.sidebar-nav-group {
+  position: relative;  /* needed for the ::after line positioning */
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+}
+
+/* Remove extra top padding when consecutive groups follow each other */
+.sidebar-nav-group + .sidebar-nav-group {
+  padding-top: 0;
+}
+
+/* Fading bottom border for each nav group */
+.sidebar-nav-group::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.38),
+    transparent
+  );
+}
+
+/* The uppercase grey section label (e.g. "GENERAL") */
+.group-header {
+  width: 69px;
+  height: 20px;
+  font-family: 'Rubik', var(--font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+  text-transform: uppercase;   /* forces label to always display uppercase */
+  color: #bdbdbd;              /* medium grey — secondary to the white item text */
+  letter-spacing: 0.05em;     /* slight letter-spacing for the uppercase label */
+  padding: 0 24px;
+  margin-bottom: 12px;         /* space between the label and the first item */
+  white-space: nowrap;
+}
+
+
+/* =============================================================================
+   6. MENU ITEM LIST & LINKS
+   -----------------------------------------------------------------------------
+   The <ul> + <li> + <a> structure for each nav item.
+   The <ul> removes default list bullets and resets spacing.
+   Each <a> is a flex row: icon on the left, label text on the right.
+
+   The border-left: 3px solid transparent is pre-placed on every link so
+   the active state can switch it to white without causing a layout shift
+   (the 3px space is always reserved).
+============================================================================= */
+
+/* <ul> wrapper — plain flex column of items */
+.sidebar-menu-list {
+  list-style: none;    /* remove default bullet points */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;            /* 4 px between each nav item */
+  padding: 0;
+  margin: 0;
+}
+
+/* <a> link — the clickable area for each nav item */
+.menu-item-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;            /* space between icon and text label */
+  padding: 11px 24px;  /* matches left-padding of group-header for alignment */
+  color: #a3a3a3;      /* muted grey text for inactive items */
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  /* Reserve the 3px left-border space so active state doesn't cause a shift */
+  border-left: 3px solid transparent;
+}
+
+/* Prevent the label text from wrapping onto a second line */
+.menu-item-link span {
+  white-space: nowrap;
+}
+
+/* Hover — brightens text and adds a very faint white background tint */
+.menu-item-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Icon inside a nav item (SVG or IMG element) */
+.menu-item-link svg,
+.menu-item-link img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;                         /* slightly faded when inactive */
+  filter: brightness(0) invert(1);      /* converts any colour icon → pure white */
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+/* On hover, icon becomes fully bright */
+.menu-item-link:hover svg,
+.menu-item-link:hover img {
+  opacity: 1;
+  filter: brightness(0) invert(1);
+}
+
+
+/* =============================================================================
+   7. ACTIVE / SELECTED STATE
+   -----------------------------------------------------------------------------
+   Applied to the <li> whose item.name === the activeItem prop.
+   The white left border (3px solid #fff) is the key visual indicator —
+   it's the same technique used in many modern sidebars to show "you are here".
+   The slight white-tinted background (7% opacity) adds depth without distraction.
+============================================================================= */
+
+/* Active link — white text, white left-border, slight background tint */
+.sidebar-menu-item.active .menu-item-link {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07); /* barely-visible white background */
+  font-weight: 600;                       /* bolder than inactive items */
+  border-left: 3px solid #ffffff;         /* the "you are here" indicator */
+}
+
+/* Active icon — fully bright, full white */
+.sidebar-menu-item.active .menu-item-link svg,
+.sidebar-menu-item.active .menu-item-link img {
+  opacity: 1;
+  color: #ffffff;
+  filter: brightness(0) invert(1);
+}
+
+
+/* =============================================================================
+   8. RESPONSIVE OVERRIDES
+   -----------------------------------------------------------------------------
+   On smaller desktop widths the sidebar shrinks. The corresponding
+   .dashboard-main-area margin-left values in index.css must always match
+   these sidebar widths or content will overlap the sidebar.
+============================================================================= */
+
+/* Tablet-landscape / smaller laptop (901 px – 1366 px): 250 px → 224 px */
+@media (max-width: 1366px) and (min-width: 901px) {
+  .fowgate-sidebar {
+    width: 224px;
+    flex-basis: 224px;
+  }
+
+  /* Reduce inner padding so items don't wrap at the smaller width */
+  .sidebar-logo-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .menu-item-link {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* Slightly smaller logo image */
+  .sidebar-logo-img {
+    max-width: 145px;
+  }
+}
+
+/* Narrow laptop (901 px – 1180 px): further shrink to 208 px */
+@media (max-width: 1180px) and (min-width: 901px) {
+  .fowgate-sidebar {
+    width: 208px;
+    flex-basis: 208px;
+  }
+
+  /* Tighter icon-to-text gap and smaller font at this width */
+  .menu-item-link {
+    gap: 7px;
+    font-size: 13px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .group-header {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .sidebar-logo-img {
+    max-width: 132px;
+  }
+}

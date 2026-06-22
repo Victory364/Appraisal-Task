@@ -1,0 +1,126 @@
+.topbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(460px, 535px) minmax(180px, 1fr);
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  padding: 36px 38px 32px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.topbar-left {
+  min-width: 0;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 2.15rem;
+  font-weight: 700;
+}
+
+.topbar-search {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 74px;
+  padding: 0 28px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: none;
+  min-width: 460px;
+  width: 100%;
+}
+
+.search-icon {
+  color: #94a3b8;
+}
+
+.search-field input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  color: #0f172a;
+}
+
+.icon-button,
+.avatar-button {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: none;
+  color: #0f172a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px;
+}
+
+.avatar-button {
+  gap: 8px;
+}
+
+.notification-button {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+}
+
+.notification-button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.notification-button span {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid #ffffff;
+}
+
+.avatar-badge {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #3565d8;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar-actions {
+    justify-content: flex-start;
+  }
+
+  .search-field {
+    min-width: 0;
+  }
+}
