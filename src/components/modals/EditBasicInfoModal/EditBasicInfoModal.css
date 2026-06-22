@@ -1,0 +1,148 @@
+.edit-basic-info-modal {
+  width: 528px !important;
+  /* Use auto height or up to max-height, but user said 'use the same height' as Add Expense Claim which is min(704px, calc(100vh - 48px)) */
+  height: 704px !important;
+  max-height: calc(100vh - 48px);
+}
+
+.edit-basic-info-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.edit-basic-info-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.edit-basic-info-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.edit-basic-info-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #292929;
+  font-family: 'Rubik', var(--font-family);
+}
+
+.edit-basic-info-input,
+.edit-basic-info-select {
+  width: 100%;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  color: #1e293b;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-input:focus,
+.edit-basic-info-select:focus {
+  border-color: #1f66c7;
+}
+
+/* Mobile Number Group */
+.edit-basic-info-mobile-group {
+  display: flex;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-mobile-group:focus-within {
+  border-color: #1f66c7;
+}
+
+.edit-basic-info-country-code {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-right: 1px solid #d9dfe8;
+  background-color: transparent;
+  color: #1e293b;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.edit-basic-info-country-flag {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-basic-info-country-flag::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 30%;
+  right: 30%;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-mobile-input {
+  flex: 1;
+  border: none;
+  height: 100%;
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  color: #1e293b;
+  font-family: var(--font-family);
+}
+
+/* Date Input */
+.edit-basic-info-date-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.edit-basic-info-date-input {
+  width: 100%;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  font-size: 14px;
+  padding: 0 42px 0 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-date-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}

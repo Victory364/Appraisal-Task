@@ -11,17 +11,17 @@
 
 import { useState } from 'react';
 import './MyAppraisalsPage.css';
-import AppraisalReport from './modals/AppraisalReport';
+import AppraisalReport from '../modals/AppraisalReport/AppraisalReport';
 
-import searchIcon from '../assets/Fowgate Folder/search-normal.svg';
-import locationIcon from '../assets/Fowgate Folder/location.svg';
-import downloadIcon from '../assets/Fowgate Folder/download-04.svg';
-import fullStarIcon from '../assets/Fowgate Folder/Full start.svg';
-import halfStarIcon from '../assets/Fowgate Folder/Hlaf star.svg';
-import noStarIcon from '../assets/Fowgate Folder/No star.svg';
-import successIcon from '../assets/Fowgate Folder/Check for success page.svg';
-import helpIcon from '../assets/Fowgate Folder/help-circle.svg';
-import InfoIcon from '../assets/Fowgate Folder/Info.svg';
+import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
+import locationIcon from '../../assets/Fowgate Folder/location.svg';
+import downloadIcon from '../../assets/Fowgate Folder/download-04.svg';
+import fullStarIcon from '../../assets/Fowgate Folder/Full start.svg';
+import halfStarIcon from '../../assets/Fowgate Folder/Hlaf star.svg';
+import noStarIcon from '../../assets/Fowgate Folder/No star.svg';
+import successIcon from '../../assets/Fowgate Folder/Check for success page.svg';
+import helpIcon from '../../assets/Fowgate Folder/help-circle.svg';
+import InfoIcon from '../../assets/Fowgate Folder/Info.svg';
 
 
 

@@ -30,11 +30,11 @@
 // Component-scoped styles — header layout, search bar, bell, profile, tabs
 import { useState } from 'react';
 import './Header.css';
-import NotificationPanel from './modals/NotificationPanel';
+import NotificationPanel from '../modals/NotificationPanel/NotificationPanel';
 
 // Search and bell icon assets imported from the shared Fowgate asset folder
-import searchIcon from '../assets/Fowgate Folder/search-normal.svg';
-import bellIcon   from '../assets/Fowgate Folder/Group 1226.svg';
+import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
+import bellIcon   from '../../assets/Fowgate Folder/Group 1226.svg';
 
 
 export default function Header({ activeTab = 'Expense Claims', onTabChange }) {

@@ -25,12 +25,12 @@
 
 // Layout components — each lives in its own file inside /components
 import { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
+import Sidebar from './components/Sidebar/Sidebar';
+import Header from './components/Header/Header';
 
 // The main feature pages
-import ExpenseClaimsPage from './components/ExpenseClaimsPage';
-import MyAppraisalsPage from './components/MyAppraisalsPage';
+import ExpenseClaimsPage from './components/ExpenseClaimsPage/ExpenseClaimsPage';
+import MyAppraisalsPage from './components/MyAppraisalsPage/MyAppraisalsPage';
 
 // App-level CSS (currently just a comment; global styles live in index.css)
 import './App.css';

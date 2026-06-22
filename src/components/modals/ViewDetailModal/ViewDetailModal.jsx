@@ -1,8 +1,8 @@
-import './ModalBase.css';
+import '../ModalBase/ModalBase.css';
 import './ViewDetailModal.css';
-import viewDetailIcon from '../../assets/Fowgate Folder/file-02.svg';
-import AttachmentIcon from './AttachmentIcon';
-import { formatAttachmentDate, formatFileSize } from './attachmentUtils';
+import viewDetailIcon from '../../../assets/Fowgate Folder/file-02.svg';
+import AttachmentIcon from '../AttachmentIcon/AttachmentIcon';
+import { formatAttachmentDate, formatFileSize } from '../attachmentUtils';
 
 export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
   const dateCreated = claim.dateCreated || claim.date || '-';

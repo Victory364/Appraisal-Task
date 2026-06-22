@@ -1,7 +1,7 @@
-import './ModalBase.css';
+import '../ModalBase/ModalBase.css';
 import './ClaimStatusModal.css';
-import confirmIcon from '../../assets/Fowgate Folder/help-circle.svg';
-import successIllustration from '../../assets/Fowgate Folder/Check for success page.svg';
+import confirmIcon from '../../../assets/Fowgate Folder/help-circle.svg';
+import successIllustration from '../../../assets/Fowgate Folder/Check for success page.svg';
 
 export function SubmitConfirmModal({ modalMode, onCancel, onConfirm }) {
   const message = modalMode === 'edit'

@@ -1,7 +1,7 @@
-import { getFileExtension } from './attachmentUtils';
+import { getFileExtension } from '../attachmentUtils';
 
-import pdfIcon from '../../assets/Fowgate Folder/pdf-file-svgrepo-com 1.svg';
-import jgpIcon from '../../assets/Fowgate Folder/jpg-svgrepo-com 1.svg'
+import pdfIcon from '../../../assets/Fowgate Folder/pdf-file-svgrepo-com 1.svg';
+import jgpIcon from '../../../assets/Fowgate Folder/jpg-svgrepo-com 1.svg'
 
 
 export default function AttachmentIcon({ file }) {

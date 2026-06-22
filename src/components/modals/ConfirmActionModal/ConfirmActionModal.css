@@ -1,0 +1,30 @@
+.confirm-action-modal {
+  width: 528px !important;
+  height: auto !important;
+  max-height: calc(100vh - 48px);
+}
+
+.confirm-action-body {
+  padding: 24px;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.confirm-action-btn-yes {
+  background-color: #f4f8ff;
+  color: #1f66c7;
+  border: none;
+  border-radius: 6px;
+  padding: 0 24px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: var(--font-family);
+}
+
+.confirm-action-btn-yes:hover {
+  background-color: #e0edff;
+}

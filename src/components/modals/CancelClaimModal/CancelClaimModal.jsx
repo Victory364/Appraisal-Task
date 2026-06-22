@@ -1,7 +1,7 @@
-import './ModalBase.css';
+import '../ModalBase/ModalBase.css';
 import './CancelClaimModal.css';
-import confirmIcon from '../../assets/Fowgate Folder/help-circle.svg';
-import successIllustration from '../../assets/Fowgate Folder/Check for success page.svg';
+import confirmIcon from '../../../assets/Fowgate Folder/help-circle.svg';
+import successIllustration from '../../../assets/Fowgate Folder/Check for success page.svg';
 
 export default function CancelClaimModal({
   cancelStatus,

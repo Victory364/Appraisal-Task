@@ -17,14 +17,14 @@
 
 import { useState } from 'react';
 import './NotificationPanel.css';
-import CalendarIcon from '../../assets/Fowgate Folder/Calendar.svg';
-import CheckMarkIcon from '../../assets/Fowgate Folder/checkmark-circle-04.svg';
-import DocumentIcon from '../../assets/Fowgate Folder/document-svgrepo-com-3 1.svg'
-import GoogleMeetIcon from '../../assets/Fowgate Folder/google-meet-svgrepo-com 1.svg'
-import PdfIcon from '../../assets/Fowgate Folder/pdf-file-svgrepo-com 1.svg'
-import SettingsIcon from '../../assets/Fowgate Folder/Settings.svg'
+import CalendarIcon from '../../../assets/Fowgate Folder/Calendar.svg';
+import CheckMarkIcon from '../../../assets/Fowgate Folder/checkmark-circle-04.svg';
+import DocumentIcon from '../../../assets/Fowgate Folder/document-svgrepo-com-3 1.svg'
+import GoogleMeetIcon from '../../../assets/Fowgate Folder/google-meet-svgrepo-com 1.svg'
+import PdfIcon from '../../../assets/Fowgate Folder/pdf-file-svgrepo-com 1.svg'
+import SettingsIcon from '../../../assets/Fowgate Folder/Settings.svg'
 
-// import halfStarIcon from '../../assets/Fowgate Folder/Hlaf star.svg';
+// import halfStarIcon from '../../../assets/Fowgate Folder/Hlaf star.svg';
 
 // ── Static notification data ──────────────────────────────────────────────────
 const INBOX_NOTIFICATIONS = [

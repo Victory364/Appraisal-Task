@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import fullStarIcon from '../../assets/Fowgate Folder/Full start.svg';
-import halfStarIcon from '../../assets/Fowgate Folder/Hlaf star.svg';
-import arrowDownIcon from '../../assets/Fowgate Folder/arrow-down-01.svg';
+import fullStarIcon from '../../../assets/Fowgate Folder/Full start.svg';
+import halfStarIcon from '../../../assets/Fowgate Folder/Hlaf star.svg';
+import arrowDownIcon from '../../../assets/Fowgate Folder/arrow-down-01.svg';
 import './AppraisalReport.css';
 
 // Returns the correct star icon: full star for 5, half star for anything under 5

@@ -1,9 +1,9 @@
-import './ModalBase.css';
+import '../ModalBase/ModalBase.css';
 import './AddEditClaimModal.css';
-import calendarIcon from '../../assets/Fowgate Folder/calendar-03.svg';
-import fileUpload from '../../assets/Fowgate Folder/file-upload.svg';
-import AttachmentIcon from './AttachmentIcon';
-import { getAttachmentMeta } from './attachmentUtils';
+import calendarIcon from '../../../assets/Fowgate Folder/calendar-03.svg';
+import fileUpload from '../../../assets/Fowgate Folder/file-upload.svg';
+import AttachmentIcon from '../AttachmentIcon/AttachmentIcon';
+import { getAttachmentMeta } from '../attachmentUtils';
 
 const todayKey = (() => {
   const t = new Date();

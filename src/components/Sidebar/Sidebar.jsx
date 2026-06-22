@@ -42,21 +42,21 @@ import './Sidebar.css';
 // ── Icon Assets ────────────────────────────────────────────────────────────
 // Each icon is an SVG imported as a URL string by Vite.
 // They are rendered white by CSS filter: brightness(0) invert(1) in Sidebar.css.
-import fowgateLogo    from '../assets/Fowgate Folder/fowgate logo.png';
-import dashboardIcon  from '../assets/Fowgate Folder/category.svg';
-import userIcon       from '../assets/Fowgate Folder/user.svg';
-import messageIcon    from '../assets/Fowgate Folder/Frame.svg';
-import briefcaseIcon  from '../assets/Fowgate Folder/briefcase-01.svg';
-import checkCircleIcon from '../assets/Fowgate Folder/Frame-1.svg';
-import calendarIcon   from '../assets/Fowgate Folder/calendar-03.svg';
-import searchUserIcon from '../assets/Fowgate Folder/user-star-02.svg';
-import usersIcon      from '../assets/Fowgate Folder/user-group.svg';
-import payrollIcon    from '../assets/Fowgate Folder/calculator-01.svg';
-import shieldIcon     from '../assets/Fowgate Folder/Frame-2.svg';
-import chartIcon      from '../assets/Fowgate Folder/Frame-3.svg';
-import reportIcon     from '../assets/Fowgate Folder/pie-chart.svg';
-import buildingIcon   from '../assets/Fowgate Folder/document-attachment.svg';
-import appraisalIcon  from '../assets/Fowgate Folder/Full start.svg';
+import fowgateLogo    from '../../assets/Fowgate Folder/fowgate logo.png';
+import dashboardIcon  from '../../assets/Fowgate Folder/category.svg';
+import userIcon       from '../../assets/Fowgate Folder/user.svg';
+import messageIcon    from '../../assets/Fowgate Folder/Frame.svg';
+import briefcaseIcon  from '../../assets/Fowgate Folder/briefcase-01.svg';
+import checkCircleIcon from '../../assets/Fowgate Folder/Frame-1.svg';
+import calendarIcon   from '../../assets/Fowgate Folder/calendar-03.svg';
+import searchUserIcon from '../../assets/Fowgate Folder/user-star-02.svg';
+import usersIcon      from '../../assets/Fowgate Folder/user-group.svg';
+import payrollIcon    from '../../assets/Fowgate Folder/calculator-01.svg';
+import shieldIcon     from '../../assets/Fowgate Folder/Frame-2.svg';
+import chartIcon      from '../../assets/Fowgate Folder/Frame-3.svg';
+import reportIcon     from '../../assets/Fowgate Folder/pie-chart.svg';
+import buildingIcon   from '../../assets/Fowgate Folder/document-attachment.svg';
+import appraisalIcon  from '../../assets/Fowgate Folder/Full start.svg';
 
 
 // ── Icon Lookup Map ────────────────────────────────────────────────────────

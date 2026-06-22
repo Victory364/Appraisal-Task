@@ -1,21 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import './ExpenseClaimsPage.css';
-import fileIllustration from '../assets/Fowgate Folder/File Illustration.svg';
-import plusIcon from '../assets/Fowgate Folder/add-01.svg';
-import AddEditClaimModal from './modals/AddEditClaimModal';
-import CancelClaimModal from './modals/CancelClaimModal';
-import { ClaimSuccessModal, SubmitConfirmModal } from './modals/ClaimStatusModal';
-import ViewDetailModal from './modals/ViewDetailModal';
-import { getAttachmentMeta } from './modals/attachmentUtils';
+import fileIllustration from '../../assets/Fowgate Folder/File Illustration.svg';
+import plusIcon from '../../assets/Fowgate Folder/add-01.svg';
+import AddEditClaimModal from '../modals/AddEditClaimModal/AddEditClaimModal';
+import CancelClaimModal from '../modals/CancelClaimModal/CancelClaimModal';
+import { ClaimSuccessModal, SubmitConfirmModal } from '../modals/ClaimStatusModal/ClaimStatusModal';
+import ViewDetailModal from '../modals/ViewDetailModal/ViewDetailModal';
+import { getAttachmentMeta } from '../modals/attachmentUtils';
 
 // Custom calendar and metric card icons
-import calendarIcon from '../assets/Fowgate Folder/calendar-03.svg';
-import totalClaimsIcon from '../assets/Fowgate Folder/Total claims.svg';
-import totalReimbursedIcon from '../assets/Fowgate Folder/Total reimbursed.svg';
-import balanceToReimburseIcon from '../assets/Fowgate Folder/Balance to Reimburse.svg';
-import totalNumberClaimsIcon from '../assets/Fowgate Folder/user-multiple-02.svg';
-import searchIcon from '../assets/Fowgate Folder/search-normal.svg';
-import arrowUpRight from '../assets/Fowgate Folder/arrow-up-right-03.svg';
+import calendarIcon from '../../assets/Fowgate Folder/calendar-03.svg';
+import totalClaimsIcon from '../../assets/Fowgate Folder/Total claims.svg';
+import totalReimbursedIcon from '../../assets/Fowgate Folder/Total reimbursed.svg';
+import balanceToReimburseIcon from '../../assets/Fowgate Folder/Balance to Reimburse.svg';
+import totalNumberClaimsIcon from '../../assets/Fowgate Folder/user-multiple-02.svg';
+import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
+import arrowUpRight from '../../assets/Fowgate Folder/arrow-up-right-03.svg';
 
 
 export default function ExpenseClaimsPage() {

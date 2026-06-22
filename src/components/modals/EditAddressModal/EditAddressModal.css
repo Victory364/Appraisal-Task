@@ -1,0 +1,59 @@
+.edit-address-modal {
+  width: 528px !important;
+  height: 704px !important;
+  max-height: calc(100vh - 48px);
+}
+
+.edit-address-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.edit-address-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.edit-address-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.edit-address-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #292929;
+  font-family: 'Rubik', var(--font-family);
+}
+
+.edit-address-input,
+.edit-address-select {
+  width: 100%;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  color: #1e293b;
+  background-color: #ffffff;
+}
+
+.edit-address-input:focus,
+.edit-address-select:focus {
+  border-color: #1f66c7;
+}
+
+.edit-address-input::placeholder {
+  color: #94a3b8;
+}
