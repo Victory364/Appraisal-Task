@@ -57,12 +57,13 @@ export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
     'Calendar',
     'Leave Applications',
     'Paystub',
-    'My Timesheet',
-    'My Earnings',
-    'My Appraisals',
-    'Expense Claims',    // ← active in this prototype
+    'Timesheet',
+    'Earnings',
+    'Appraisals',
+    'Expense Claims',
     'Loans & Advances',
-    'My Files',
+    'Files',
+    'Cases',
   ];
 
   return (

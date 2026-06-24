@@ -170,8 +170,6 @@ export default function NotificationPanel({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const current = notifications[activeTab];
-  const inboxUnread = notifications.Inbox.filter(n => n.unread).length;
-  const teamsUnread = notifications.Teams.filter(n => n.unread).length;
 
   const markAllRead = () => {
     setNotifications(prev => ({
@@ -204,7 +202,6 @@ export default function NotificationPanel({ isOpen, onClose }) {
         <div className="notif-tabs-row">
           <div className="notif-tabs">
             {['Inbox', 'Teams'].map(tab => {
-              const count = tab === 'Inbox' ? inboxUnread + (INBOX_NOTIFICATIONS.length - inboxUnread) : teamsUnread + (TEAMS_NOTIFICATIONS.length - teamsUnread);
               const displayCount = tab === 'Inbox' ? INBOX_NOTIFICATIONS.length : TEAMS_NOTIFICATIONS.length;
               return (
                 <button

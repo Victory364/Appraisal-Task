@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../ModalBase/ModalBase.css';
 import './UploadImageModal.css';
 import fileIcon from '../../../assets/Fowgate Folder/file-02.svg';
-import fileUploadIcon from '../../../assets/Fowgate Folder/file-upload.svg';
+import fileUploadIcon from '../../../assets/Fowgate Folder/image-upload.svg';
 
 export default function UploadImageModal({ onClose, onUpload }) {
   const [imagePreview, setImagePreview] = useState(null);
@@ -23,7 +23,7 @@ export default function UploadImageModal({ onClose, onUpload }) {
             <img src={fileIcon} alt="File" className="claim-modal-title-icon" />
             Upload Image
           </h3>
-          <button onClick={onClose} className="claim-modal-close">x</button>
+          <button onClick={onClose} className="claim-modal-close">✕</button>
         </div>
 
         <div className="upload-image-body">
@@ -41,7 +41,7 @@ export default function UploadImageModal({ onClose, onUpload }) {
               <>
                 <img src={fileUploadIcon} alt="Upload" className="upload-image-icon" />
                 <div className="upload-image-text">
-                  <span>Click to Upload</span> or drag and drop
+                  <span><a>Click to Upload</a></span> or drag and drop
                 </div>
                 <p className="upload-image-subtext">File must be JPG, PDF or DOC and max of 5MB</p>
               </>

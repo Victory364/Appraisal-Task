@@ -56,7 +56,7 @@ import shieldIcon     from '../../assets/Fowgate Folder/Frame-2.svg';
 import chartIcon      from '../../assets/Fowgate Folder/Frame-3.svg';
 import reportIcon     from '../../assets/Fowgate Folder/pie-chart.svg';
 import buildingIcon   from '../../assets/Fowgate Folder/document-attachment.svg';
-import appraisalIcon  from '../../assets/Fowgate Folder/Full start.svg';
+import settingsIcon   from '../../assets/Fowgate Folder/Settings.svg';
 
 
 // ── Icon Lookup Map ────────────────────────────────────────────────────────
@@ -79,6 +79,7 @@ const icons = {
   chart:       chartIcon,
   building:    buildingIcon,
   report:      reportIcon,
+  settings:    settingsIcon,
 };
 
 
@@ -137,9 +138,10 @@ export default function Sidebar({ activeItem = 'My Account', onNavChange }) {
         { name: 'ATS',                    icon: 'searchUser' }, // Applicant Tracking
         { name: 'Teams',                  icon: 'users' },
         { name: 'Payroll',                icon: 'payroll' },
+        { name: 'Company Calendar',       icon: 'calendar' },
         { name: 'Compliance Management',  icon: 'shield' },
         { name: 'Analysis & Reporting',   icon: 'chart' },
-        { name: 'Company Calendar',       icon: 'calendar' },
+        { name: 'Settings',               icon: 'settings' },
       ],
     },
     {

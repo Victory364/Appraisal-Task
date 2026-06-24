@@ -1,0 +1,850 @@
+/* =============================================================================
+   MyProfilePage.css
+   -----------------------------------------------------------------------------
+   Premium styles for the Fowgate My Profile page.
+   ============================================================================= */
+
+.my-profile-page {
+  width: 100%;
+  padding: 32px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  min-height: calc(100vh - 120px);
+}
+
+.profile-layout-container {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* =============================================================================
+   LEFT SIDEBAR: Profile Card
+   ============================================================================= */
+.profile-sidebar-card {
+  width: 320px;
+  background-color: #ffffff;
+  border: 0.5px solid var(--border-light, #e2e8f0);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.profile-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.profile-avatar-clickable {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: transform 0.2s ease;
+}
+
+.profile-avatar-clickable:hover {
+  transform: scale(1.05);
+}
+
+.profile-avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-avatar-initials {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-size: 28px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background-color: var(--primary-blue, #0f52ba);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(15, 82, 186, 0.3);
+}
+
+.profile-avatar-overlay svg {
+  width: 12px;
+  height: 12px;
+  stroke: #ffffff;
+}
+
+.profile-display-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.profile-display-role {
+  font-size: 13px;
+  font-weight: 400;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.profile-action-buttons {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.profile-btn-edit,
+.profile-btn-resignation {
+  flex: 1;
+  height: 38px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.profile-btn-edit {
+  background-color: #eff6ff;
+  border: none;
+  color: var(--primary-blue, #0f52ba);
+}
+
+.profile-btn-edit:hover {
+  background-color: #dbeafe;
+}
+
+.profile-btn-resignation {
+  background-color: #ffffff;
+  border: 1px solid #f87171;
+  color: #ef4444;
+}
+
+.profile-btn-resignation:hover {
+  background-color: #fef2f2;
+}
+
+.btn-icon-blue {
+  width: 15px;
+  height: 15px;
+}
+
+.btn-icon-red {
+  width: 15px;
+  height: 15px;
+  stroke: #ef4444;
+}
+
+.profile-details-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #f1f5f9;
+  margin-bottom: 20px;
+}
+
+.profile-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.detail-value {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.email-value {
+  word-break: break-all;
+}
+
+.status-pill {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-pill.active {
+  background-color: #e2fbe8;
+  color: #22c55e;
+}
+
+.status-pill.on-leave {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.status-pill.resigned {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+.hiring-item {
+  margin-top: 4px;
+}
+
+.hiring-value-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.hire-duration-badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  background-color: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+
+/* =============================================================================
+   RIGHT SIDE: Cards Grid
+   ============================================================================= */
+.profile-main-content {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.profile-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 30px;
+  width: 100%;
+}
+
+.profile-card {
+  background-color: #ffffff;
+  border: 1px solid #eef0f3;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.profile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 54px;
+  padding: 0 18px;
+  border-bottom: 1px solid #f2f2f2;
+  box-sizing: border-box;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.card-header-link {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--primary-blue, #0f52ba);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.card-header-link:hover {
+  text-decoration: underline;
+}
+
+.link-arrow-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.right-arrow-icon {
+  color: currentColor;
+  font-size: 18px;
+  line-height: 1;
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+.card-header-link:hover .link-arrow-icon {
+  transform: translate(2px, -2px);
+}
+
+.card-header-link:hover .right-arrow-icon {
+  transform: translate(2px, -1px);
+}
+
+.profile-card-body {
+  width: 100%;
+  flex-grow: 1;
+  padding: 14px 18px 18px;
+  box-sizing: border-box;
+}
+
+.address-card,
+.onboarding-card {
+  grid-column: 1 / -1;
+}
+
+/* Specific Grid Body layouts */
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.address-grid {
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.info-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cell-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #202020;
+}
+
+.cell-value {
+  font-size: 13px;
+  font-weight: 400;
+  color: #6f6f6f;
+}
+
+/* Onboarding Task Styling */
+.onboarding-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(220px, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.onboarding-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.onboarding-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.progress-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #202020;
+}
+
+.progress-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.progress-bar-track {
+  flex-grow: 1;
+  height: 6px;
+  background-color: #f3f3f3;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--primary-blue, #0f52ba);
+  border-radius: 3px;
+}
+
+.progress-percentage {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #64748b;
+  min-width: 24px;
+}
+
+/* Performance Rating styling */
+.rating-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stars-row {
+  display: flex;
+  gap: 4px;
+}
+
+.stars-row img {
+  width: 18px;
+  height: 18px;
+}
+
+.rating-score {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Handbook styling */
+.handbook-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pdf-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pdf-doc-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.pdf-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.handbook-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.handbook-action-btn {
+  background: none;
+  border: 0.5px solid #eaeaea;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.handbook-action-btn:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.handbook-action-btn img {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+/* Skill empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.empty-badge {
+  width: 48px;
+  height: 48px;
+  background-color: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.empty-badge-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+.empty-main-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.empty-sub-text {
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+/* Certifications list styling */
+.title-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #b45309;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 0.5px solid #f59e0b;
+}
+
+.ai-badge-stars {
+  font-size: 10px;
+}
+
+.certs-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cert-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.cert-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cert-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+}
+
+.cert-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-grow: 1;
+}
+
+.cert-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.cert-duration {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.cert-enroll-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #22c55e;
+  text-decoration: none;
+}
+
+.cert-enroll-link:hover {
+  text-decoration: underline;
+}
+
+.see-more-link {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--primary-blue, #0f52ba);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.see-more-link:hover {
+  text-decoration: underline;
+}
+
+.chevron-down {
+  width: 14px;
+  height: 14px;
+}
+
+/* Empty growth story and achievements */
+.empty-card-body {
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  background: #ffffff;
+}
+
+.empty-card-icon {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e8e8e8;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #c6c6c6;
+}
+
+.empty-card-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.empty-card-icon path {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.empty-card-body p {
+  max-width: 285px;
+  margin: 0;
+  color: #777777;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+.credentials-card-full {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.credentials-search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d9dfe8;
+  border-radius: 6px;
+  padding: 6px 12px;
+  background-color: #ffffff;
+  width: 240px;
+  height: 38px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.credentials-search-input {
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #1e293b;
+  width: 100%;
+  padding-right: 24px;
+}
+
+.credentials-search-icon {
+  position: absolute;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.credentials-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.credentials-table th {
+  background-color: #eff6ff;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 12px 16px;
+}
+
+.credentials-table th:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.credentials-table th:last-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.credentials-table td {
+  padding: 16px;
+  font-size: 13.5px;
+  color: #1e293b;
+  border-bottom: 0.5px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.credentials-table tr:last-child td {
+  border-bottom: none;
+}
+
+.doc-type-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doc-type-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.password-card-full {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.password-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.password-mask {
+  font-family: monospace;
+  font-size: 18px;
+  letter-spacing: 2.5px;
+  color: #94a3b8;
+  margin-left: auto;
+  margin-right: 32px;
+  line-height: 1;
+}
+
+.btn-change-password {
+  background-color: #ffffff;
+  border: 1px solid #d9dfe8;
+  color: #64748b;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 38px;
+  box-sizing: border-box;
+}
+
+.btn-change-password:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+/* =============================================================================
+   RESPONSIVE LAYOUT OVERRIDES
+   ============================================================================= */
+@media (max-width: 1024px) {
+  .profile-layout-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-sidebar-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .address-grid,
+  .onboarding-grid,
+  .onboarding-metrics {
+    grid-template-columns: 1fr;
+  }
+}

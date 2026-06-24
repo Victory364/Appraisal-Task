@@ -555,7 +555,7 @@ export default function MyAppraisalsPage() {
                 const secMetrics = section.metrics.map(m => m.id);
                 const ratedMetrics = secMetrics.filter(id => activeScores[id] !== null && activeScores[id] !== undefined);
 
-                let pillText = '0.0';
+                let pillText;
                 let isCalculating = false;
 
                 if (ratedMetrics.length === 0) {

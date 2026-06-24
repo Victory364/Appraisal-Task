@@ -59,6 +59,12 @@
   color: #1f66c7;
 }
 
+.upload-image-text span a {
+  text-decoration: underline;
+  color: #1f66c7;
+  cursor: pointer;
+}
+
 .upload-image-subtext {
   font-size: 13px;
   color: #64748b;

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 test('verify add and edit modals', async ({ page }) => {
   // Set viewport size

@@ -31,18 +31,21 @@ import Header from './components/Header/Header';
 // The main feature pages
 import ExpenseClaimsPage from './components/ExpenseClaimsPage/ExpenseClaimsPage';
 import MyAppraisalsPage from './components/MyAppraisalsPage/MyAppraisalsPage';
+import MyProfilePage from './components/MyProfilePage/MyProfilePage';
 
 // App-level CSS (currently just a comment; global styles live in index.css)
 import './App.css';
 
 function App() {
   // Track which header tab is currently active
-  const [activeTab, setActiveTab] = useState('Expense Claims');
+  const [activeTab, setActiveTab] = useState('My Profile');
 
   // Render the correct page component based on the active tab
   const renderPage = () => {
     switch (activeTab) {
-      case 'My Appraisals':
+      case 'My Profile':
+        return <MyProfilePage />;
+      case 'Appraisals':
         return <MyAppraisalsPage />;
       case 'Expense Claims':
         return <ExpenseClaimsPage />;
@@ -94,7 +97,7 @@ function App() {
         {/* Scrollable page body — wraps the active feature page.
             The page-content-wrapper class adds 40 px bottom padding so
             content is never flush against the bottom of the viewport.  */}
-        <div className={`page-content-wrapper${activeTab === 'My Appraisals' ? ' appraisals-content-wrapper' : ''}`}>
+        <div className={`page-content-wrapper${activeTab === 'Appraisals' ? ' appraisals-content-wrapper' : ''}`}>
           {renderPage()}
         </div>
 
