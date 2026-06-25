@@ -38,7 +38,7 @@ export default function MyProfilePage() {
     employmentType: 'Contract',
     availability: 'On Leave',
     employmentStatus: 'Active',
-    dateOfHiring: '30-04-2023'
+    dateOfHiring: '30-06, 2023'
   });
 
   // State for address
@@ -130,7 +130,7 @@ export default function MyProfilePage() {
 
   // Helper to calculate hire duration (Mock logic based on screenshot)
   const getHireDuration = () => {
-    return "1 yr 4 months 10 days";
+    return "1 yr, 4 months, 19 days";
   };
 
   return (
@@ -140,32 +140,37 @@ export default function MyProfilePage() {
         {/* Left Column - Profile Summary Card */}
         <div className="profile-sidebar-card">
           <div className="profile-avatar-container">
-            <div className="profile-avatar-clickable" onClick={() => setIsUploadPhotoOpen(true)}>
-              {profilePhoto ? (
-                <img src={profilePhoto} alt="Profile" className="profile-avatar-img" />
-              ) : (
-                <div className="profile-avatar-initials">
-                  AF
+            <div className="profile-user-info-row">
+              <div className="profile-avatar-clickable" onClick={() => setIsUploadPhotoOpen(true)}>
+                {profilePhoto ? (
+                  <img src={profilePhoto} alt="Profile" className="profile-avatar-img" />
+                ) : (
+                  <div className="profile-avatar-initials">
+                    AF
+                  </div>
+                )}
+                {/* Home/Building Overlay icon */}
+                <div className="profile-avatar-overlay">
+                  <img src={cameraIcon} alt="camera icon"  />
                 </div>
-              )}
-              {/* Home/Building Overlay icon */}
-              <div className="profile-avatar-overlay">
-                <img src={cameraIcon} alt="camera icon"  />
+              </div>
+
+              <div className="profile-name-role">
+                <h2 className="profile-display-name">{basicInfo.fullName}</h2>
+                <p className="profile-display-role">Ui/Ux Designer</p>
               </div>
             </div>
 
-            <h2 className="profile-display-name">{basicInfo.fullName}</h2>
-            <p className="profile-display-role">Ui/Ux Designer</p>
-
             <div className="profile-action-buttons">
               <button className="profile-btn-edit" onClick={() => setIsEditInfoOpen(true)}>
-                <img src={editIcon} alt="Edit" className="btn-icon-blue" />
+                <svg className="btn-icon-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                </svg>
                 Edit info
               </button>
               <button className="profile-btn-resignation" onClick={handleResignation}>
-                <svg className="btn-icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                  <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z" />
+                <svg className="btn-icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                 </svg>
                 Resignation
               </button>
@@ -344,7 +349,7 @@ export default function MyProfilePage() {
                 <h3 className="card-title">Skill Growth</h3>
                 <a href="#training" className="card-header-link">
                   Start a training
-                  <img src={arrowIcon} alt="arrow" className="link-arrow-icon" />
+                  <img src={arrowRightIcon} alt="arrow right" className="link-arrow-icon" />
                 </a>
               </div>
               <div className="profile-card-body empty-state">

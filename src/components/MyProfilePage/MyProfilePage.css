@@ -39,10 +39,15 @@
 .profile-avatar-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
   margin-bottom: 24px;
   width: 100%;
+}
+
+.profile-user-info-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .profile-avatar-clickable {
@@ -51,7 +56,7 @@
   height: 80px;
   border-radius: 50%;
   cursor: pointer;
-  margin-bottom: 16px;
+  flex-shrink: 0;
   transition: transform 0.2s ease;
 }
 
@@ -102,6 +107,13 @@
   stroke: #ffffff;
 }
 
+.profile-name-role {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
 .profile-display-name {
   font-size: 18px;
   font-weight: 600;
@@ -113,7 +125,7 @@
   font-size: 13px;
   font-weight: 400;
   color: #64748b;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .profile-action-buttons {
@@ -230,23 +242,39 @@
 }
 
 .hiring-item {
-  margin-top: 4px;
+  margin-top: 12px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+}
+
+.hiring-item .detail-label {
+  text-transform: none;
+  font-size: 14px;
+  color: #1e293b;
+  letter-spacing: normal;
 }
 
 .hiring-value-container {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: flex-start;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.hiring-item .detail-value {
+  color: #64748b;
+  font-weight: 400;
+  font-size: 13.5px;
 }
 
 .hire-duration-badge {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
-  color: #64748b;
+  color: #1e293b;
   background-color: #f1f5f9;
-  padding: 3px 8px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 16px;
 }
 
 
@@ -487,8 +515,7 @@
 
 .handbook-action-btn {
   background: none;
-  border: 0.5px solid #eaeaea;
-  border-radius: 4px;
+  border: none;
   width: 32px;
   height: 32px;
   display: flex;
@@ -496,17 +523,17 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 0;
 }
 
 .handbook-action-btn:hover {
-  background-color: #f8fafc;
-  border-color: #cbd5e1;
+  opacity: 0.8;
 }
 
 .handbook-action-btn img {
-  width: 16px;
-  height: 16px;
-  opacity: 0.7;
+  width: 28px;
+  height: 28px;
+  opacity: 0.85;
 }
 
 /* Skill empty state */
@@ -791,6 +818,9 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  height: 72px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .password-mask {
