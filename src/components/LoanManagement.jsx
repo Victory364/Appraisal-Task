@@ -20,68 +20,90 @@ import ConfirmActionModal from './modals/ConfirmActionModal/ConfirmActionModal';
 const defaultLoans = [
   {
     id: 1,
-    dateTaken: '23 March, 2024',
-    amount: 60150.50,
+    dateTaken: '',
+    amount: 100000.00,
     currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
-    duration: '12',
-    purpose: 'Medical Expenses',
-    balance: 20150.50,
-    status: 'Ongoing',
+    duration: '2',
+    purpose: 'Medical',
+    balance: 100000.00,
+    status: 'Pending',
     type: 'Loan'
   },
   {
     id: 2,
-    dateTaken: '23 March, 2024',
-    amount: 60150.50,
+    dateTaken: '',
+    amount: 200000.00,
     currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
-    duration: '3',
+    duration: '2',
     purpose: 'Education',
-    balance: 20150.50,
-    status: 'Completed',
+    balance: 200000.00,
+    status: 'Pending',
     type: 'Loan'
   },
   {
     id: 3,
-    dateTaken: '23 March, 2024',
-    amount: 60150.50,
+    dateTaken: '',
+    amount: 500000.00,
     currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
-    duration: '6',
-    purpose: 'Personal Needs',
-    balance: 20150.50,
-    status: 'Completed',
+    duration: '7',
+    purpose: 'Personal',
+    balance: 500000.00,
+    status: 'Pending',
     type: 'Loan'
   },
   {
     id: 4,
-    dateTaken: '23 March, 2024',
-    amount: 60150.50,
+    dateTaken: '',
+    amount: 300000.00,
     currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
-    duration: '6',
-    purpose: 'Home Renovation',
-    balance: 20150.50,
-    status: 'Rejected',
+    duration: '2',
+    purpose: 'Buying Assets',
+    balance: 300000.00,
+    status: 'Pending',
     type: 'Loan'
   },
   {
     id: 5,
-    dateTaken: '23 March, 2024',
-    amount: 60150.50,
+    dateTaken: '',
+    amount: 1250000.00,
     currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
-    duration: '4',
-    purpose: 'Legal Expenses',
-    balance: 20150.50,
-    status: 'Completed',
+    duration: '18',
+    purpose: 'Business And Investment',
+    balance: 1250000.00,
+    status: 'Pending',
     type: 'Loan'
   },
   {
     id: 6,
-    dateTaken: '23 March, 2024',
-    amount: 25000.00,
+    dateTaken: '',
+    amount: 450000.00,
     currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
-    duration: '2',
-    purpose: 'Mortgage Payment',
-    balance: 0.00,
-    status: 'Completed',
+    duration: '3',
+    purpose: 'Debt consolidation',
+    balance: 450000.00,
+    status: 'Pending',
+    type: 'Loan'
+  },
+  {
+    id: 7,
+    dateTaken: '',
+    amount: 400000.00,
+    currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
+    duration: '3',
+    purpose: 'Debt consolidation',
+    balance: 400000.00,
+    status: 'Pending',
+    type: 'Loan'
+  },
+  {
+    id: 8,
+    dateTaken: '',
+    amount: 450000.00,
+    currency: { country: 'Nigeria', countryCode: 'NG', code: 'NGN', symbol: '₦', flag: '🇳🇬' },
+    duration: '3',
+    purpose: 'Build Credit History',
+    balance: 450000.00,
+    status: 'Pending',
     type: 'Loan'
   }
 ];
@@ -96,7 +118,12 @@ export default function LoanManagement() {
         console.error("Failed to parse saved loans:", e);
       }
     }
-    return [];
+    const d = new Date();
+    const day = d.getDate();
+    const month = d.toLocaleDateString('en-US', { month: 'long' });
+    const year = d.getFullYear();
+    const today = `${day} ${month}, ${year}`;
+    return defaultLoans.map(loan => ({ ...loan, dateTaken: today }));
   });
 
   useEffect(() => {
