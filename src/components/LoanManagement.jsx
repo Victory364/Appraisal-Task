@@ -209,7 +209,7 @@ export default function LoanManagement() {
     <div className="expense-claims-page">
       {/* Page Title & Filter */}
       <div className="expense-page-title-row">
-        <h2 className="expense-page-title">Loan &amp; Advance Management</h2>
+        <h2 className="expense-page-title">Loan Management</h2>
         <div className="filter-by-dropdown">
           <span className="filter-by-label">Filter by:</span>
           <span className="filter-by-value">
