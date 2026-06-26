@@ -19,9 +19,9 @@ import powerpointIcon from '../../assets/Fowgate Folder/powerpoint-svgrepo-com 1
 import wordIcon from '../../assets/Fowgate Folder/ms-word-svgrepo-com 1.svg';
 import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
 import cameraIcon from '../../assets/Fowgate Folder/camera-02.svg';
-import arrowRightIcon from '../../assets/Fowgate Folder/frame (1).svg';
-import starsIcon from '../../assets/Fowgate Folder/frame-1 (1).svg';
-import picIcon from '../../assets/Fowgate Folder/frame-3.svg';
+import arrowRightIcon from '../../assets/Fowgate Folder/Frame (1).svg';
+import starsIcon from '../../assets/Fowgate Folder/Frame-1 (1).svg';
+import picIcon from '../../assets/Fowgate Folder/Frame-3.svg';
 
 export default function MyProfilePage() {
   // State for basic info
