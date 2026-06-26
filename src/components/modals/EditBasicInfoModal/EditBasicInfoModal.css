@@ -1,0 +1,380 @@
+.edit-basic-info-modal {
+  width: 528px !important;
+  /* Use auto height or up to max-height, but user said 'use the same height' as Add Expense Claim which is min(704px, calc(100vh - 48px)) */
+  height: 704px !important;
+  max-height: calc(100vh - 48px);
+}
+
+.edit-basic-info-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.edit-basic-info-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.edit-basic-info-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.edit-basic-info-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #292929;
+  font-family: 'Rubik', var(--font-family);
+}
+
+.edit-basic-info-input,
+.edit-basic-info-select {
+  width: 100%;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  color: #1e293b;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-input:focus,
+.edit-basic-info-select:focus {
+  border-color: #1f66c7;
+}
+
+/* Mobile Number Group */
+.edit-basic-info-mobile-group {
+  display: flex;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-mobile-group:focus-within {
+  border-color: #1f66c7;
+}
+
+.edit-basic-info-country-code {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-right: 1px solid #d9dfe8;
+  background-color: transparent;
+  color: #1e293b;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.edit-basic-info-country-flag {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-basic-info-country-flag::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 30%;
+  right: 30%;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-mobile-input {
+  flex: 1;
+  border: none;
+  height: 100%;
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  color: #1e293b;
+  font-family: var(--font-family);
+}
+
+/* Date Input */
+.edit-basic-info-date-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.edit-basic-info-date-input {
+  width: 100%;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  font-size: 14px;
+  padding: 0 42px 0 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.edit-basic-info-date-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* DOB Calendar Styles */
+.dob-calendar-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 318px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow:
+    0 20px 60px -10px rgba(31, 102, 199, 0.14),
+    0 8px 24px -4px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  padding: 18px 16px 16px;
+  box-sizing: border-box;
+  animation: dobCalendarFadeIn 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dobCalendarFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dob-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 0 2px;
+}
+
+.dob-calendar-month-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dob-calendar-nav-btn {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  line-height: 1;
+}
+
+.dob-calendar-nav-btn:hover {
+  background: #1f66c7;
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.dob-calendar-month-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.dob-calendar-year-select {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  background-color: #ffffff;
+  font-family: var(--font-family);
+}
+
+.dob-calendar-weekdays,
+.dob-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.dob-calendar-weekdays {
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.dob-calendar-weekdays div {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 0;
+}
+
+.dob-calendar-empty,
+.dob-calendar-day-btn {
+  aspect-ratio: 1;
+}
+
+.dob-calendar-day-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  transition: background 0.13s, color 0.13s, transform 0.1s, box-shadow 0.13s;
+  position: relative;
+}
+
+.dob-calendar-day-btn:hover:not(.is-selected) {
+  background: #eff6ff;
+  color: #1f66c7;
+  font-weight: 600;
+  transform: scale(1.07);
+}
+
+.dob-calendar-day-btn.is-selected {
+  background: linear-gradient(135deg, #1f66c7 0%, #3b82f6 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 9px;
+  box-shadow: 0 4px 12px rgba(31, 102, 199, 0.38);
+  transform: scale(1.08);
+}
+
+.edit-basic-info-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.edit-basic-info-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px;
+}
+
+.edit-basic-info-select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+.edit-basic-info-select-arrow.is-open {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.edit-basic-info-select-trigger {
+  width: 100%;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #d9dfe8;
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  color: #1e293b;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.edit-basic-info-select-trigger:hover {
+  border-color: #1f66c7;
+}
+
+.edit-basic-info-dropdown-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: auto;
+  min-width: 180px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  z-index: 110;
+  padding: 6px 0;
+  box-sizing: border-box;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.edit-basic-info-dropdown-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.edit-basic-info-dropdown-item:hover {
+  background-color: #f8fafc;
+  color: #1f66c7;
+}
+
+.edit-basic-info-dropdown-item.is-selected {
+  background-color: #eff6ff;
+  color: #1f66c7;
+  font-weight: 500;
+}

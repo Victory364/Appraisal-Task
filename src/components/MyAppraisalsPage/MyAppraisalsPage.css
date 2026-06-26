@@ -1,0 +1,1066 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   MyAppraisalsPage.css — My Appraisals Feature Styles
+   Figma frame: 1094 × 810 px, border-radius 10px, 0.5px border, blue outline
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Page wrapper ──────────────────────────────────────────────────────────── */
+.appraisals-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background-color: #ffffff;
+  padding: 0px 10px 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.appraisals-content-wrapper {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+/* ── Outer card frame — matches the blue-bordered Figma frame ─────────────── */
+.appraisals-card-frame {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+/* ── Top row: title + report button (height 80px, padding 20px, space-between) */
+.appraisals-top-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 88px;
+  background-color: #ffffff;
+  border-bottom: 0.5px solid #e2e8f0;
+  padding: 0 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.appraisals-page-title {
+  font-family: 'Rubik', var(--font-family);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 130%;
+  color: #292929;
+  margin: 0;
+}
+
+/* "My Appraisal Report" — light-blue filled pill, no icon */
+.appraisals-report-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 154px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: background 0.18s;
+  white-space: nowrap;
+}
+
+.appraisals-report-btn:hover {
+  background: #dbeafe;
+}
+
+/* ── Two-column body ─────────────────────────────────────────────────────── */
+.appraisals-body {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding: 24px 14px 0;
+  box-sizing: border-box;
+}
+
+/* ── LEFT COLUMN — Assigned Appraisal (Figma: 340 × 688 px) ────────────────── */
+.appraisals-left {
+  width: 290px;
+  min-width: 290px;
+  flex-shrink: 0;
+  border: 0.5px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.appraisals-left-header {
+  padding: 18px 14px 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+/* search — icon on RIGHT */
+.appraisals-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin: 0 14px 12px;
+  flex-shrink: 0;
+}
+
+.appraisals-search-input {
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--text-primary);
+  outline: none;
+  width: 100%;
+  font-family: var(--font-family);
+}
+
+.appraisals-search-input::placeholder {
+  color: var(--text-muted);
+  font-size: 12.5px;
+}
+
+.appraisals-search-icon-right {
+  width: 15px;
+  height: 15px;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+/* section sub-label */
+.appraisals-left-section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding: 8px 14px 6px;
+  flex-shrink: 0;
+}
+
+/* scrollable list */
+.appraisals-left-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0 8px;
+}
+
+.appraisals-left-list::-webkit-scrollbar {
+  width: 3px;
+}
+
+.appraisals-left-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.appraisals-left-list::-webkit-scrollbar-thumb {
+  background: #dde3ee;
+  border-radius: 4px;
+}
+
+/* member row */
+.appraisals-member-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 16px 14px;
+  cursor: pointer;
+  border-left: 0;
+  border-bottom: 0.5px solid #edf1f7;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.appraisals-member-row:hover {
+  background: #f8fafc;
+}
+
+.appraisals-member-row.active {
+  background: #eaf2ff;
+}
+
+.appraisals-member-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid #e2e8f0;
+}
+
+.appraisals-member-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.appraisals-member-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appraisals-member-role {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* inline stars in list */
+.appraisals-star-row {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  margin-top: 4px;
+}
+
+.appraisals-star-row img {
+  width: 13px;
+  height: 13px;
+}
+
+.appraisals-member-score {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f59e0b;
+  margin-left: 3px;
+}
+
+/* ── RIGHT COLUMN — Appraisal Sheet ────────────────────────────────────────── */
+.appraisals-right {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 0.5px solid #e2e8f0;
+  border-radius: 8px;
+  overflow-y: auto;
+}
+
+.appraisals-right::-webkit-scrollbar {
+  width: 3px;
+}
+
+.appraisals-right::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.appraisals-right::-webkit-scrollbar-thumb {
+  background: #dde3ee;
+  border-radius: 4px;
+}
+
+/* ── Profile strip (Figma layout) ───────────────────────────────────────── */
+.appraisals-profile-strip {
+  padding: 16px 16px 16px;
+  flex-shrink: 0;
+}
+
+/* Row 1: avatar+name+location  |  Download Report button */
+.appraisals-profile-row1 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.appraisals-profile-name-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.appraisals-profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #e2e8f0;
+}
+
+.appraisals-profile-name-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 2px;
+}
+
+.appraisals-profile-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.appraisals-profile-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #8b8f97;
+  font-weight: 400;
+}
+
+.appraisals-profile-location img {
+  width: 13px;
+  height: 13px;
+  opacity: 0.8;
+}
+
+/* Download Report button */
+.appraisals-download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: var(--font-family);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.appraisals-download-btn:hover {
+  background: #f8fafc;
+}
+
+.appraisals-download-btn img {
+  width: 14px;
+  height: 14px;
+  opacity: 0.65;
+}
+
+/* Row 2: rating badge + growth + email */
+.appraisals-profile-row2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.appraisals-cycle-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8f8f8;
+  border: 0;
+  color: #303030;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.appraisals-cycle-badge img {
+  width: 13px;
+  height: 13px;
+}
+
+.appraisals-cycle-badge .badge-growth {
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.appraisals-cycle-badge .badge-suffix {
+  color: #8b8f97;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.appraisals-email-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: #f8fafc;
+  border: 0;
+  border-radius: 12px;
+  padding: 5px 10px;
+}
+
+/* Row 3: Role / Department / Reporting Manager */
+.appraisals-profile-detail-grid {
+  display: flex;
+  gap: 0;
+  flex-wrap: nowrap;
+  border: 0.5px solid #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.appraisals-detail-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  padding: 9px 18px;
+}
+
+.appraisals-detail-cell:nth-child(2) {
+  align-items: center;
+  text-align: center;
+}
+
+.appraisals-detail-cell:nth-child(3) {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.appraisals-detail-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.appraisals-detail-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ── Appraise banner ─────────────────────────────────────────────────────── */
+.appraisals-appraise-banner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px 5px;
+  background: #ffffff;
+  color: var(--text-primary);
+  font-family: 'Rubik', var(--font-family);
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 140%;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+.appraisals-appraise-banner svg {
+  flex-shrink: 0;
+  color: var(--primary-blue);
+}
+
+/* ── Appraisal sections ──────────────────────────────────────────────────── */
+.appraisals-sections-wrap {
+  flex: 1;
+  padding: 0 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* section block */
+.appraisals-section {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 16px 10px;
+}
+
+.appraisals-section:first-child {
+  margin-top: 8px;
+}
+
+.appraisals-section:last-of-type {
+  margin-bottom: 8px;
+}
+
+/* section header row — light blue-grey background */
+.appraisals-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #eaf2ff;
+}
+
+.appraisals-section-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.appraisals-section-avg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.appraisals-section-avg-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.appraisals-section-avg-pill {
+  background: var(--primary-blue);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 49px;
+  height: 32px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 8px;
+  border-radius: 4px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.appraisals-section-avg-pill.calculating {
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 0 14px;
+}
+
+/* metric row — label left, rating group right */
+.appraisals-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px;
+  border-bottom: 0.5px solid #f0f4fb;
+  gap: 16px;
+}
+
+.appraisals-metric-row:last-child {
+  border-bottom: none;
+}
+
+.appraisals-metric-label {
+  font-size: 13px;
+  color: var(--text-primary);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Rating buttons: circle on top, number below ──────────────────────────── */
+.appraisals-rating-buttons {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Each button is a column: circle + number */
+.appraisals-rating-btn-wrap {
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.appraisals-rating-btn-wrap:focus {
+  outline: none;
+}
+
+.appraisals-rating-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #d9e1eb;
+  background: #fff;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.appraisals-rating-btn-wrap:hover .appraisals-rating-circle {
+  border-color: var(--primary-blue);
+  transform: scale(1.1);
+}
+
+.appraisals-rating-btn-wrap.selected .appraisals-rating-circle {
+  background: var(--primary-blue);
+  border-color: var(--primary-blue);
+  box-shadow: inset 0 0 0 2.5px #fff;
+}
+
+.appraisals-rating-btn-wrap.locked {
+  cursor: default;
+}
+
+.appraisals-rating-btn-wrap.locked .appraisals-rating-circle {
+  opacity: 0.65;
+}
+
+.appraisals-rating-num {
+  font-size: 9.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1;
+  font-family: var(--font-family);
+}
+
+/* ── Summary row ─────────────────────────────────────────────────────────── */
+.appraisals-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  margin: 0 16px 8px;
+  padding: 0 22px;
+  background: #e8eff9;
+  border: 0;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.appraisals-submitted-summary-row {
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+  margin: 0;
+  padding: 0 28px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
+}
+
+.appraisals-summary-label {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary-blue);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.appraisals-summary-stars-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.appraisals-summary-stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.appraisals-summary-stars img {
+  width: 17px;
+  height: 17px;
+}
+
+.appraisals-summary-score {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 28px;
+  text-align: right;
+}
+
+.appraisals-summary-remark {
+  font-size: 18px;
+  font-weight: 400;
+  color: #28a745;
+  white-space: nowrap;
+}
+
+/* ── Submit button — always ghost/light style ────────────────────────────── */
+.appraisals-submit-row {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 30px 12px;
+  background: #fff;
+  flex-shrink: 0;
+  border-top: 1px solid #edf2f7;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.appraisals-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 140px;
+  height: 44px;
+  padding: 0;
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+  border: 0;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  white-space: nowrap;
+}
+
+.appraisals-submit-btn:hover {
+  background: #dbeafe;
+  color: var(--primary-blue);
+}
+
+.appraisals-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* ── Appraisal confirmation modal ────────────────────────────────────────── */
+.appraisal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.42);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.appraisal-confirm-modal {
+  background: #ffffff;
+  border-radius: 4px;
+  width: min(528px, calc(100vw - 48px));
+  height: 252px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.appraisal-modal-header {
+  height: 76px;
+  background: #1B5FC1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26px;
+  flex-shrink: 0;
+}
+
+.appraisal-modal-header h3 {
+  color: #ffffff;
+  font-family: 'Rubik', var(--font-family);
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.appraisal-confirm-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.appraisal-modal-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  font-weight: 300;
+  padding: 4px;
+}
+
+.appraisal-modal-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 26px;
+  font-size: 15px;
+  color: #292929;
+  line-height: 1.5;
+}
+
+.appraisal-modal-body p {
+  margin: 0;
+}
+
+.appraisal-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 32px;
+  height: 78px;
+  padding: 0 24px;
+  border-top: 0.5px solid #eaeaea;
+  flex-shrink: 0;
+}
+
+.appraisal-btn-cancel {
+  min-width: 96px;
+  height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: background 0.15s;
+}
+
+.appraisal-btn-cancel:hover {
+  background: #f8fafc;
+}
+
+.appraisal-btn-confirm {
+  width: 140px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: background 0.15s;
+}
+
+.appraisal-btn-confirm:hover {
+  background: var(--primary-blue);
+  color: #ffffff;
+}
+
+/* ── Success modal ───────────────────────────────────────────────────────── */
+.appraisal-success-modal {
+  background: #ffffff;
+  border-radius: 4px;
+  width: min(472px, calc(100vw - 48px));
+  height: 408px;
+  padding: 52px 40px 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.appraisal-success-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.appraisal-success-title {
+  font-family: 'Rubik', var(--font-family);
+  font-size: 28px;
+  font-weight: 700;
+  color: #292929;
+  margin: 0 0 14px;
+  line-height: 1.25;
+}
+
+.appraisal-success-copy {
+  font-size: 14px;
+  color: #7a7a7a;
+  line-height: 1.65;
+  margin: 0 0 32px;
+  max-width: 340px;
+}
+
+.appraisal-success-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--primary-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.appraisal-success-btn:hover {
+  background: var(--primary-blue-hover);
+}
+
+/* ── Info Icon / Date Dropdown Styles ── */
+.appraisals-info-dropdown-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: transparent;
+}
+
+.appraisals-info-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: -8px;
+  width: 156px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08), 0px 2px 6px rgba(0, 0, 0, 0.04);
+  border: 0.5px solid #e2e8f0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  gap: 6px;
+  animation: appraisals-dropdown-fade-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.appraisals-info-dropdown.legend-dropdown {
+  width: 180px;
+}
+
+@keyframes appraisals-dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.appraisals-info-dropdown-item {
+  padding: 4px 12px;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #292929;
+  font-family: var(--font-family);
+  cursor: default;
+  transition: background 0.12s, color 0.12s;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.appraisals-info-dropdown-item:hover {
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+}
+
+.appraisals-info-dropdown-item.active {
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+/* ── Self Appraisal Banner overrides ── */
+.appraisals-appraise-banner.self-appraisal {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.appraisals-date-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f3f4f6;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 0.5px solid #e2e8f0;
+  transition: background-color 0.15s;
+}
+
+.appraisals-date-filter:hover {
+  background-color: #e5e7eb;
+}
+
+.appraisals-date-filter-text {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+  font-family: 'Rubik', var(--font-family);
+}
+
+.appraisals-highlight-q {
+  color: #4f46e5;
+}
+
+.appraisals-dropdown-arrow {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+@media (max-width: 1366px) and (min-width: 901px) {
+  .appraisals-content-wrapper {
+    height: 100vh;
+  }
+}

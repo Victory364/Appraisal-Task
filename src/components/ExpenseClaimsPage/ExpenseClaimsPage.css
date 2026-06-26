@@ -1,0 +1,1043 @@
+/* =============================================================================
+   ExpenseClaimsPage.css
+   -----------------------------------------------------------------------------
+   Styles for the full Expense Claims page inside the Fowgate HR dashboard.
+   The page is split into four main visual regions:
+     1. Page Header  — title + "Filter by" month dropdown (top of page)
+     2. Metrics Grid — four summary cards (total claims, reimbursed, balance, count)
+     3. Expense History — the search/filter bar + data table with action menus
+     4. Modals        — Add/Edit claim form, Confirm dialog, View-detail panel
+   Responsive breakpoints are collected at the bottom of this file.
+   Pagination slide animation and controls live at the very end.
+============================================================================= */
+
+
+/* =============================================================================
+   1. PAGE WRAPPER
+   -----------------------------------------------------------------------------
+   The outermost container for everything on this page.
+   Uses flexbox in column direction so the Metrics Grid and History Section
+   stack vertically with 32 px breathing room between them (matching the
+   Figma design spec).  box-sizing: border-box keeps padding inside the width.
+============================================================================= */
+.expense-claims-page {
+  width: 100%;
+  height: auto;
+  min-height: 810px;         /* ensures the page fills the viewport even with few claims */
+  display: flex;
+  flex-direction: column;
+  gap: 32px;                 /* 32 px vertical gap between every direct child section */
+  padding: 32px;             /* inner breathing room on all four sides */
+  box-sizing: border-box;
+}
+
+
+/* =============================================================================
+   2. PAGE TITLE ROW
+   -----------------------------------------------------------------------------
+   The very first row at the top of the page.
+   It contains the "Expense Management" heading on the left and the
+   "Filter by: Month YYYY" dropdown pill on the right.
+   space-between pushes those two elements to opposite ends of the row.
+============================================================================= */
+.expense-page-title-row {
+  display: flex;
+  justify-content: space-between; /* heading on left, filter pill on right */
+  align-items: center;
+  width: 100%;
+}
+
+/* The "Expense Management" h2 heading */
+.expense-page-title {
+  width: 213px;
+  height: 28px;
+  font-family: 'Rubik', var(--font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: 0;
+  color: #292929;
+  white-space: nowrap; /* prevents the title from wrapping onto a second line */
+}
+
+/* ── Filter-by dropdown pill (e.g. "Filter by: MAY 2026") ─────────────────── */
+
+/* Outer row wrapper that holds the "Filter by:" label + the pill button */
+.filter-by-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  font-family: 'Rubik', var(--font-family);
+  font-size: 14px;
+  line-height: 140%;
+  color: #7a7a7a;           /* muted grey for the "Filter by:" label text */
+  cursor: pointer;
+  transition: all 0.2s;    /* smooth colour change on hover */
+}
+
+/* The plain "Filter by:" text label (no box around it) */
+.filter-by-label {
+  font-weight: 400;         /* regular weight to keep it secondary */
+}
+
+/* The actual pill/button that shows the selected month (e.g. "MAY 2026") */
+.filter-by-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 117px;
+  height: 40px;
+  padding: 10px 12px;
+  border: 0.5px solid #eaeaea;  /* very subtle border so it looks like a chip */
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #292929;
+  font-weight: 500;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* Darken the whole dropdown wrapper text on hover */
+.filter-by-dropdown:hover {
+  color: #292929;
+}
+
+/* The small chevron / caret SVG icon inside the pill */
+.filter-by-value svg {
+  width: 18px;
+  height: 18px;
+  fill: #292929;
+  pointer-events: none; /* icon should not capture mouse events */
+  flex: 0 0 auto;       /* prevent the icon from shrinking */
+}
+
+
+/* =============================================================================
+   3. METRICS GRID  (four summary cards)
+   -----------------------------------------------------------------------------
+   A responsive 4-column grid that displays at a glance:
+     • Total Claims (currency)
+     • Total Reimbursed (currency)
+     • Balance to Reimburse (currency)
+     • Total Number of Claims (plain count)
+   overflow-x: auto allows horizontal scroll on very narrow screens so the
+   cards never collapse below their minimum width.
+============================================================================= */
+.expense-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* four equal columns */
+  gap: 20px;
+  width: 100%;
+  overflow-x: auto; /* horizontal scroll safety net for narrow viewports */
+}
+
+/* ── Individual metric card ────────────────────────────────────────────────── */
+/* Each card is a white rounded rectangle with a label at the top and the
+   large currency value + growth badge at the bottom. */
+.metric-card {
+  width: 100%;
+  height: 108px;
+  background-color: #ffffff;
+  border: 0.5px solid #eaeaea;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;              /* space between the label row and the value row */
+  position: relative;
+  transition: all 0.2s;  /* smooth shadow/border animation on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01); /* very soft default shadow */
+}
+
+/* Slightly deeper shadow + darker border when the user hovers over a card */
+.metric-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border-color: #cbd5e1;
+}
+
+/* The small icon + text label row at the top of every card (e.g. "Total Claims") */
+.metric-card-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary); /* muted grey defined in index.css */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Shared size rules for the tiny icon next to each card label.
+   Applies whether the icon is an SVG element or an <img> tag. */
+.metric-card-label svg,
+.metric-card-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6; /* slightly faded so the label text reads first */
+  display: block;
+}
+
+/* Row at the bottom of the card: big currency value on the left,
+   green growth badge on the right */
+.metric-value-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* align badge to the bottom of the value text */
+}
+
+/* The large bold currency amount (e.g. ₦45,000.00) */
+.metric-card-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px; /* tight spacing looks better for large numbers */
+}
+
+/* Green pill badge showing the growth percentage (e.g. "+15.6%") */
+.metric-growth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background-color: var(--status-green-bg);   /* light green background */
+  color: var(--status-green-text);            /* dark green text */
+  padding: 4px 8px;
+  border-radius: 12px;  /* fully rounded pill shape */
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+/* =============================================================================
+   4. EXPENSE HISTORY SECTION (the main white card)
+   -----------------------------------------------------------------------------
+   This is the large white card below the metrics grid.  It contains:
+     • The header row (title, search box, date filter, status filter, add button)
+     • The data table (or the empty-state illustration when no claims exist)
+     • The pagination controls at the bottom
+============================================================================= */
+.expense-history-section {
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* 24 px gap between: header row → table → pagination */
+  width: 100%;
+  min-height: 620px;
+}
+
+
+/* =============================================================================
+   5. HISTORY HEADER ROW  (title + search + date + status + add-claim button)
+   -----------------------------------------------------------------------------
+   The top bar inside the Expense History card.
+   flex-wrap: wrap lets controls fall to a second line on narrow screens
+   without breaking the layout.
+============================================================================= */
+.history-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;  /* wraps to a second row on smaller screens */
+  gap: 12px;
+  width: 100%;
+}
+
+/* Left side — "Expense History" title + the search input */
+.history-title-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;       /* takes up all remaining space so controls stay right-aligned */
+  min-width: 0;  /* prevents flex overflow on very small containers */
+  height: 42px;
+}
+
+/* "Expense History" section title text */
+.history-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Right side — wraps date picker, status select, and the add-claim button */
+.history-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0; /* prevent this group from shrinking when space is tight */
+}
+
+/* Inner flex row just for the interactive controls (excludes the title) */
+.history-action-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 40px;
+}
+
+
+/* =============================================================================
+   6. SEARCH INPUT (inside History header)
+   -----------------------------------------------------------------------------
+   The small "Search name, date…" field with a search icon on the right.
+   The container is position:relative so the icon can be positioned absolutely
+   inside it without affecting the text flow.
+============================================================================= */
+.history-search-container {
+  position: relative;
+  width: 220px;
+  height: 42px;
+}
+
+/* The actual <input> inside the search container */
+.history-search-input {
+  width: 100%;
+  height: 100%;
+  padding: 8px 42px 8px 12px; /* right padding reserves space for the icon */
+  border: 0.5px solid #eaeaea;
+  border-radius: 8px;
+  font-size: 12.5px;
+  outline: none;               /* remove default browser outline */
+  background-color: #f8fafc;  /* very light grey, looks recessed */
+  transition: all 0.2s;
+}
+
+/* Blue border + white background when the field is active/focused */
+.history-search-input:focus {
+  border-color: var(--primary-blue);
+  background-color: var(--bg-white);
+}
+
+/* Search icon (SVG or IMG) pinned to the right side of the input */
+.history-search-container svg,
+.history-search-container img {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%); /* vertically centres the icon in the input */
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  pointer-events: none; /* icon is decorative — clicks pass through to input */
+}
+
+
+/* =============================================================================
+   7. DATE FILTER CHIP  (e.g. "Jan 12 – Jan 01" + calendar icon)
+   -----------------------------------------------------------------------------
+   A clickable pill-shaped button that shows the currently selected date range.
+   Opening/closing the calendar dropdown is handled in JSX; this only styles
+   the closed (default) visual appearance.
+============================================================================= */
+.history-date-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 160px;
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  background-color: var(--bg-white);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+/* Prevent the date text from wrapping */
+.history-date-picker span {
+  white-space: nowrap;
+}
+
+/* Light grey background on hover to hint it is clickable */
+.history-date-picker:hover {
+  background-color: #f8fafc;
+}
+
+/* Calendar icon inside the date picker — darkened and slightly faded */
+.history-date-picker svg,
+.history-date-picker img {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex-shrink: 0;
+  filter: brightness(0) opacity(0.65); /* converts any colour icon to dark grey */
+}
+
+
+/* =============================================================================
+   8. STATUS SELECT DROPDOWN  ("All Status", "Pending", "Approved")
+   -----------------------------------------------------------------------------
+   Styled to match the date picker chip in height and border style.
+   The actual dropdown list is rendered as a custom <div> in JSX (not a native
+   <select>) so all we need here is the trigger button's look.
+============================================================================= */
+.history-status-select {
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-size: 12.5px;
+  background-color: var(--bg-white);
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.history-status-select:hover {
+  background-color: #f8fafc;
+}
+
+
+/* =============================================================================
+   9. "ADD CLAIM" BUTTON  (the blue primary CTA in the header)
+   -----------------------------------------------------------------------------
+   A solid Fowgate-blue button with a plus icon and the text "Add Claim".
+   box-shadow gives it a subtle glow that deepens on hover, making it feel
+   elevated and easy to find.
+============================================================================= */
+.add-claim-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 130px;
+  gap: 6px;
+  background-color: #004cff;                       /* Fowgate brand blue */
+  color: var(--text-white);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 76, 255, 0.15);   /* soft blue glow */
+  white-space: nowrap;
+}
+
+/* Force the plus icon to render white (it might be a dark SVG/PNG by default) */
+.add-claim-button img {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1); /* converts any colour to pure white */
+}
+
+/* Darker shade + stronger glow on hover to signal interactivity */
+.add-claim-button:hover {
+  background-color: #003cd0;
+  box-shadow: 0 6px 12px rgba(0, 76, 255, 0.25);
+}
+
+
+/* =============================================================================
+   10. EMPTY STATE  (shown when there are zero expense claims)
+   -----------------------------------------------------------------------------
+   A centred column layout that shows:
+     • A folder / file illustration (SVG or PNG asset)
+     • "No claim report" heading
+     • "Use the 'Add New' button" hint text
+   The container is intentionally narrow (203 px) and auto-centred with
+   margin: auto so it feels like a card inside a card.
+============================================================================= */
+.empty-claims-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  width: 203px;
+  min-height: 236px;
+  padding: 0;
+  margin: 40px auto; /* vertically push it down a bit and horizontally centre it */
+  text-align: center;
+}
+
+/* The illustration/icon wrapper — sets a fixed size for the image */
+.empty-state-icon-wrapper {
+  width: 120px;
+  height: 120px;
+  color: #a8a8a8; /* fallback colour for SVG icons that use currentColor */
+}
+
+/* If the icon is an inline SVG, fill it with the parent's currentColor */
+.empty-state-icon-wrapper svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Wrapper for the two text lines below the illustration */
+.empty-state-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* "No claim report" — the primary heading */
+.empty-state-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* "Use the 'Add New' button" — secondary hint text */
+.empty-state-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+
+/* =============================================================================
+   11. CLAIMS TABLE  (shown when at least one claim exists)
+   -----------------------------------------------------------------------------
+   A full-width borderless table that lists each expense claim row.
+   Columns: Date Created | Details | Amount | Reimburse | Status | Action
+   The thead (column headers) sits OUTSIDE the animated .claims-page-frame div
+   so it stays visually locked in place while rows slide in/out.
+============================================================================= */
+
+/* Outer wrapper — overflow:visible lets the action dropdown menus overflow the
+   table without being clipped */
+.claims-table-wrapper {
+  width: 100%;
+  overflow: visible;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* The <table> itself — border-collapse removes the default cell spacing */
+.claims-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: left;
+}
+
+.claims-col-date {
+  width: 16%;
+}
+
+.claims-col-details {
+  width: 34%;
+}
+
+.claims-col-amount {
+  width: 15%;
+}
+
+.claims-col-reimburse {
+  width: 15%;
+}
+
+.claims-col-status {
+  width: 14%;
+}
+
+.claims-col-action {
+  width: 6%;
+}
+
+/* Shared padding and font size for every <th> and <td> */
+.claims-table th,
+.claims-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border-light); /* subtle row separator */
+  font-size: 13.5px;
+  vertical-align: middle;
+}
+
+/* Header row — slightly blue-grey background to visually separate it from
+   the data rows and make the column labels easy to scan */
+.claims-table th {
+  font-weight: 600;
+  color: #292929;
+  background-color: #eef3f9; /* light steel-blue tint */
+}
+
+.claims-table th:nth-child(6),
+.claims-table td:nth-child(6) {
+  text-align: center;
+}
+
+.claims-date-cell {
+  font-weight: 500;
+  color: #292929;
+  white-space: nowrap;
+}
+
+.claims-details-cell {
+  color: #292929;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.claims-money-cell,
+.claims-reimburse-cell {
+  color: #292929;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.claims-reimburse-cell {
+  font-weight: 500;
+}
+
+.claims-action-cell {
+  position: relative;
+  color: #7a7a7a;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.claims-action-trigger {
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Very light hover highlight on each data row for scannability */
+.claims-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+
+/* =============================================================================
+   12. STATUS PILLS  (Pending / Approved / Rejected badges inside table rows)
+   -----------------------------------------------------------------------------
+   Each claim row shows a colour-coded pill that communicates its approval
+   status at a glance.  The base class sets the pill shape; modifier classes
+   set the specific colour theme for each status.
+============================================================================= */
+.claim-status-pill {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 12px; /* fully rounded pill shape */
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Orange/amber — claim submitted but waiting for approval */
+.claim-status-pill.pending {
+  background-color: #fef3c7; /* soft amber background */
+  color: #d97706;             /* dark amber text for good contrast */
+}
+
+/* Green — claim has been approved and will be reimbursed */
+.claim-status-pill.approved {
+  background-color: #d1fae5; /* soft green background */
+  color: #059669;             /* dark green text */
+}
+
+/* Note: a "rejected" pill can be added here with red colours when needed */
+
+
+/* =============================================================================
+   13. MODAL BUTTONS  (shared interaction states for all modal dialogs)
+   -----------------------------------------------------------------------------
+   All <button> elements that live inside a .modal-overlay get subtle lift /
+   scale micro-animations on hover and press, giving the UI a polished feel.
+   The three button variants (submit, primary, cancel) are then defined below.
+============================================================================= */
+
+/* Base transition for every modal button — no visible transform by default */
+.modal-overlay button {
+  transform: translateY(0) scale(1);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+/* Lift the button 2 px and add a blue shadow when hovered */
+.modal-overlay button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(31, 102, 199, 0.18);
+}
+
+/* Press / active — push back down slightly so it feels like a physical click */
+.modal-overlay button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 10px rgba(31, 102, 199, 0.12);
+}
+
+/* Keyboard-focus ring — accessible blue outline for keyboard navigation */
+.modal-overlay button:focus-visible {
+  outline: 2px solid rgba(31, 102, 199, 0.45);
+  outline-offset: 2px;
+}
+
+/* ── Variant: Submit button (light blue bg, dark blue text) ─────────────── */
+/* Used for "Next" and "Submit" secondary actions inside the form */
+.modal-btn-submit {
+  width: 98px;
+  height: 42px;
+  border-radius: 4px;
+  border: none;
+  background-color: #e8f0fb; /* pale blue — softer than the primary */
+  color: #1f66c7;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* On hover, fill to solid blue so it clearly becomes the action button */
+.modal-btn-submit:hover {
+  background-color: #1f66c7;
+  color: #ffffff;
+}
+
+/* ── Variant: Primary button (solid blue — the main confirm action) ──────── */
+/* Used for the final "Okay" button on success screens */
+.modal-btn-primary {
+  width: 100%;  /* stretches full-width inside narrow success modals */
+  height: 42px;
+  border-radius: 4px;
+  border: none;
+  background-color: #1f66c7; /* Fowgate blue */
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn-primary:hover {
+  background-color: #154c9c; /* darker shade on hover */
+}
+
+/* ── Variant: Cancel button (white bg, light border) ────────────────────── */
+/* Destructive / dismiss action — intentionally low-visual-weight */
+.modal-btn-cancel {
+  width: 98px;
+  height: 42px;
+  border-radius: 4px;
+  border: 0.5px solid #eaeaea;
+  background-color: #ffffff;
+  color: #292929;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn-cancel:hover {
+  background-color: #f5f5f5;
+  border-color: #d1d1d1;
+}
+
+
+/* =============================================================================
+   14. RESPONSIVE OVERRIDES — 901 px to 1366 px  (tablet-landscape / small laptop)
+   -----------------------------------------------------------------------------
+   At screen widths between 901 and 1366 px the layout tightens:
+     • Padding and gaps reduce slightly to give the content more breathing room.
+     • Metric cards use a minmax column so they never shrink below 180 px.
+     • The table gets a min-width so columns never collapse to unreadable sizes;
+       overflow-x:auto on the wrapper allows horizontal scrolling if needed.
+============================================================================= */
+@media (max-width: 1366px) and (min-width: 901px) {
+  /* Tighter outer padding and smaller gap between sections */
+  .expense-claims-page {
+    gap: 24px;
+    padding: 24px;
+    min-height: calc(100vh - 136px); /* fills remaining viewport under header+nav */
+  }
+
+  /* Metric cards switch to flexible minmax columns */
+  .expense-metrics-grid {
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  /* Reduce card height and padding to fit the tighter layout */
+  .metric-card {
+    height: 100px;
+    padding: 16px;
+    gap: 10px;
+  }
+
+  /* Smaller currency value text */
+  .metric-card-value {
+    font-size: 22px;
+  }
+
+  /* Slightly less padding inside the history section card */
+  .expense-history-section {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  /* Search box uses clamp so it scales fluidly with the viewport */
+  .history-search-container {
+    width: clamp(180px, 20vw, 220px);
+  }
+
+  /* Reduce gap inside the controls row */
+  .history-controls,
+  .history-action-controls {
+    gap: 10px;
+  }
+
+  /* Slightly narrower date picker chip */
+  .history-date-picker {
+    min-width: 140px;
+  }
+
+  /* Allow the table wrapper to scroll horizontally if columns overflow */
+  .claims-table-wrapper {
+    overflow-x: auto;
+  }
+
+  /* Minimum table width ensures columns never collapse below readable widths */
+  .claims-table {
+    min-width: 760px;
+  }
+
+  /* Slightly tighter cell padding and smaller font at this breakpoint */
+  .claims-table th,
+  .claims-table td {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+}
+
+
+/* =============================================================================
+   15. RESPONSIVE OVERRIDES — 901 px to 1180 px  (narrow laptop / large tablet)
+   -----------------------------------------------------------------------------
+   An additional, more aggressive tightening layer for viewports that are
+   narrower than 1180 px but still above the 900 px "desktop threshold".
+   The header controls wrap to a second row so they never overflow.
+============================================================================= */
+@media (max-width: 1180px) and (min-width: 901px) {
+  /* Further reduce outer padding */
+  .expense-claims-page {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  /* Cards can scroll horizontally in a pinch */
+  .expense-metrics-grid {
+    grid-template-columns: repeat(4, minmax(168px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 2px; /* prevents the scrollbar from clipping card shadows */
+  }
+
+  .metric-card {
+    min-width: 168px;
+    padding: 14px;
+  }
+
+  /* Reduce label and value font sizes for the cramped cards */
+  .metric-card-label {
+    font-size: 12px;
+  }
+
+  .metric-card-value {
+    font-size: 20px;
+  }
+
+  /* Shrink the growth badge padding/text */
+  .metric-growth-badge {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  .expense-history-section {
+    padding: 18px;
+  }
+
+  /* Align header items to the top so wrapping rows don't look misaligned */
+  .history-header-row {
+    align-items: flex-start;
+  }
+
+  /* Title + search take a full row on their own before controls wrap below */
+  .history-title-search {
+    flex-basis: 100%;
+  }
+
+  /* Wider search box now that it has a full row to itself */
+  .history-search-container {
+    width: min(280px, 40vw);
+  }
+
+  /* Controls row fills the width and spaces items evenly */
+  .history-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Slightly narrower minimum table width */
+  .claims-table {
+    min-width: 720px;
+  }
+
+  /* Further reduce cell padding and text size */
+  .claims-table th,
+  .claims-table td {
+    padding: 12px 14px;
+    font-size: 12.5px;
+  }
+}
+
+
+/* =============================================================================
+   16. PAGINATION — SLIDE FRAME  (the animated row container)
+   -----------------------------------------------------------------------------
+   When the user clicks a page number or the next/prev arrow, React swaps
+   the table body (keyed by page number) so the browser treats it as a new
+   element, restarting the CSS animation each time.
+
+   .claims-page-frame is the overflow:hidden clip box — it prevents the
+   sliding rows from spilling outside the white history card during the
+   animation.  The sticky header (<thead>) lives above this div and stays
+   perfectly still.
+============================================================================= */
+.claims-page-frame {
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  flex: 1;
+}
+
+/* Keyframe: new page slides IN from the RIGHT (going forward in pages) */
+@keyframes slideInFromRight {
+  from { transform: translateX(40px); opacity: 0; } /* starts shifted right + invisible */
+  to   { transform: translateX(0);    opacity: 1; } /* settles at natural position */
+}
+
+/* Keyframe: new page slides IN from the LEFT (going backward in pages) */
+@keyframes slideInFromLeft {
+  from { transform: translateX(-40px); opacity: 0; } /* starts shifted left + invisible */
+  to   { transform: translateX(0);     opacity: 1; } /* settles at natural position */
+}
+
+/* Applied to the <table> when the user moves to a HIGHER page number
+   (e.g. page 1 → page 2, or clicking the Next arrow) */
+.claims-page-slide.forward {
+  animation: slideInFromRight 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  /* cubic-bezier gives it a slightly snappy ease-out feel */
+}
+
+/* Applied to the <table> when the user moves to a LOWER page number
+   (e.g. page 2 → page 1, or clicking the Previous arrow) */
+.claims-page-slide.backward {
+  animation: slideInFromLeft 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+
+/* =============================================================================
+   17. PAGINATION CONTROLS BAR  (‹ 1  2  3 ›  buttons below the table)
+   -----------------------------------------------------------------------------
+   The pagination bar is right-aligned below the table and only renders when
+   there is more than one page (controlled in JSX).
+   It contains:
+     • A left arrow ‹ (previous page)
+     • Numbered page buttons (one per page)
+     • A right arrow › (next page)
+============================================================================= */
+
+/* Container row — flex, right-aligned, with a top padding that creates
+   a clear separation from the last table row */
+.expense-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* pushes the controls to the right edge of the card */
+  gap: 6px;
+  margin-top: auto;
+  padding: 16px 4px 4px;    /* 16 px top gap separates it from the table */
+}
+
+/* ── Shared base style for EVERY button in the pagination bar ───────────── */
+/* Arrow buttons and numbered page buttons both extend this base */
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;      /* ensures numbers like "10" don't look cramped */
+  height: 32px;
+  padding: 0 6px;
+  border: 1px solid #d9dfe8; /* light grey border by default */
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #292929;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;  /* inherits the page's Rubik font */
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+  user-select: none;   /* prevents accidental text selection on rapid clicks */
+  line-height: 1;
+}
+
+/* Hover state — only applies to buttons that are NOT disabled and NOT active */
+.pagination-btn:hover:not(:disabled):not(.active) {
+  background-color: #f0f5ff; /* very light blue tint */
+  border-color: #1f66c7;     /* blue border on hover */
+  color: #1f66c7;
+}
+
+/* ── Active (current) page button ────────────────────────────────────────── */
+/* Solid Fowgate blue fill to make it instantly clear which page we are on */
+.pagination-btn.pagination-page.active {
+  background-color: #1f66c7;
+  border-color: #1f66c7;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(31, 102, 199, 0.25); /* soft blue glow */
+  cursor: default; /* not clickable — you're already on this page */
+}
+
+/* ── Arrow buttons (‹ and ›) ─────────────────────────────────────────────── */
+/* Slightly narrower than numbered buttons since they only hold an SVG icon */
+.pagination-btn.pagination-arrow {
+  min-width: 30px;
+  color: #5f6c7b; /* medium grey — arrows are secondary to the page numbers */
+}
+
+/* Disabled state — when on page 1 the ‹ arrow is locked; when on the last
+   page the › arrow is locked.  pointer-events:none prevents any click. */
+.pagination-btn.pagination-arrow:disabled {
+  opacity: 0.35;       /* visually faded so it reads as "unavailable" */
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Ensures the SVG chevron icon renders as a block element so it centres
+   cleanly inside the flex button */
+.pagination-btn svg {
+  display: block;
+}

@@ -156,9 +156,9 @@ export function LoanEmptyIcon() {
   );
 }
 
-export function LoanHeaderIcon() {
+export function LoanHeaderIcon({ className, ...props }) {
   return (
-    <svg className="loan-header-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <svg className={className || "loan-header-icon"} viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
       <path d="M5.2 2.6h6.4l3.2 3.2v11.6H5.2V2.6Z" fill="#ffffff" />
       <path d="M11.6 2.6v3.2h3.2" stroke="#2563c7" strokeWidth="1.2" strokeLinejoin="round" />
       <path d="M10 8.1v5" stroke="#2563c7" strokeWidth="1.6" strokeLinecap="round" />
@@ -167,9 +167,9 @@ export function LoanHeaderIcon() {
   );
 }
 
-export function LoanDetailsHeaderIcon() {
+export function LoanDetailsHeaderIcon({ className, ...props }) {
   return (
-    <svg className="loan-header-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <svg className={className || "loan-header-icon"} viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
       <path d="M4 2.5C4 2.22386 4.22386 2 4.5 2H12L16 6V17.5C16 17.7761 15.7761 18 15.5 18H4.5C4.22386 18 4 17.7761 4 17.5V2.5Z" fill="#ffffff" />
       <path d="M12 2V6H16L12 2Z" fill="#dbeafe" />
       <rect x="6.5" y="9.5" width="5" height="2" rx="0.5" fill="#2563c7" />

@@ -1,0 +1,47 @@
+.request-submitted-modal {
+  width: 480px !important; /* Seems a bit narrower in the screenshot, or standard 528px. Let's stick to 528px for consistency, or maybe 440px. Let's use 528px but with more padding. */
+  height: auto !important;
+  max-height: calc(100vh - 48px);
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.request-submitted-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 24px;
+  display: block;
+}
+
+.request-submitted-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 0 0 12px;
+  font-family: 'Rubik', var(--font-family);
+}
+
+.request-submitted-text {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 32px;
+  line-height: 1.5;
+}
+
+.request-submitted-btn {
+  width: 100%;
+  height: 44px;
+  background-color: #1f66c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: var(--font-family);
+}
+
+.request-submitted-btn:hover {
+  background-color: #1a56a8;
+}

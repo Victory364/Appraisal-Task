@@ -1,53 +1,93 @@
 import React, { useState } from 'react';
 import './NewLoanModal.css';
-import { X, HelpCircle } from 'lucide-react';
 import { LoanHeaderIcon } from './Icons';
 import { loanPurposes, currencyOptions } from '../utils/constants';
 import { formatMoney } from '../utils/helpers';
+import confirmIcon from '../assets/Fowgate Folder/help-circle.svg';
+import successIllustration from '../assets/Fowgate Folder/Check for success page.svg';
 
 export default function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan }) {
   const isEditing = Boolean(initialLoan);
   const modalTitle = isEditing ? 'Edit Loan Details' : 'New Loan';
+
+  // State values
+  const [activeType, setActiveType] = useState(initialLoan?.type || 'Loan');
   const [selectedPurpose, setSelectedPurpose] = useState(initialLoan?.purpose || '');
   const [selectedCurrency, setSelectedCurrency] = useState(initialLoan?.currency || currencyOptions[0]);
   const [loanAmount, setLoanAmount] = useState(initialLoan?.amount ? String(initialLoan.amount) : '');
   const [loanDuration, setLoanDuration] = useState(initialLoan?.duration ? String(initialLoan.duration) : '');
+  
+  // Validation errors
+  const [formErrors, setFormErrors] = useState({});
+
+  // Overlay states
   const [isConfirming, setIsConfirming] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const formattedLoanAmount = formatMoney(loanAmount, selectedCurrency);
+
+  const formattedLoanAmount = formatMoney(loanAmount || 0, selectedCurrency);
   const finalPurpose = selectedPurpose || 'selected purpose';
+
+  const getTodayFormattedDate = () => {
+    const d = new Date();
+    const day = d.getDate();
+    const month = d.toLocaleDateString('en-US', { month: 'long' });
+    const year = d.getFullYear();
+    return `${day} ${month}, ${year}`;
+  };
 
   function handleFinishLoan() {
     const nextAmount = Number(loanAmount || 0);
-
     onSubmitLoan({
       ...(initialLoan || {}),
       id: initialLoan?.id || Date.now(),
-      dateTaken: initialLoan?.dateTaken || '25 May, 2026',
+      dateTaken: initialLoan?.dateTaken || getTodayFormattedDate(),
       amount: nextAmount,
       currency: selectedCurrency,
-      duration: loanDuration || '0',
+      duration: activeType === 'Loan' ? (loanDuration || '0') : '0',
       purpose: finalPurpose,
       balance: nextAmount,
       status: initialLoan?.status || 'Pending',
+      type: activeType
     });
     onClose();
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validate all fields at once
+    const errors = {};
+    if (!selectedPurpose) {
+      errors.purpose = 'Purpose of the loan is required.';
+    }
+    if (activeType === 'Loan' && (!loanDuration || Number(loanDuration) <= 0)) {
+      errors.duration = 'Loan duration must be greater than 0.';
+    }
+    if (!loanAmount || Number(loanAmount) <= 0) {
+      errors.amount = 'Amount must be greater than 0.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setFormErrors({});
+    setIsConfirming(true);
+  };
+
   if (isSubmitted) {
     return (
-      <div className="loan-modal-overlay success-overlay" role="presentation" onClick={handleFinishLoan}>
-        <div className="request-submitted-modal" role="dialog" aria-modal="true" aria-labelledby="request-submitted-title" onClick={(event) => event.stopPropagation()}>
-          <div className="success-dot">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-          </div>
-          <div className="success-copy">
-            <h2 id="request-submitted-title">{isEditing ? 'Changes Saved!' : 'Request Submitted!'}</h2>
-            <p>{isEditing ? 'The loan application has been updated to reflect the latest change' : 'The loan has been successfully submitted and the HR has been notified'}</p>
-          </div>
-          <button className="success-okay-button" type="button" onClick={handleFinishLoan}>Okay</button>
+      <div className="modal-overlay">
+        <div className="claim-modal claim-success-modal">
+          <img src={successIllustration} alt="Success checkmark" className="claim-success-illustration" />
+          <h3 className="claim-success-title">{isEditing ? 'Changes Saved!' : 'Loan Submitted'}</h3>
+          <p className="claim-success-copy">
+            {isEditing 
+              ? 'The loan application has been updated to reflect the latest changes.' 
+              : 'The loan request has been successfully submitted and the HR has been notified.'}
+          </p>
+          <button type="button" onClick={handleFinishLoan} className="modal-btn-primary">Okay</button>
         </div>
       </div>
     );
@@ -55,32 +95,27 @@ export default function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan
 
   if (isConfirming) {
     return (
-      <div className="loan-modal-overlay confirm-overlay" role="presentation" onClick={onClose}>
-        <div className="confirm-action-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-action-title" onClick={(event) => event.stopPropagation()}>
-          <div className="confirm-action-header">
-            <div className="confirm-action-title">
-              <HelpCircle size={18} />
-              <h2 id="confirm-action-title">Confirm Action</h2>
-            </div>
-            <button className="new-loan-close" type="button" aria-label="Close confirmation" onClick={() => setIsConfirming(false)}>
-              <X />
-            </button>
+      <div className="modal-overlay">
+        <div className="claim-modal claim-status-modal">
+          <div className="claim-modal-header">
+            <h3 className="claim-modal-title">
+              <img src={confirmIcon} alt="Confirm" className="claim-status-title-icon" />
+              Confirm Action
+            </h3>
+            <button onClick={() => setIsConfirming(false)} className="claim-modal-close">✕</button>
           </div>
-
-          <div className="confirm-action-body">
+          <div className="claim-status-copy">
             {isEditing ? (
-              <p>Are you sure you want to save the changes made to this loan application? Ensure all details are correct before proceeding</p>
+              <>Are you sure you want to submit the changes made to this <strong>Loan</strong>? Ensure all details are correct before proceeding.</>
             ) : (
-              <p>
-                Are you sure you want to proceed with the process of creating a loan of{' '}
-                <strong>{formattedLoanAmount}</strong> for <strong>{finalPurpose}</strong>?
-              </p>
+              <>Are you sure you want to proceed with the process of creating a loan of <strong>{formattedLoanAmount}</strong> for <strong>{finalPurpose}</strong>?</>
             )}
           </div>
-
-          <div className="confirm-action-footer">
-            <button className="cancel-loan-button" type="button" onClick={() => setIsConfirming(false)}>Cancel</button>
-            <button className="submit-loan-button" type="button" onClick={() => setIsSubmitted(true)}>Yes, I'm sure</button>
+          <div className="claim-modal-actions claim-status-actions">
+            <button type="button" onClick={() => setIsConfirming(false)} className="modal-btn-cancel">Cancel</button>
+            <button type="button" onClick={() => setIsSubmitted(true)} className="modal-btn-submit claim-status-confirm-button">
+              Yes, I'm sure
+            </button>
           </div>
         </div>
       </div>
@@ -88,75 +123,116 @@ export default function NewLoanModal({ initialLoan = null, onClose, onSubmitLoan
   }
 
   return (
-    <div className="loan-modal-overlay" role="presentation" onClick={onClose}>
-      <div className="new-loan-modal" role="dialog" aria-modal="true" aria-labelledby="new-loan-title" onClick={(event) => event.stopPropagation()}>
-        <div className="new-loan-header">
-          <div className="new-loan-title">
-            <LoanHeaderIcon />
-            <h2 id="new-loan-title">{modalTitle}</h2>
-          </div>
-          <button className="new-loan-close" type="button" aria-label={`Close ${modalTitle.toLowerCase()} form`} onClick={onClose}>
-            <X />
-          </button>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="claim-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="claim-modal-header">
+          <h3 className="claim-modal-title add-edit-title">
+            <LoanHeaderIcon className="claim-modal-title-icon" />
+            {modalTitle}
+          </h3>
+          <button onClick={onClose} className="claim-modal-close">x</button>
         </div>
 
-        <div className="new-loan-body">
-          <div className="loan-type-switch">
-            <button className="active" type="button">Loan</button>
-            <button type="button">Advances</button>
-          </div>
+        <form onSubmit={handleSubmit} className="add-edit-form">
+          <div className="hide-scrollbar add-edit-scroll">
+            
+            {/* Switcher Tab */}
+            <div className="loan-type-switch">
+              <button 
+                type="button" 
+                className={activeType === 'Loan' ? 'active' : ''} 
+                onClick={() => {
+                  setActiveType('Loan');
+                  setFormErrors({});
+                }}
+              >
+                Loan
+              </button>
+              <button 
+                type="button" 
+                className={activeType === 'Advances' ? 'active' : ''} 
+                onClick={() => {
+                  setActiveType('Advances');
+                  setFormErrors({});
+                }}
+              >
+                Advances
+              </button>
+            </div>
 
-          <div className="loan-form-fields">
-            <label className="form-field">
-              <span>Employee</span>
+            <div className="add-edit-field">
+              <label>Employee</label>
               <input value="Alfred Beckett" readOnly />
-            </label>
+            </div>
 
-            <label className="form-field">
-              <span>Purpose of the Loan</span>
-              <select className="native-select" value={selectedPurpose} onChange={(event) => setSelectedPurpose(event.target.value)}>
+            <div className="add-edit-field">
+              <label>Purpose of the {activeType}</label>
+              <select 
+                value={selectedPurpose} 
+                onChange={(e) => {
+                  setSelectedPurpose(e.target.value);
+                  setFormErrors(errs => ({ ...errs, purpose: '' }));
+                }}
+                className={formErrors.purpose ? 'is-invalid' : ''}
+              >
                 <option value="">Select</option>
                 {loanPurposes.map((purpose) => (
                   <option key={purpose} value={purpose}>{purpose}</option>
                 ))}
               </select>
-            </label>
+              {formErrors.purpose && <span className="add-edit-error">{formErrors.purpose}</span>}
+            </div>
 
-            <label className="form-field">
-              <span>Amount</span>
-              <div className="amount-input amount-country-input">
+            <div className="add-edit-field">
+              <label>Amount</label>
+              <div className="amount-input-container">
                 <input
+                  type="number"
                   inputMode="decimal"
                   placeholder="Enter amount"
                   value={loanAmount}
-                  onChange={(event) => setLoanAmount(event.target.value)}
+                  onChange={(e) => {
+                    setLoanAmount(e.target.value);
+                    setFormErrors(errs => ({ ...errs, amount: '' }));
+                  }}
+                  className={formErrors.amount ? 'is-invalid' : ''}
+                  min="0"
                 />
-                <div className="amount-country-button" aria-label={`Currency ${selectedCurrency.code}`}>
-                  <span className="nigeria-flag" aria-hidden="true" />
+                <div className="amount-input-flag-btn">
+                  <span className="nigeria-flag" />
                   {selectedCurrency.code}
                 </div>
               </div>
-            </label>
+              {formErrors.amount && <span className="add-edit-error">{formErrors.amount}</span>}
+            </div>
 
-            <label className="form-field">
-              <span>Duration of the loan</span>
-              <div className="amount-input">
-                <input
-                  inputMode="numeric"
-                  placeholder="Enter number of month"
-                  value={loanDuration}
-                  onChange={(event) => setLoanDuration(event.target.value)}
-                />
-                <div className="input-addon">Months</div>
+            {activeType === 'Loan' && (
+              <div className="add-edit-field">
+                <label>Duration of the Loan</label>
+                <div className="duration-input-container">
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    placeholder="Enter number of months"
+                    value={loanDuration}
+                    onChange={(e) => {
+                      setLoanDuration(e.target.value);
+                      setFormErrors(errs => ({ ...errs, duration: '' }));
+                    }}
+                    className={formErrors.duration ? 'is-invalid' : ''}
+                  />
+                  <div className="duration-input-addon">Months</div>
+                </div>
+                {formErrors.duration && <span className="add-edit-error">{formErrors.duration}</span>}
               </div>
-            </label>
+            )}
           </div>
-        </div>
 
-        <div className="new-loan-footer">
-          <button className="cancel-loan-button" type="button" onClick={onClose}>Cancel</button>
-          <button className="submit-loan-button" type="button" onClick={() => setIsConfirming(true)}>Submit</button>
-        </div>
+          <div className="claim-modal-actions">
+            <button type="button" onClick={onClose} className="modal-btn-cancel">Close</button>
+            <button type="submit" className="modal-btn-submit">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
   );

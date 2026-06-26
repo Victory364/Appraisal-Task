@@ -1,0 +1,320 @@
+/* Modal Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.42);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide-in Modal Container */
+.modal-container {
+  position: fixed;
+  top: 16px;
+  right: -500px;
+  /* Start off-screen */
+  width: 480px;
+  height: calc(100vh - 32px);
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.modal-container.open {
+  right: 16px;
+  /* Slide in with padding from the edge */
+}
+
+/* Header */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.modal-user-subtitle {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.close-button:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+/* Content Area */
+.modal-content {
+  flex-grow: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.date-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f3f4f6;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.date-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.highlight-q3 {
+  color: #4f46e5;
+}
+
+.dropdown-icon {
+  color: #6b7280;
+}
+
+/* Appraisal Sections */
+.appraisal-section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #eef2ff;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.rating-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.rating-label {
+  color: #fdfdfd;
+}
+
+.rating-value {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Rating Rows */
+.rating-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 8px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.rating-row:last-child {
+  border-bottom: none;
+}
+
+.rating-desc {
+  font-size: 13px;
+  color: #374151;
+  flex: 1;
+  padding-right: 16px;
+}
+
+.rating-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.star-icon.filled {
+  color: #f59e0b;
+  fill: #f59e0b;
+}
+
+.report-star-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footer-close-btn {
+  background-color: #eef2ff;
+  color: #4f46e5;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.footer-close-btn:hover {
+  background-color: #e0e7ff;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .modal-container {
+    width: calc(100vw - 32px);
+    right: calc(-100vw);
+  }
+
+  .modal-container.open {
+    right: 16px;
+  }
+
+  .rating-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .rating-desc {
+    padding-right: 0;
+  }
+}
+
+/* Date Dropdown in Modal */
+.dropdown-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: transparent;
+}
+
+.report-dropdown {
+  position: absolute;
+  top: calc(100% - 16px);
+  left: 0;
+  width: 168px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08), 0px 2px 6px rgba(0, 0, 0, 0.04);
+  border: 0.5px solid #e2e8f0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  gap: 6px;
+  animation: dropdownFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.report-dropdown-item {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.report-dropdown-item:hover {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.report-dropdown-item.active {
+  background-color: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
+}

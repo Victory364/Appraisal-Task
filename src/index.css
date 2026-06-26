@@ -1,51 +1,260 @@
+/**
+ * index.css — Global Design System & Layout Foundation
+ * -------------------------------------------------------
+ * This is the single source of truth for the Fowgate HR portal's design
+ * tokens. Every component file imports this indirectly via main.jsx.
+ *
+ * File structure:
+ *   1. Google Fonts import
+ *   2. CSS custom properties (design tokens) on :root
+ *   3. Universal box-sizing reset
+ *   4. Body base styles
+ *   5. #root container
+ *   6. Dashboard grid layout classes used in App.jsx
+ *   7. Responsive breakpoints for the grid
+ *   8. .hide-scrollbar utility class
+ */
+
+/* ─── 1. GOOGLE FONTS ────────────────────────────────────────────────────────
+   Rubik  — the default body/UI font used across the application.
+            Loaded at weights 300 (light), 400 (regular), 500 (medium),
+            600 (semi-bold), 700 (bold).
+   display=swap ensures text remains visible while the fonts are downloading.
+   ─────────────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+
+/* ─── 2. CSS CUSTOM PROPERTIES (DESIGN TOKENS) ───────────────────────────────
+   All colour, font, and semantic values are stored here as CSS variables.
+   Using variables instead of hard-coded values means:
+     • Changing a brand colour in one place updates the whole UI instantly.
+     • Every component file can reference these by name, making code readable.
+   Grouped by category — brand palette, backgrounds, text, borders, states,
+   and status colours.
+   ─────────────────────────────────────────────────────────────────────────── */
 :root {
-  color-scheme: light;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #ffffff;
-  color: #0f172a;
+  /* ── Typography ─────────────────────────────────────────────────────────
+     --font-family is the full fallback stack. Rubik is first choice;
+     the rest guarantee readable text even if the Google Fonts CDN is down. */
+  --font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+
+  /* ── Brand Blue Palette ─────────────────────────────────────────────────
+     The primary blue (#0f52ba / "Cobalt") is Fowgate's brand colour.
+     It is used for buttons, active tab underlines, focus rings, and links.
+     --primary-blue-light is the very pale tint used for ghost button
+     backgrounds and hover states on white surfaces. */
+  --primary-blue: #0f52ba;
+  --primary-blue-hover: #0c4399;
+  /* darkened 10 % for hover states */
+  --primary-blue-light: #eff6ff;
+  /* very pale blue for ghost backgrounds */
+
+  /* ── Background Colours ─────────────────────────────────────────────────
+     --bg-app is the page-level light grey background behind all cards.
+     --bg-sidebar-start / end are the two gradient stops on the sidebar.
+     --bg-white is aliased so components can reference the concept of
+     "white background" without hard-coding #ffffff everywhere. */
+  --bg-app: #f4f5f8;
+  --bg-sidebar-start: #292929;
+  --bg-sidebar-end: #111111;
+  --bg-white: #ffffff;
+
+  /* ── Text Colours ───────────────────────────────────────────────────────
+     A three-level hierarchy: primary (near-black), secondary (slate grey),
+     muted (lighter grey), and white (for text on dark backgrounds). */
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --text-white: #ffffff;
+
+  /* ── Borders & Dividers ─────────────────────────────────────────────────
+     --border-light is a pale grey used on card edges and input borders
+     throughout the page.
+     --border-muted is a semi-transparent white used only on dark (sidebar)
+     backgrounds where a fully opaque border would look too heavy. */
+  --border-light: #e2e8f0;
+  --border-muted: rgba(255, 255, 255, 0.08);
+
+  /* ── Interaction State Overlays ─────────────────────────────────────────
+     These semi-transparent values are layered on top of an existing
+     background colour so hover/active tints work on any surface without
+     knowing the exact background colour. */
+  --state-hover-light: rgba(15, 82, 186, 0.04);
+  /* blue tint on light bg */
+  --state-hover-dark: rgba(255, 255, 255, 0.06);
+  /* white tint on dark bg */
+  --state-active-dark: rgba(255, 255, 255, 0.10);
+  /* stronger white on dark bg */
+
+  /* ── Status / Badge Colours ─────────────────────────────────────────────
+     Green pill used in the metric cards' growth badge and the Approved
+     status pill in the claims table. */
+  --status-green-bg: #e2fbe8;
+  /* pale green background */
+  --status-green-text: #22c55e;
+  /* vivid green text for contrast */
 }
 
-* {
+
+/* ─── 3. UNIVERSAL BOX-SIZING RESET ─────────────────────────────────────────
+   By default, browsers calculate element width/height WITHOUT including
+   padding and border.  border-box mode flips this so padding and border are
+   always INSIDE the declared width — making layout math predictable.
+   Applying it to *, *::before, *::after covers every element and pseudo-element.
+   margin: 0 and padding: 0 remove inconsistent browser default spacing.
+   ─────────────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-*::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
-}
-
-body,
-html,
-#root {
   margin: 0;
-  height: 100vh;
-  width: 100%;
-  background: #ffffff;
-  overflow: hidden !important;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 0;
 }
 
+
+/* ─── 4. BODY BASE STYLES ────────────────────────────────────────────────────
+   Sets the default font, background colour, and text colour for the whole
+   page so every component inherits a consistent starting point.
+   -webkit-font-smoothing: antialiased makes fonts render with thinner strokes
+   on macOS/iOS (closer to the Figma design view).
+   display: flex with justify-content: stretch ensures the app fills the
+   full browser width on any screen size.
+   ─────────────────────────────────────────────────────────────────────────── */
 body {
-  position: fixed;
-  inset: 0;
-}
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-#root::-webkit-scrollbar {
-  display: none;
+  font-family: var(--font-family);
+  background-color: #f3f4f6;
+  /* slight warm grey page background */
+  color: var(--text-primary);
+  min-height: 100vh;
+  /* at least full viewport height */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: stretch;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
+  /* crisp fonts on macOS/iOS */
+  -moz-osx-font-smoothing: grayscale;
+  /* crisp fonts on Firefox/macOS */
 }
 
 button,
-input {
-  font: inherit;
+input,
+textarea,
+select {
+  font-family: var(--font-family);
 }
 
-button {
-  border: none;
-  cursor: pointer;
+
+/* ─── 5. ROOT CONTAINER ──────────────────────────────────────────────────────
+   The <div id="root"> is injected by Vite's index.html and is the mount
+   point for the React tree.  Making it full-width and min full viewport height
+   prevents the dashboard from leaving blank space at the bottom.
+   ─────────────────────────────────────────────────────────────────────────── */
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+
+/* ─── 6. MASTER LAYOUT CLASSES ───────────────────────────────────────────────
+   These classes are used directly in App.jsx to build the two-column
+   Sidebar + Main Content layout.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * .dashboard-container
+ * The outermost flex row that holds both the fixed Sidebar and the scrollable
+ * main content area side by side.
+ * overflow: hidden clips anything the sidebar might push outside the card.
+ */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: none;
+  /* full viewport width — no max constraint */
+  min-height: 100vh;
+  background-color: var(--bg-white);
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/**
+ * .dashboard-main-area
+ * The right-hand column that grows to fill all space not occupied by the sidebar.
+ * margin-left: 250px pushes it out from behind the fixed sidebar.
+ * flex-direction: column stacks the Header on top of the page content.
+ * min-width: 0 is a critical flexbox fix — without it, wide content (e.g. a
+ * long table) would force this column to overflow its parent.
+ */
+.dashboard-main-area {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* take all remaining width */
+  min-width: 0;
+  /* prevent flex overflow bug */
+  margin-left: 250px;
+  /* offset for the fixed 250 px sidebar */
+  background-color: var(--bg-white);
+  align-items: stretch;
+}
+
+/**
+ * .page-content-wrapper
+ * Wraps the active page component (e.g. ExpenseClaimsPage).
+ * padding-bottom: 40px ensures the bottom of the page is never flush
+ * against the viewport edge, giving a comfortable reading experience.
+ */
+.page-content-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: 40px;
+}
+
+
+/* ─── 7. RESPONSIVE LAYOUT BREAKPOINTS ───────────────────────────────────────
+   The sidebar shrinks at narrower desktop widths (defined in Sidebar.css),
+   so the main content margin-left must match those smaller sidebar widths.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Tablet-landscape / smaller laptop: sidebar is 224 px */
+@media (max-width: 1366px) and (min-width: 901px) {
+  .dashboard-main-area {
+    margin-left: 224px;
+  }
+}
+
+/* Narrow laptop: sidebar is 208 px */
+@media (max-width: 1180px) and (min-width: 901px) {
+  .dashboard-main-area {
+    margin-left: 208px;
+  }
+}
+
+
+/* ─── 8. UTILITY: HIDE SCROLLBAR ─────────────────────────────────────────────
+   Some areas (e.g. the horizontal tab nav in the Header, modal bodies) need
+   to scroll without showing an ugly scrollbar track.
+   .hide-scrollbar enables scrolling but hides the visual scrollbar in:
+     • Chrome/Safari  — ::-webkit-scrollbar { display: none }
+     • Firefox        — scrollbar-width: none
+     • IE/Edge legacy — -ms-overflow-style: none
+   Add this class to any overflow-scroll container you want to keep clean.
+   ─────────────────────────────────────────────────────────────────────────── */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and legacy Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }

@@ -1,12 +1,18 @@
 export function formatMoney(amount, currency) {
-  return `${currency.symbol}${Number(amount || 0).toLocaleString(undefined, {
+  const symbol = typeof currency === 'string'
+    ? (currency === 'NGN' ? '₦' : currency)
+    : (currency?.symbol || '₦');
+  return `${symbol}${Number(amount || 0).toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
 }
 
 export function formatMoneyNoDecimals(amount, currency) {
-  return `${currency.symbol}${Number(amount || 0).toLocaleString(undefined, {
+  const symbol = typeof currency === 'string'
+    ? (currency === 'NGN' ? '₦' : currency)
+    : (currency?.symbol || '₦');
+  return `${symbol}${Number(amount || 0).toLocaleString(undefined, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   })}`;

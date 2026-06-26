@@ -1,0 +1,520 @@
+.add-edit-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.add-edit-title {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 140%;
+}
+
+.add-edit-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px 0;
+}
+
+.add-edit-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  border-bottom: 0.5px solid #eaeaea;
+  color: #292929;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.add-edit-step-spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #d9e8ff;
+  border-left-color: #1f66c7;
+  border-bottom-color: #1f66c7;
+  transform: rotate(45deg);
+  box-sizing: border-box;
+}
+
+.add-edit-step-spinner.is-step-two {
+  border-color: #1f66c7;
+}
+
+.add-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.add-edit-description-field {
+  min-height: 160px;
+}
+
+.add-edit-date-field {
+  min-height: 78px;
+  margin-bottom: 72px;
+}
+
+.add-edit-field label,
+.add-edit-upload-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #292929;
+}
+
+.add-edit-field input,
+.add-edit-field select,
+.add-edit-field textarea,
+.add-edit-date-input {
+  width: 100%;
+  border-radius: 4px;
+  border: 0.5px solid #d9dfe8;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+.add-edit-field input,
+.add-edit-field select,
+.add-edit-date-input {
+  height: 40px;
+  padding: 0 12px;
+}
+
+.add-edit-field textarea {
+  height: 128px;
+  padding: 14px 12px 28px;
+  resize: none;
+}
+
+.add-edit-field .add-edit-details {
+  height: 80px;
+  padding: 14px 12px;
+}
+
+.add-edit-textarea-wrap,
+.add-edit-date-wrap,
+.add-edit-amount-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.add-edit-textarea-wrap span {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  font-size: 12px;
+  color: #7a7a7a;
+}
+
+.add-edit-error {
+  margin-top: 6px;
+  color: #dc2626;
+  font-size: 12px;
+  line-height: 140%;
+}
+
+.is-invalid {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.08);
+}
+
+.add-edit-date-input {
+  padding-right: 42px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.add-edit-date-input .is-placeholder {
+  color: #7a7a7a;
+}
+
+.add-edit-date-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* ── Calendar Dropdown ─────────────────────────────────────── */
+.add-edit-calendar {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 318px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow:
+    0 20px 60px -10px rgba(31, 102, 199, 0.14),
+    0 8px 24px -4px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  padding: 18px 16px 16px;
+  box-sizing: border-box;
+  animation: calendarFadeIn 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes calendarFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header row */
+.add-edit-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 0 2px;
+}
+
+.add-edit-calendar-header button {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  line-height: 1;
+}
+
+.add-edit-calendar-header button:hover {
+  background: #1f66c7;
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.add-edit-calendar-header span {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+/* Weekday labels */
+.add-edit-calendar-weekdays,
+.add-edit-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.add-edit-calendar-weekdays {
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.add-edit-calendar-weekdays div {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 0;
+}
+
+/* Day cells */
+.add-edit-calendar-empty,
+.add-edit-calendar-days button {
+  aspect-ratio: 1;
+}
+
+.add-edit-calendar-days button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  transition: background 0.13s, color 0.13s, transform 0.1s, box-shadow 0.13s;
+  position: relative;
+}
+
+.add-edit-calendar-days button:hover:not(.is-selected) {
+  background: #eff6ff;
+  color: #1f66c7;
+  font-weight: 600;
+  transform: scale(1.07);
+}
+
+.add-edit-calendar-days button.is-selected {
+  background: linear-gradient(135deg, #1f66c7 0%, #3b82f6 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 9px;
+  box-shadow: 0 4px 12px rgba(31, 102, 199, 0.38);
+  transform: scale(1.08);
+}
+
+.add-edit-calendar-days button.is-today:not(.is-selected) {
+  color: #1f66c7;
+  font-weight: 700;
+}
+
+.add-edit-calendar-days button.is-today:not(.is-selected)::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #1f66c7;
+}
+
+.add-edit-category-panel {
+  width: 100%;
+  border: 0.5px solid #eaeaea;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.add-edit-category-header {
+  width: 100%;
+  height: 54px;
+  padding: 0 14px;
+  background-color: #f5f5f5;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #292929;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.modal-overlay .add-edit-category-header:hover,
+.modal-overlay .add-edit-category-header:active {
+  transform: none;
+  box-shadow: none;
+  background-color: #f5f5f5;
+}
+
+.modal-overlay .add-edit-category-header:focus-visible {
+  outline: none;
+}
+
+.add-edit-category-header span {
+  transition: transform 0.2s;
+}
+
+.add-edit-category-header span.is-collapsed {
+  transform: rotate(180deg);
+}
+
+.add-edit-category-body {
+  padding: 18px 14px 14px;
+  box-sizing: border-box;
+}
+
+.add-edit-category-body .add-edit-field:last-child {
+  margin-bottom: 0;
+}
+
+.add-edit-amount-wrap > span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #292929;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.add-edit-amount-wrap input {
+  padding-left: 24px;
+}
+
+.add-edit-add-category {
+  width: 100%;
+  color: #1f66c7;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-overlay .add-edit-add-category:hover,
+.modal-overlay .add-edit-add-category:active {
+  transform: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.add-edit-category-error {
+  margin-bottom: 12px;
+}
+
+.add-edit-upload-section {
+  margin-bottom: 24px;
+}
+
+.add-edit-upload-label {
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.add-edit-upload-box {
+  border: 1.5px dashed #1f66c7;
+  border-radius: 8px;
+  padding: 32px 24px;
+  text-align: center;
+  background-color: #f4f8ff;
+  cursor: pointer;
+  position: relative;
+}
+
+.add-edit-upload-box input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.add-edit-upload-box img {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 12px;
+}
+
+.add-edit-upload-box div {
+  font-size: 15px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.add-edit-upload-box div span {
+  color: #1f66c7;
+}
+
+.add-edit-upload-box p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 6px 0 0;
+}
+
+.add-edit-upload-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.add-edit-upload-item {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.add-edit-upload-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-edit-upload-text > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.add-edit-upload-text strong {
+  font-size: 15px;
+  color: #292929;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.add-edit-upload-text > div:first-child span {
+  font-size: 14px;
+  color: #7a7a7a;
+  flex-shrink: 0;
+}
+
+.add-edit-upload-progress {
+  width: 100%;
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.add-edit-upload-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background-color: #34a853;
+  border-radius: 3px;
+  transition: width 0.18s ease;
+}
+
+.add-edit-upload-status {
+  margin-top: -4px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.add-edit-upload-status.is-failed {
+  color: #dc2626;
+}
+
+.add-edit-total {
+  padding: 16px 24px;
+  border-top: 0.5px solid #eaeaea;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #292929;
+  background-color: #ffffff;
+}

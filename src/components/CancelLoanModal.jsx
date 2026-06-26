@@ -1,51 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './CancelLoanModal.css';
-import { HelpCircle, X } from 'lucide-react';
+import confirmIcon from '../assets/Fowgate Folder/help-circle.svg';
+import successIllustration from '../assets/Fowgate Folder/Check for success page.svg';
 
-export default function CancelLoanModal({ onClose, onConfirm }) {
-  const [isCancelled, setIsCancelled] = useState(false);
-
-  if (isCancelled) {
-    return (
-      <div className="loan-modal-overlay success-overlay" role="presentation" onClick={onConfirm}>
-        <div className="application-cancelled-modal" role="dialog" aria-modal="true" aria-labelledby="application-cancelled-title" onClick={(event) => event.stopPropagation()}>
-          <div className="cancel-success-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-          </div>
-          <div className="success-copy">
-            <h2 id="application-cancelled-title">Application Cancelled!</h2>
-            <p>Your loan application has been cancelled successfully.</p>
-          </div>
-          <button className="success-okay-button" type="button" onClick={onConfirm}>Okay</button>
-        </div>
-      </div>
-    );
-  }
-
+export default function CancelLoanModal({
+  cancelStatus,
+  onClose,
+  onConfirmCancel,
+  onCloseSuccess
+}) {
   return (
-    <div className="loan-modal-overlay confirm-overlay" role="presentation" onClick={onClose}>
-      <div className="confirm-action-modal" role="dialog" aria-modal="true" aria-labelledby="cancel-loan-title" onClick={(event) => event.stopPropagation()}>
-        <div className="confirm-action-header">
-          <div className="confirm-action-title">
-            <HelpCircle size={18} />
-            <h2 id="cancel-loan-title">Confirm Action</h2>
+    <div className="modal-overlay">
+      {cancelStatus === 'confirm' ? (
+        <div className="cancel-loan-modal">
+          <div className="cancel-loan-header">
+            <div className="cancel-loan-title">
+              <img src={confirmIcon} alt="Confirm" />
+              Confirm Action
+            </div>
+            <button onClick={onClose} className="cancel-loan-close">✕</button>
           </div>
-          <button className="new-loan-close" type="button" aria-label="Close cancel confirmation" onClick={onClose}>
-            <X />
-          </button>
+          <div className="cancel-loan-copy">
+            Are you sure you want to proceed with cancelling this loan application?
+          </div>
+          <div className="cancel-loan-actions">
+            <button onClick={onClose} className="cancel-loan-ghost">Cancel</button>
+            <button onClick={onConfirmCancel} className="cancel-loan-confirm">Yes, I'm sure</button>
+          </div>
         </div>
-
-        <div className="confirm-action-body">
-          <p>Are you sure you want to proceed with the action of cancelling this loan application?</p>
+      ) : (
+        <div className="cancel-success-modal">
+          <img src={successIllustration} alt="Success checkmark" className="cancel-success-illustration" />
+          <h3>Application Cancelled!</h3>
+          <p>Your loan application has been cancelled successfully.</p>
+          <button onClick={onCloseSuccess} className="cancel-success-button">Okay</button>
         </div>
-
-        <div className="confirm-action-footer">
-          <button className="cancel-loan-button" type="button" onClick={onClose}>Cancel</button>
-          <button className="submit-loan-button" type="button" onClick={() => setIsCancelled(true)}>Yes, I'm sure</button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

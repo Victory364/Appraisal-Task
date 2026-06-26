@@ -1,235 +1,109 @@
-import { useState } from 'react';
-import './App.css';
-import {
-  Mail,
-  Search,
-  Download,
-  Info,
-  MapPin,
-  Star,
-} from 'lucide-react';
+/**
+ * App.jsx — Root Application Shell
+ * ----------------------------------
+ * This is the top-level component that every page in the Fowgate HR portal
+ * passes through. It composes the three major layout regions side-by-side:
+ *
+ *   ┌──────────────┬─────────────────────────────────────┐
+ *   │              │  Header (My Account + tab nav)       │
+ *   │   Sidebar    ├─────────────────────────────────────┤
+ *   │  (250 px)    │  Page Content                        │
+ *   │              │  (ExpenseClaimsPage in this build)   │
+ *   └──────────────┴─────────────────────────────────────┘
+ *
+ * Layout rules:
+ *   • The Sidebar is fixed-position (defined in Sidebar.css) and always 250 px
+ *     wide. The main area compensates with margin-left: 250px in index.css.
+ *   • The Header is sticky at the top of the main column.
+ *   • page-content-wrapper adds bottom padding so the last section is never
+ *     flush against the edge of the viewport.
+ *
+ * Props passed down:
+ *   • Sidebar  → activeItem="My Account"    highlights the correct nav link
+ *   • Header   → activeTab="Expense Claims" underlines the correct tab
+ */
 
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import RatingStars from './components/RatingStars';
-import AppraisalReportModal from './components/AppraisalReportModal';
-import NewLoanModal from './components/NewLoanModal';
-import LoanManagement from './components/LoanManagement';
-import { selfAppraisal, teamMembers, criteria, tabs } from './utils/constants';
+// Layout components — each lives in its own file inside /components
+import { useState } from 'react';
+import Sidebar from './components/Sidebar/Sidebar';
+import Header from './components/Header/Header';
+
+// The main feature pages
+import ExpenseClaimsPage from './components/ExpenseClaimsPage/ExpenseClaimsPage';
+import MyAppraisalsPage from './components/MyAppraisalsPage/MyAppraisalsPage';
+import MyProfilePage from './components/MyProfilePage/MyProfilePage';
+import LoanManagement from './components/LoanManagement.jsx';
+
+// App-level CSS (currently just a comment; global styles live in index.css)
+import './App.css';
 
 function App() {
-  const [isReportOpen, setIsReportOpen] = useState(false);
-  const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('Appraisals');
-  const [loans, setLoans] = useState([]);
-  const [selectedEmployeeName, setSelectedEmployeeName] = useState(selfAppraisal.name);
-  const selectedEmployee = [selfAppraisal, ...teamMembers].find((employee) => employee.name === selectedEmployeeName) || selfAppraisal;
+  // Track which header tab is currently active
+  const [activeTab, setActiveTab] = useState('Loans & Advances');
+
+  // Render the correct page component based on the active tab
+  const renderPage = () => {
+    switch (activeTab) {
+      case 'My Profile':
+        return <MyProfilePage />;
+      case 'Appraisals':
+        return <MyAppraisalsPage />;
+      case 'Expense Claims':
+        return <ExpenseClaimsPage />;
+      case 'Loans & Advances':
+        return <LoanManagement />;
+      default:
+        // Placeholder for tabs not yet implemented
+        return (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '400px',
+            color: '#94a3b8',
+            gap: '12px'
+          }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4M12 16h.01" />
+            </svg>
+            <p style={{ fontSize: '15px', fontWeight: '500' }}>{activeTab} — Coming Soon</p>
+          </div>
+        );
+    }
+  };
 
   return (
-    <div className="app-shell">
-      <Sidebar />
+    /**
+     * dashboard-container
+     * A full-width flex row defined in index.css.
+     * The Sidebar sits on the left; the main area grows to fill the rest.
+     */
+    <div className="dashboard-container">
 
-      <main className="main-content">
-        <Header />
+      {/* ── Left Sidebar ──────────────────────────────────────────────────
+          Fixed column, always visible. activeItem controls which link
+          is highlighted with the white left-border indicator.          */}
+      <Sidebar activeItem="My Account" />
 
-        <section className="tab-row">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              className={`tab-item ${tab === activeTab ? 'active-tab' : ''}`}
-              type="button"
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </section>
+      {/* ── Main Content Column ───────────────────────────────────────────
+          Grows to fill the remaining width after the 250 px sidebar.
+          Stacks the Header on top and the page content below it.       */}
+      <main className="dashboard-main-area">
 
-        {activeTab === 'Loans & Advances' ? (
-          <LoanManagement
-            loans={loans}
-            onNewLoan={() => setIsNewLoanOpen(true)}
-            onEditLoan={(updatedLoan) => {
-              setLoans((currentLoans) => currentLoans.map((loan) => (
-                loan.id === updatedLoan.id ? updatedLoan : loan
-              )));
-            }}
-            onCancelLoan={(loanId) => {
-              setLoans((currentLoans) => currentLoans.map((loan) => (
-                loan.id === loanId ? { ...loan, status: 'Cancelled' } : loan
-              )));
-            }}
-          />
-        ) : (
-        <section className="appraisal-workspace">
-          <div className="appraisal-titlebar">
-            <h2>Appraisal Task</h2>
-            <button className="report-button secondary" type="button" onClick={() => setIsReportOpen(true)}>
-              My Appraisal Report
-            </button>
-          </div>
+        {/* Header — "My Account" title, search bar, bell, profile, and
+            the horizontal tab row. activeTab keeps the selected tab
+            underlined in blue.                                          */}
+        <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
-          <div className="dashboard-grid">
-            <div className="panel left-panel">
-              <div className="card employee-panel">
-                <div className="search-field compact">
-                  <Search className="search-icon" />
-                  <input placeholder="Search name, department..." />
-                </div>
+        {/* Scrollable page body — wraps the active feature page.
+            The page-content-wrapper class adds 40 px bottom padding so
+            content is never flush against the bottom of the viewport.  */}
+        <div className={`page-content-wrapper${activeTab === 'Appraisals' ? ' appraisals-content-wrapper' : ''}`}>
+          {renderPage()}
+        </div>
 
-                <div className="task-section">
-                  <p className="section-label">Self Appraisal</p>
-                  <button
-                    className={`employee-row person-row self-appraisal-row ${selectedEmployee.name === selfAppraisal.name ? 'selected-person' : ''}`}
-                    type="button"
-                    onClick={() => setSelectedEmployeeName(selfAppraisal.name)}
-                  >
-                    <div className={`employee-avatar team-avatar ${selfAppraisal.tone}`}>{selfAppraisal.avatar}</div>
-                    <div className="employee-meta">
-                      <p className="employee-name">{selfAppraisal.name}</p>
-                      <p className="employee-role">{selfAppraisal.role}</p>
-                      <div className="team-rating">
-                        <RatingStars value={selfAppraisal.rating} />
-                      </div>
-                    </div>
-                  </button>
-                </div>
-
-                <div className="task-section team-section">
-                  <p className="section-label">Team Members</p>
-                  <div className="employee-list">
-                    {teamMembers.map((employee) => (
-                      <button
-                        key={employee.name}
-                        className={`employee-row person-row compact-row ${selectedEmployee.name === employee.name ? 'selected-person' : ''}`}
-                        type="button"
-                        onClick={() => setSelectedEmployeeName(employee.name)}
-                      >
-                        <div className={`employee-avatar team-avatar ${employee.tone}`}>{employee.avatar}</div>
-                        <div className="employee-meta">
-                          <p className="employee-name">{employee.name}</p>
-                          <p className="employee-role">{employee.role}</p>
-                          <div className="team-rating">
-                            <RatingStars value={employee.rating} />
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="panel right-panel">
-              <div className="profile-card card">
-                <div className="profile-card-top">
-                  <div className="profile-identity">
-                    <div className={`profile-avatar-large team-avatar ${selectedEmployee.tone}`}>{selectedEmployee.avatar}</div>
-                    <div>
-                      <h2>{selectedEmployee.name}</h2>
-                      <p className="profile-meta">
-                        <MapPin className="meta-icon" /> {selectedEmployee.location}
-                      </p>
-                    </div>
-                  </div>
-                  <button className="report-button" type="button">
-                    <Download size={16} /> Download Report
-                  </button>
-                </div>
-
-                <div className="profile-main">
-                  <div className="profile-info">
-                    <div className="profile-badge-row">
-                      <div className="profile-badge">
-                        <Star className="profile-badge-star" />
-                        {selectedEmployee.rating.toFixed(1)}
-                      </div>
-                      <span className="badge-info">+0.3% From last cycle</span>
-                    </div>
-                    <div className="profile-contact">
-                      <Mail className="meta-icon" /> {selectedEmployee.email}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="profile-details">
-                  <div>
-                    <span className="detail-label">Role</span>
-                    <span>{selectedEmployee.role}</span>
-                  </div>
-                  <div>
-                    <span className="detail-label">Department</span>
-                    <span>{selectedEmployee.department}</span>
-                  </div>
-                  <div>
-                    <span className="detail-label">Reporting Manager</span>
-                    <span>{selectedEmployee.manager}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card appraisal-card">
-                <div className="appraisal-form-header">
-                  <div className="appraisal-form-title">
-                    <Info className="info-icon" />
-                    <h3>Self Appraisal</h3>
-                  </div>
-                  <div className="date-pill">24 Dec, 2024 - <span>Q3</span></div>
-                </div>
-
-                <div className="appraisal-summary-bar">
-                  <span className="summary-label">Self Appraisal</span>
-                  <div className="rating-summary">
-                    <span>Rating</span>
-                    <div className="rating-box">4.0</div>
-                  </div>
-                </div>
-
-                <div className="criteria-list">
-                  {criteria.map((label, index) => (
-                    <div key={index} className="criteria-row">
-                      <div className="criteria-label">{label}</div>
-                      <div className="rating-cell">
-                        <div className="rating-pills">
-                          {[5, 4, 3, 2, 1].map((value) => (
-                            <label key={value} className={`pill ${value === 4 ? 'selected' : ''}`}>
-                              <input type="radio" name={`rating-${index}`} value={value} defaultChecked={value === 4} />
-                              <span>{value}</span>
-                            </label>
-                          ))}
-                        </div>
-                        <div className="rating-values">
-                          {[5, 4, 3, 2, 1].map((value) => (
-                            <span key={value}>{value}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="summary-row">
-                  <span>APPRAISAL SUMMARY</span>
-                  <div className="summary-score">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="summary-star" />
-                    ))}
-                    <strong>0.0</strong>
-                  </div>
-                </div>
-                <button className="submit-button" type="button">Submit Appraisal</button>
-              </div>
-             </div>
-          </div>
-        </section>
-        )}
-        {isReportOpen && <AppraisalReportModal onClose={() => setIsReportOpen(false)} />}
-        {isNewLoanOpen && (
-          <NewLoanModal
-            onClose={() => setIsNewLoanOpen(false)}
-            onSubmitLoan={(loan) => setLoans((currentLoans) => [loan, ...currentLoans])}
-          />
-        )}
       </main>
     </div>
   );
