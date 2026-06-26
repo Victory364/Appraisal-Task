@@ -77,11 +77,11 @@
    ::-webkit-scrollbar targets Chrome, Safari, and Chromium-based Edge.
  ============================================================================= */
 .fowgate-sidebar::-webkit-scrollbar {
-  width: 4px;  /* 4 px is barely visible but still usable */
+  width: 6px;
 }
 .fowgate-sidebar::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.1); /* very faint white thumb */
-  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
 }
 
 
