@@ -37,9 +37,7 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
 
   // Calendar states
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [calendarDate, setCalendarDate] = useState(() => {
-    return parseDOB(initialData?.dob || '08-05-2002');
-  });
+  const [calendarDate, setCalendarDate] = useState(() => new Date());
 
   const calendarRef = useRef(null);
   const dateInputRef = useRef(null);

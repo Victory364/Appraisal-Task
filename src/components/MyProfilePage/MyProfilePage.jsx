@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import './MyProfilePage.css';
 
-// Modal imports
 import EditBasicInfoModal from '../modals/EditBasicInfoModal/EditBasicInfoModal';
 import EditAddressModal from '../modals/EditAddressModal/EditAddressModal';
 import UploadImageModal from '../modals/UploadImageModal/UploadImageModal';
+import ConfirmActionModal from '../modals/ConfirmActionModal/ConfirmActionModal';
+import RequestSubmittedModal from '../modals/RequestSubmittedModal/RequestSubmittedModal';
 
 // Icon imports
 import noStarIcon from '../../assets/Fowgate Folder/No star.svg';
@@ -57,6 +58,8 @@ export default function MyProfilePage() {
   const [isEditInfoOpen, setIsEditInfoOpen] = useState(false);
   const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
   const [isUploadPhotoOpen, setIsUploadPhotoOpen] = useState(false);
+  const [confirmActionContext, setConfirmActionContext] = useState(null);
+  const [isRequestSubmittedOpen, setIsRequestSubmittedOpen] = useState(false);
 
   // Pending states
   const [isAddressPending, setIsAddressPending] = useState(false);
@@ -100,49 +103,66 @@ export default function MyProfilePage() {
   };
 
   const handleEditInfoSubmit = (data) => {
-    // Map fields from modal to page state
-    const newSsn = data.ssnType || data.ssn;
-    
-    // Determine which fields changed
-    const updatedFields = [];
-    if (data.fullName !== basicInfo.fullName) updatedFields.push('fullName');
-    if (data.dob !== basicInfo.dob) updatedFields.push('dob');
-    if (data.gender !== basicInfo.gender) updatedFields.push('gender');
-    if (newSsn !== basicInfo.ssn) updatedFields.push('ssn');
-    if (data.email !== basicInfo.email) updatedFields.push('email');
-    if (data.mobileNumber !== basicInfo.mobileNumber || data.countryCode !== basicInfo.countryCode) updatedFields.push('mobileNumber');
-
-    setBasicInfo(prev => ({
-      ...prev,
-      fullName: data.fullName,
-      countryCode: data.countryCode,
-      mobileNumber: data.mobileNumber,
-      email: data.email,
-      dob: data.dob,
-      gender: data.gender,
-      ssn: newSsn
-    }));
-    
-    if (updatedFields.length > 0) {
-      setPendingInfoFields(prev => [...new Set([...prev, ...updatedFields])]);
-      setIsBasicInfoPending(true);
-    }
-    
-    setIsEditInfoOpen(false);
+    setConfirmActionContext({ type: 'info', data });
   };
 
   const handleEditAddressSubmit = (data) => {
-    setAddress(prev => ({
-      ...prev,
-      country: data.country,
-      state: data.state,
-      city: data.city,
-      postalCode: data.postalCode,
-      address1: data.address1,
-      address2: data.address2
-    }));
-    setIsAddressPending(true);
-    setIsEditAddressOpen(false);
+    setConfirmActionContext({ type: 'address', data });
+  };
+
+  const handleConfirmAction = () => {
+    if (confirmActionContext?.type === 'info') {
+      const data = confirmActionContext.data;
+      // Map fields from modal to page state
+      const newSsn = data.ssnType || data.ssn;
+      
+      // Determine which fields changed
+      const updatedFields = [];
+      if (data.fullName !== basicInfo.fullName) updatedFields.push('fullName');
+      if (data.dob !== basicInfo.dob) updatedFields.push('dob');
+      if (data.gender !== basicInfo.gender) updatedFields.push('gender');
+      if (newSsn !== basicInfo.ssn) updatedFields.push('ssn');
+      if (data.email !== basicInfo.email) updatedFields.push('email');
+      if (data.mobileNumber !== basicInfo.mobileNumber || data.countryCode !== basicInfo.countryCode) updatedFields.push('mobileNumber');
+
+      setBasicInfo(prev => ({
+        ...prev,
+        fullName: data.fullName,
+        countryCode: data.countryCode,
+        mobileNumber: data.mobileNumber,
+        email: data.email,
+        dob: data.dob,
+        gender: data.gender,
+        ssn: newSsn
+      }));
+      
+      if (updatedFields.length > 0) {
+        setPendingInfoFields(prev => [...new Set([...prev, ...updatedFields])]);
+        setIsBasicInfoPending(true);
+      }
+      
+      setIsEditInfoOpen(false);
+    } else if (confirmActionContext?.type === 'address') {
+      const data = confirmActionContext.data;
+      setAddress(prev => ({
+        ...prev,
+        country: data.country,
+        state: data.state,
+        city: data.city,
+        postalCode: data.postalCode,
+        address1: data.address1,
+        address2: data.address2
+      }));
+      setIsAddressPending(true);
+      setIsEditAddressOpen(false);
+    }
+    
+    setConfirmActionContext(null);
+    setIsRequestSubmittedOpen(true);
+  };
+
+  const handleCancelConfirm = () => {
+    setConfirmActionContext(null);
   };
 
   const handlePhotoUpload = (photoUrl) => {
@@ -583,6 +603,19 @@ export default function MyProfilePage() {
         <UploadImageModal
           onClose={() => setIsUploadPhotoOpen(false)}
           onUpload={handlePhotoUpload}
+        />
+      )}
+
+      {confirmActionContext && (
+        <ConfirmActionModal
+          onClose={handleCancelConfirm}
+          onConfirm={handleConfirmAction}
+        />
+      )}
+
+      {isRequestSubmittedOpen && (
+        <RequestSubmittedModal
+          onClose={() => setIsRequestSubmittedOpen(false)}
         />
       )}
     </div>

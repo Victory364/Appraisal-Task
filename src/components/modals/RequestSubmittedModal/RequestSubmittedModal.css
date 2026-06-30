@@ -1,45 +1,52 @@
 .request-submitted-modal {
-  width: 480px !important; /* Seems a bit narrower in the screenshot, or standard 528px. Let's stick to 528px for consistency, or maybe 440px. Let's use 528px but with more padding. */
-  height: auto !important;
-  max-height: calc(100vh - 48px);
-  text-align: center;
-  padding: 40px 24px;
+  width: min(472px, calc(100vw - 48px));
+  height: min(408px, calc(100vh - 48px));
+  padding: 44px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #ffffff;
 }
 
 .request-submitted-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 24px;
-  display: block;
+  width: 96px;
+  height: 96px;
+  margin-bottom: 24px;
 }
 
 .request-submitted-title {
-  font-size: 24px;
-  font-weight: 500;
-  color: #1e293b;
   margin: 0 0 12px;
   font-family: 'Rubik', var(--font-family);
+  font-size: 24px;
+  font-weight: 600;
+  color: #292929;
+  line-height: 1.3;
 }
 
 .request-submitted-text {
-  font-size: 14px;
-  color: #64748b;
   margin: 0 0 32px;
+  font-size: 14px;
+  color: #7a7a7a;
   line-height: 1.5;
+  max-width: 330px;
+  text-align: center;
 }
 
 .request-submitted-btn {
   width: 100%;
-  height: 44px;
+  height: 46px;
   background-color: #1f66c7;
   color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
   font-family: var(--font-family);
+  margin-top: auto;
 }
 
 .request-submitted-btn:hover {

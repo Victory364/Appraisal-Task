@@ -82,7 +82,7 @@ export default function ExpenseClaimsPage() {
 
   // --- Calendar Date Picker State ---
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
-  const [calendarDate, setCalendarDate] = useState(new Date(2026, 4, 1)); // Default to May 2026
+  const [calendarDate, setCalendarDate] = useState(new Date());
   const dateButtonRef = useRef(null);
   const dateIconRef = useRef(null);
   const calendarRef = useRef(null);
@@ -200,6 +200,7 @@ export default function ExpenseClaimsPage() {
     setCategories(claim.categories && claim.categories.length > 0 ? claim.categories : [
       { id: Date.now(), type: claim.category || '', amount: claim.amount, details: '', isExpanded: true }
     ]);
+    setCalendarDate(new Date());
     setModalStep(1);
     setFormStatus('editing');
     setFormErrors({});
@@ -213,6 +214,7 @@ export default function ExpenseClaimsPage() {
     setFormStatus('editing');
     setNewClaim({ purpose: '', extraNote: '', date: '', rawDate: '' });
     setCategories([{ id: 1, type: '', amount: '', details: '', isExpanded: true }]);
+    setCalendarDate(new Date());
     setUploadedFiles([]);
     setFormErrors({});
   };
@@ -365,7 +367,7 @@ export default function ExpenseClaimsPage() {
         <div className="filter-by-dropdown">
           <span className="filter-by-label">Filter by:</span>
           <span className="filter-by-value">
-            Dec 2024
+            {new Date().toLocaleString('en-US', { month: 'short' })} {new Date().getFullYear()}
             <svg viewBox="0 0 24 24">
               <path d="M7 10l5 5 5-5z" />
             </svg>
@@ -440,7 +442,9 @@ export default function ExpenseClaimsPage() {
             <div className="history-action-controls">
               {/* Date Pick */}
               <div className="history-date-picker">
-                <span style={{ fontSize: '13px', fontWeight: '500', color: '#1e293b', whiteSpace: 'nowrap' }}>Jan 12 - Jan 01</span>
+                <span style={{ fontSize: '13px', fontWeight: '500', color: '#1e293b', whiteSpace: 'nowrap' }}>
+                  {new Date().toLocaleString('en-US', { month: 'long' })} {new Date().getDate()}
+                </span>
                 <img src={calendarIcon} alt="Calendar" style={{ filter: 'brightness(0) opacity(0.6)', flexShrink: 0 }} />
               </div>
 
