@@ -36,7 +36,20 @@ export default function UploadImageModal({ onClose, onUpload }) {
               onChange={handleFileChange}
             />
             {imagePreview ? (
-              <img src={imagePreview} alt="Preview" className="upload-image-preview" />
+              <div className="crop-container">
+                <img src={imagePreview} alt="Preview" className="upload-image-preview" />
+                <div className="crop-circle-clear"></div>
+                <div className="crop-box">
+                  <div className="crop-handle handle-tl"></div>
+                  <div className="crop-handle handle-tr"></div>
+                  <div className="crop-handle handle-bl"></div>
+                  <div className="crop-handle handle-br"></div>
+                  <div className="crop-handle handle-t"></div>
+                  <div className="crop-handle handle-b"></div>
+                  <div className="crop-handle handle-l"></div>
+                  <div className="crop-handle handle-r"></div>
+                </div>
+              </div>
             ) : (
               <>
                 <img src={fileUploadIcon} alt="Upload" className="upload-image-icon" />

@@ -80,16 +80,124 @@
   margin: 0;
 }
 
+.crop-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f5f9;
+}
+
 .upload-image-preview {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
   height: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
   object-fit: cover;
   z-index: 1;
   pointer-events: none;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
+}
+
+.crop-circle-clear {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 9999px rgba(41, 41, 41, 0.6); /* dark overlay outside circle */
+  pointer-events: none;
+  z-index: 2;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-sizing: border-box;
+}
+
+.crop-box {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  pointer-events: none;
+  z-index: 3;
+  box-sizing: border-box;
+}
+
+/* Corner Handles */
+.handle-tl {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 14px;
+  height: 14px;
+  border-top: 3px solid #1f66c7;
+  border-left: 3px solid #1f66c7;
+}
+
+.handle-tr {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border-top: 3px solid #1f66c7;
+  border-right: 3px solid #1f66c7;
+}
+
+.handle-bl {
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  width: 14px;
+  height: 14px;
+  border-bottom: 3px solid #1f66c7;
+  border-left: 3px solid #1f66c7;
+}
+
+.handle-br {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border-bottom: 3px solid #1f66c7;
+  border-right: 3px solid #1f66c7;
+}
+
+/* Side Center Handles */
+.handle-t {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 4px;
+  background-color: #1f66c7;
+}
+
+.handle-b {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 4px;
+  background-color: #1f66c7;
+}
+
+.handle-l {
+  position: absolute;
+  left: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 14px;
+  background-color: #1f66c7;
+}
+
+.handle-r {
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 14px;
+  background-color: #1f66c7;
 }

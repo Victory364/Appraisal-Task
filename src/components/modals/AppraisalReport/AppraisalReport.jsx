@@ -7,19 +7,60 @@ import './AppraisalReport.css';
 // Returns the correct star icon: full star for 5, half star for anything under 5
 const getStarIcon = (score) => score >= 5 ? fullStarIcon : halfStarIcon;
 
-const DATES = [
-  '24 Dec, 2024 - Q3',
-  '2 Jul, 2024 - Q2',
-  '28 Mar, 2024 - Q1',
-  '28 Dec, 2023 - Q3',
-  '15 Sep, 2023 - Q2',
-  '10 Jun, 2023 - Q1',
-  '20 Dec, 2022 - Q3',
-  '14 Jul, 2022 - Q2'
-];
+const getQuarter = (d) => {
+  const m = d.getMonth();
+  if (m < 3) return 'Q1';
+  if (m < 6) return 'Q2';
+  if (m < 9) return 'Q3';
+  return 'Q4';
+};
+
+const getAppraisalDates = () => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const startYear = 2022;
+  const endYear = currentYear + 1; // Allows showing future dates
+  
+  const list = [];
+  for (let y = endYear; y >= startYear; y--) {
+    list.push({ date: new Date(y, 11, 24), label: `24 Dec, ${y} - Q3` });
+    list.push({ date: new Date(y, 6, 2), label: `2 Jul, ${y} - Q2` });
+    list.push({ date: new Date(y, 2, 28), label: `28 Mar, ${y} - Q1` });
+  }
+
+  const dayName = now.getDate();
+  const monthName = now.toLocaleString('en-US', { month: 'short' });
+  const yearName = now.getFullYear();
+  const qName = getQuarter(now);
+  const currentLabel = `${dayName} ${monthName}, ${yearName} - ${qName}`;
+
+  if (!list.some(item => item.label === currentLabel)) {
+    list.push({ date: now, label: currentLabel });
+  }
+
+  list.sort((a, b) => b.date - a.date);
+
+  const uniqueLabels = [];
+  const seen = new Set();
+  for (const item of list) {
+    if (!seen.has(item.label)) {
+      seen.add(item.label);
+      uniqueLabels.push(item.label);
+    }
+  }
+  return uniqueLabels;
+};
 
 const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
-  const [selectedDate, setSelectedDate] = useState('24 Dec, 2024 - Q3');
+  const dynamicDates = getAppraisalDates();
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const now = new Date();
+    const dayName = now.getDate();
+    const monthName = now.toLocaleString('en-US', { month: 'short' });
+    const yearName = now.getFullYear();
+    const qName = getQuarter(now);
+    return `${dayName} ${monthName}, ${yearName} - ${qName}`;
+  });
   const [showDropdown, setShowDropdown] = useState(false);
 
   if (!isOpen) return null;
@@ -88,7 +129,7 @@ const UserModal = ({ isOpen, onClose, user, sections = [], scores = {} }) => {
               <>
                 <div className="dropdown-backdrop" onClick={() => setShowDropdown(false)} />
                 <div className="report-dropdown">
-                  {DATES.map((d, i) => (
+                  {dynamicDates.map((d, i) => (
                     <div
                       key={i}
                       className={`report-dropdown-item${selectedDate === d ? ' active' : ''}`}
