@@ -7,8 +7,6 @@ import EditAddressModal from '../modals/EditAddressModal/EditAddressModal';
 import UploadImageModal from '../modals/UploadImageModal/UploadImageModal';
 
 // Icon imports
-import editIcon from '../../assets/Fowgate Folder/edit-user-02.svg';
-import arrowIcon from '../../assets/Fowgate Folder/arrow-up-right-03.svg';
 import noStarIcon from '../../assets/Fowgate Folder/No star.svg';
 import pdfIcon from '../../assets/Fowgate Folder/pdf-file-svgrepo-com 1.svg';
 import downloadIcon from '../../assets/Fowgate Folder/download-04.svg';
@@ -22,6 +20,7 @@ import cameraIcon from '../../assets/Fowgate Folder/camera-02.svg';
 import arrowRightIcon from '../../assets/Fowgate Folder/Frame (1).svg';
 import starsIcon from '../../assets/Fowgate Folder/Frame-1 (1).svg';
 import picIcon from '../../assets/Fowgate Folder/Frame-3.svg';
+import clockIcon from '../../assets/Fowgate Folder/clock-03.svg';
 
 export default function MyProfilePage() {
   // State for basic info
@@ -58,6 +57,11 @@ export default function MyProfilePage() {
   const [isEditInfoOpen, setIsEditInfoOpen] = useState(false);
   const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
   const [isUploadPhotoOpen, setIsUploadPhotoOpen] = useState(false);
+
+  // Pending states
+  const [isAddressPending, setIsAddressPending] = useState(false);
+  const [isBasicInfoPending, setIsBasicInfoPending] = useState(false);
+  const [pendingInfoFields, setPendingInfoFields] = useState([]);
 
   // State for credentials table
   const [credentials] = useState([
@@ -97,6 +101,17 @@ export default function MyProfilePage() {
 
   const handleEditInfoSubmit = (data) => {
     // Map fields from modal to page state
+    const newSsn = data.ssnType || data.ssn;
+    
+    // Determine which fields changed
+    const updatedFields = [];
+    if (data.fullName !== basicInfo.fullName) updatedFields.push('fullName');
+    if (data.dob !== basicInfo.dob) updatedFields.push('dob');
+    if (data.gender !== basicInfo.gender) updatedFields.push('gender');
+    if (newSsn !== basicInfo.ssn) updatedFields.push('ssn');
+    if (data.email !== basicInfo.email) updatedFields.push('email');
+    if (data.mobileNumber !== basicInfo.mobileNumber || data.countryCode !== basicInfo.countryCode) updatedFields.push('mobileNumber');
+
     setBasicInfo(prev => ({
       ...prev,
       fullName: data.fullName,
@@ -105,8 +120,14 @@ export default function MyProfilePage() {
       email: data.email,
       dob: data.dob,
       gender: data.gender,
-      ssn: data.ssnType // or similar field mapping
+      ssn: newSsn
     }));
+    
+    if (updatedFields.length > 0) {
+      setPendingInfoFields(prev => [...new Set([...prev, ...updatedFields])]);
+      setIsBasicInfoPending(true);
+    }
+    
     setIsEditInfoOpen(false);
   };
 
@@ -120,6 +141,7 @@ export default function MyProfilePage() {
       address1: data.address1,
       address2: data.address2
     }));
+    setIsAddressPending(true);
     setIsEditAddressOpen(false);
   };
 
@@ -162,12 +184,19 @@ export default function MyProfilePage() {
             </div>
 
             <div className="profile-action-buttons">
-              <button className="profile-btn-edit" onClick={() => setIsEditInfoOpen(true)}>
-                <svg className="btn-icon-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                </svg>
-                Edit info
-              </button>
+              {isBasicInfoPending ? (
+                <button className="profile-btn-pending" disabled style={{ opacity: 1, cursor: 'default' }}>
+                  <img src={clockIcon} alt="" />
+                  Pending
+                </button>
+              ) : (
+                <button className="profile-btn-edit" onClick={() => setIsEditInfoOpen(true)}>
+                  <svg className="btn-icon-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                  </svg>
+                  Edit info
+                </button>
+              )}
               <button className="profile-btn-resignation" onClick={handleResignation}>
                 <svg className="btn-icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
@@ -182,27 +211,45 @@ export default function MyProfilePage() {
           <div className="profile-details-list">
             <div className="profile-detail-item">
               <span className="detail-label">Fullname</span>
-              <span className="detail-value">{basicInfo.fullName}</span>
+              <span className="detail-value">
+                {basicInfo.fullName}
+                {pendingInfoFields.includes('fullName') && <span className="pending-approval-badge badge-small">Pending approval</span>}
+              </span>
             </div>
             <div className="profile-detail-item">
               <span className="detail-label">Mobile number</span>
-              <span className="detail-value">{basicInfo.countryCode}-{basicInfo.mobileNumber}</span>
+              <span className="detail-value">
+                {basicInfo.countryCode}-{basicInfo.mobileNumber}
+                {pendingInfoFields.includes('mobileNumber') && <span className="pending-approval-badge badge-small">Pending approval</span>}
+              </span>
             </div>
             <div className="profile-detail-item">
               <span className="detail-label">Email address</span>
-              <span className="detail-value email-value">{basicInfo.email}</span>
+              <span className="detail-value email-value">
+                {basicInfo.email}
+                {pendingInfoFields.includes('email') && <span className="pending-approval-badge badge-small">Pending approval</span>}
+              </span>
             </div>
             <div className="profile-detail-item">
               <span className="detail-label">Date of Birth</span>
-              <span className="detail-value">{basicInfo.dob}</span>
+              <span className="detail-value">
+                {basicInfo.dob}
+                {pendingInfoFields.includes('dob') && <span className="pending-approval-badge badge-small">Pending approval</span>}
+              </span>
             </div>
             <div className="profile-detail-item">
               <span className="detail-label">Gender</span>
-              <span className="detail-value">{basicInfo.gender}</span>
+              <span className="detail-value">
+                {basicInfo.gender}
+                {pendingInfoFields.includes('gender') && <span className="pending-approval-badge badge-small">Pending approval</span>}
+              </span>
             </div>
             <div className="profile-detail-item">
               <span className="detail-label">SSN</span>
-              <span className="detail-value">{basicInfo.ssn}</span>
+              <span className="detail-value">
+                {basicInfo.ssn}
+                {pendingInfoFields.includes('ssn') && <span className="pending-approval-badge badge-small">Pending approval</span>}
+              </span>
             </div>
             <div className="profile-detail-item">
               <span className="detail-label">Employee ID</span>
@@ -246,7 +293,11 @@ export default function MyProfilePage() {
             <div className="profile-card address-card">
               <div className="profile-card-header">
                 <h3 className="card-title">My Address</h3>
-                <button className="card-header-link" onClick={() => setIsEditAddressOpen(true)}>Edit address</button>
+                {isAddressPending ? (
+                  <span className="pending-approval-badge">Pending approval</span>
+                ) : (
+                  <button className="card-header-link" onClick={() => setIsEditAddressOpen(true)}>Edit address</button>
+                )}
               </div>
               <div className="profile-card-body address-grid">
                 <div className="info-cell">

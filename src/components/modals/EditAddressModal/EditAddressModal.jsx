@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import '../ModalBase/ModalBase.css';
 import './EditAddressModal.css';
-import locationIcon from '../../../assets/Fowgate Folder/location.svg'; 
+// import locationIcon from '../../../assets/Fowgate Folder/location.svg'; 
 import arrowDownIcon from '../../../assets/Fowgate Folder/arrow-down-01.svg';
+import locationIcon from '../../../assets/Fowgate Folder/location-04.svg';
 
 export default function EditAddressModal({ onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState(initialData || {

@@ -34,6 +34,12 @@
   flex-direction: column;
   flex-shrink: 0;
   box-sizing: border-box;
+  
+  /* Sticky Scrolling */
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
 }
 
 .profile-avatar-container {
@@ -135,7 +141,8 @@
 }
 
 .profile-btn-edit,
-.profile-btn-resignation {
+.profile-btn-resignation,
+.profile-btn-pending {
   flex: 1;
   height: 38px;
   border-radius: 6px;
@@ -160,10 +167,16 @@
   background-color: #dbeafe;
 }
 
+.profile-btn-pending {
+  background-color: #fef3c7; /* Light amber/orange background */
+  border: none; /* No border for pending in new design */
+  color: #d97706; /* slightly darker orange/amber for better contrast, or keep #f59e0b */
+}
+
 .profile-btn-resignation {
   background-color: #ffffff;
-  border: 1px solid #f87171;
-  color: #ef4444;
+  border: 1px solid #e2e8f0; /* Light grey border instead of red */
+  color: #ef4444; /* Red text */
 }
 
 .profile-btn-resignation:hover {
@@ -179,6 +192,12 @@
   width: 15px;
   height: 15px;
   stroke: #ef4444;
+}
+
+.btn-icon-orange {
+  width: 15px;
+  height: 15px;
+  stroke: #f59e0b;
 }
 
 .profile-details-divider {
@@ -201,17 +220,15 @@
 }
 
 .detail-label {
-  font-size: 11px;
+  font-size: 13.5px;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #94a3b8;
+  color: #1e293b;
 }
 
 .detail-value {
   font-size: 13.5px;
-  font-weight: 500;
-  color: #1e293b;
+  font-weight: 400;
+  color: #64748b;
 }
 
 .email-value {
@@ -284,6 +301,29 @@
 .profile-main-content {
   flex-grow: 1;
   width: 100%;
+  
+  /* Sticky Scrolling */
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+/* Custom scrollbars for the sticky containers */
+.profile-sidebar-card::-webkit-scrollbar,
+.profile-main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profile-sidebar-card::-webkit-scrollbar-track,
+.profile-main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profile-sidebar-card::-webkit-scrollbar-thumb,
+.profile-main-content::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
 }
 
 .profile-cards-grid {
@@ -360,6 +400,25 @@
 
 .card-header-link:hover .right-arrow-icon {
   transform: translate(2px, -1px);
+}
+
+.pending-approval-badge {
+  font-size: 13px;
+  font-weight: 500;
+  color: #f59e0b; /* Amber/Orange color */
+  background-color: #fef3c7; /* Light amber background */
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-small {
+  font-size: 10px;
+  padding: 2px 8px;
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 .profile-card-body {
