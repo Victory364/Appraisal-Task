@@ -22,6 +22,8 @@ import arrowRightIcon from '../../assets/Fowgate Folder/Frame (1).svg';
 import starsIcon from '../../assets/Fowgate Folder/Frame-1 (1).svg';
 import picIcon from '../../assets/Fowgate Folder/Frame-3.svg';
 import clockIcon from '../../assets/Fowgate Folder/clock-03.svg';
+import pencilBlue from '../../assets/Fowgate Folder/Edit-blue.svg'
+import pencilRed from '../../assets/Fowgate Folder/Edit-red.svg'
 
 export default function MyProfilePage() {
   // State for basic info
@@ -211,16 +213,12 @@ export default function MyProfilePage() {
                 </button>
               ) : (
                 <button className="profile-btn-edit" onClick={() => setIsEditInfoOpen(true)}>
-                  <svg className="btn-icon-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                  </svg>
+                  <img src={pencilBlue} alt='Pencil blue'/>
                   Edit info
                 </button>
               )}
               <button className="profile-btn-resignation" onClick={handleResignation}>
-                <svg className="btn-icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                </svg>
+                <img src={pencilRed} alt='Pencil red'/>
                 Resignation
               </button>
             </div>
