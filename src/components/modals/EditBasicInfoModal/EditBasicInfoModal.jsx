@@ -32,7 +32,9 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
     email: '',
     dob: '',
     gender: initialData?.gender || 'Male',
-    ssnType: initialData?.ssnType || 'National Identity Number'
+    ssnType: initialData?.ssnType || 'National Identity Number',
+    nin: initialData?.nin || '',
+    ssnDocument: null
   });
 
   // Calendar states
@@ -139,6 +141,16 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (formData.ssnType === 'National Identity Number') {
+      const ninValue = formData.nin.trim();
+      const isNumeric = /^\d+$/.test(ninValue);
+      if (!isNumeric || ninValue.length !== 11) {
+        alert("National Identity Number must be exactly 11 digits.");
+        return;
+      }
+    }
+
     if (onSubmit) {
       onSubmit({
         fullName: formData.fullName.trim() !== '' ? formData.fullName.trim() : (initialData?.fullName || 'Adewale Fayemi'),
@@ -147,7 +159,9 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
         email: formData.email.trim() !== '' ? formData.email.trim() : (initialData?.email || 'adewalefayemi10@gmail.com'),
         dob: formData.dob.trim() !== '' ? formData.dob.trim() : (initialData?.dob || '08-05-2002'),
         gender: formData.gender,
-        ssnType: formData.ssnType
+        ssnType: formData.ssnType,
+        ...(formData.ssnType === 'National Identity Number' ? { nin: formData.nin.trim() } : {}),
+        ...((formData.ssnType === 'Passport' || formData.ssnType === "Driver's License") ? { ssnDocument: formData.ssnDocument } : {})
       });
     }
   };
@@ -333,6 +347,37 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
                 )}
               </div>
             </div>
+
+            {formData.ssnType === 'National Identity Number' && (
+              <div className="edit-basic-info-field">
+                <label>National Identity Number</label>
+                <input 
+                  type="text" 
+                  name="nin"
+                  value={formData.nin}
+                  placeholder="Enter 11-digit NIN"
+                  onChange={handleChange}
+                  className="edit-basic-info-input" 
+                  maxLength={11}
+                  minLength={11}
+                  required
+                />
+              </div>
+            )}
+
+            {(formData.ssnType === 'Passport' || formData.ssnType === "Driver's License") && (
+              <div className="edit-basic-info-field">
+                <label>Upload Document</label>
+                <input 
+                  type="file" 
+                  name="ssnDocument"
+                  accept="image/*,.pdf"
+                  onChange={(e) => setFormData(prev => ({ ...prev, ssnDocument: e.target.files[0] }))}
+                  className="edit-basic-info-input" 
+                  required
+                />
+              </div>
+            )}
 
           </div>
 
