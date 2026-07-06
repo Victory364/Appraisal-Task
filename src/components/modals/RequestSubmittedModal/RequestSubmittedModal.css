@@ -1,54 +1,57 @@
 .request-submitted-modal {
+  background: #ffffff;
+  border-radius: 4px;
   width: min(472px, calc(100vw - 48px));
-  height: min(408px, calc(100vh - 48px));
-  padding: 44px 40px 40px;
+  height: 408px;
+  padding: 52px 40px 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  text-align: center;
   box-sizing: border-box;
-  border-radius: 4px;
-  background-color: #ffffff;
 }
 
 .request-submitted-icon {
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
   margin-bottom: 24px;
+  flex-shrink: 0;
 }
 
 .request-submitted-title {
-  margin: 0 0 12px;
   font-family: 'Rubik', var(--font-family);
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 700;
   color: #292929;
-  line-height: 1.3;
+  margin: 0 0 14px;
+  line-height: 1.25;
 }
 
 .request-submitted-text {
-  margin: 0 0 32px;
   font-size: 14px;
   color: #7a7a7a;
-  line-height: 1.5;
-  max-width: 330px;
-  text-align: center;
+  line-height: 1.65;
+  margin: 0 0 32px;
+  max-width: 340px;
 }
 
 .request-submitted-btn {
   width: 100%;
-  height: 46px;
-  background-color: #1f66c7;
+  height: 48px;
+  background: var(--primary-blue, #1f66c7);
   color: #ffffff;
   border: none;
   border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
   font-family: var(--font-family);
+  transition: background 0.15s;
+  flex-shrink: 0;
   margin-top: auto;
 }
 
 .request-submitted-btn:hover {
-  background-color: #1a56a8;
+  background: var(--primary-blue-hover, #1a56a8);
 }

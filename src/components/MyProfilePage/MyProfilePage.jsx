@@ -8,6 +8,7 @@ import ConfirmActionModal from '../modals/ConfirmActionModal/ConfirmActionModal'
 import RequestSubmittedModal from '../modals/RequestSubmittedModal/RequestSubmittedModal';
 import ChangePasswordModal from '../modals/ChangePasswordModal/ChangePasswordModal';
 import StartTrainingModal from '../modals/StartTrainingModal/StartTrainingModal';
+import OngoingTrainingModal from '../modals/OngoingTrainingModal/OngoingTrainingModal';
 
 // Icon imports
 import noStarIcon from '../../assets/Fowgate Folder/No star.svg';
@@ -69,6 +70,8 @@ export default function MyProfilePage() {
   
   // Training states
   const [isStartTrainingOpen, setIsStartTrainingOpen] = useState(false);
+  const [isOngoingTrainingOpen, setIsOngoingTrainingOpen] = useState(false);
+  const [selectedTraining, setSelectedTraining] = useState(null);
   const [trainings, setTrainings] = useState([]);
 
   // Pending states
@@ -118,6 +121,10 @@ export default function MyProfilePage() {
 
   const handleStartTrainingSubmit = (data) => {
     setConfirmActionContext({ type: 'startTraining', data });
+  };
+
+  const handleOngoingTrainingSubmit = () => {
+    setConfirmActionContext({ type: 'completeTraining', data: selectedTraining });
   };
 
   const handleConfirmAction = () => {
@@ -173,6 +180,10 @@ export default function MyProfilePage() {
       const data = confirmActionContext.data;
       setTrainings(prev => [...prev, data]);
       setIsStartTrainingOpen(false);
+    } else if (confirmActionContext?.type === 'completeTraining') {
+      const data = confirmActionContext.data;
+      setTrainings(prev => prev.filter(t => t !== data));
+      setIsOngoingTrainingOpen(false);
     }
     
     setSubmittedType(confirmActionContext?.type);
@@ -450,7 +461,15 @@ export default function MyProfilePage() {
                 ) : (
                   <div className="skills-list">
                     {trainings.map((training, index) => (
-                      <div key={index} className="skill-tag">
+                      <div 
+                        key={index} 
+                        className="skill-tag" 
+                        onClick={() => {
+                          setSelectedTraining(training);
+                          setIsOngoingTrainingOpen(true);
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
                         <span className="skill-tag-icon">
                           <img src={certificateIcon} alt="Icon" />
                         </span>
@@ -650,6 +669,14 @@ export default function MyProfilePage() {
         />
       )}
 
+      {isOngoingTrainingOpen && (
+        <OngoingTrainingModal
+          onClose={() => setIsOngoingTrainingOpen(false)}
+          onSubmit={handleOngoingTrainingSubmit}
+          trainingData={selectedTraining}
+        />
+      )}
+
       {confirmActionContext && (
         <ConfirmActionModal
           onClose={handleCancelConfirm}
@@ -659,6 +686,8 @@ export default function MyProfilePage() {
               ? "Are you sure you want to change your password? You'll need to use your new password the next time you sign in."
               : confirmActionContext.type === 'startTraining'
               ? "Are you sure you want to proceed with starting this training? Your training session will begin immediately."
+              : confirmActionContext.type === 'completeTraining'
+              ? "Are you sure you want to proceed with completion of this training? Ensure all necessary document are uploaded and confirmed."
               : undefined
           }
         />
@@ -669,11 +698,13 @@ export default function MyProfilePage() {
           onClose={() => setIsRequestSubmittedOpen(false)}
           title={
             submittedType === 'password' ? 'Password Updated' :
-            submittedType === 'startTraining' ? 'Training Started!' : undefined
+            submittedType === 'startTraining' ? 'Training Started!' :
+            submittedType === 'completeTraining' ? 'Training Complete!' : undefined
           }
           message={
             submittedType === 'password' ? 'Your new password is now active. Be sure to use it the next time you log in.' :
-            submittedType === 'startTraining' ? 'Your training is ready. You can now access and begin the training.' : undefined
+            submittedType === 'startTraining' ? 'Your training is ready. You can now access and begin the training.' :
+            submittedType === 'completeTraining' ? 'Training completed successfully! Reach out if you have questions.' : undefined
           }
         />
       )}

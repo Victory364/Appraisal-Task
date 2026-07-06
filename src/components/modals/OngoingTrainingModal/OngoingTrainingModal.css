@@ -1,0 +1,206 @@
+.ongoing-training-modal {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ongoing-training-form {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+}
+
+.ongoing-training-scroll {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ongoing-training-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ongoing-training-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1E293B;
+}
+
+.ongoing-training-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1E293B;
+  outline: none;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.ongoing-training-input:read-only {
+  background-color: #F8FAFC;
+  color: #475569;
+  cursor: default;
+}
+
+.ongoing-training-date-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-icon {
+  position: absolute;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+/* Upload Certificate Box */
+.upload-certificate-box {
+  width: 100%;
+  height: 120px;
+  background-color: #ffffff;
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.upload-certificate-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%233B82F6' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+  z-index: 3;
+}
+
+.upload-certificate-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.upload-certificate-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+.upload-certificate-text {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.upload-certificate-text span {
+  color: #1f66c7;
+}
+
+.upload-certificate-subtext {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Uploaded File Preview */
+.uploaded-file-preview {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.uploaded-file-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.uploaded-file-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.uploaded-file-name {
+  font-size: 14px;
+  color: #1E293B;
+  font-weight: 500;
+}
+
+.uploaded-file-meta {
+  font-size: 12px;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uploaded-file-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 140px;
+}
+
+.uploaded-file-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #E2E8F0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.uploaded-file-progress-fill {
+  height: 100%;
+  background: #22C55E;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.uploaded-file-percentage {
+  font-size: 12px;
+  color: #1E293B;
+  font-weight: 500;
+}
+
+.uploaded-file-remove {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploaded-file-remove:hover {
+  color: #64748b;
+}
