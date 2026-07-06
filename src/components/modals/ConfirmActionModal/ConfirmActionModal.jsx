@@ -2,7 +2,7 @@ import '../ModalBase/ModalBase.css';
 import './ConfirmActionModal.css';
 import helpIcon from '../../../assets/Fowgate Folder/help-circle.svg'; 
 
-export default function ConfirmActionModal({ onClose, onConfirm }) {
+export default function ConfirmActionModal({ onClose, onConfirm, message }) {
   return (
     <div className="modal-overlay">
       <div className="claim-modal confirm-action-modal">
@@ -16,8 +16,12 @@ export default function ConfirmActionModal({ onClose, onConfirm }) {
 
         <div className="confirm-action-body">
           <p style={{ margin: 0 }}>
-            Are you sure you want to save the changes made to your profile?<br/>
-            This action cannot be undone.
+            {message || (
+              <>
+                Are you sure you want to save the changes made to your profile?<br/>
+                This action cannot be undone.
+              </>
+            )}
           </p>
         </div>
 

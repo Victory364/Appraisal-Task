@@ -6,6 +6,7 @@ import EditAddressModal from '../modals/EditAddressModal/EditAddressModal';
 import UploadImageModal from '../modals/UploadImageModal/UploadImageModal';
 import ConfirmActionModal from '../modals/ConfirmActionModal/ConfirmActionModal';
 import RequestSubmittedModal from '../modals/RequestSubmittedModal/RequestSubmittedModal';
+import ChangePasswordModal from '../modals/ChangePasswordModal/ChangePasswordModal';
 
 // Icon imports
 import noStarIcon from '../../assets/Fowgate Folder/No star.svg';
@@ -60,8 +61,10 @@ export default function MyProfilePage() {
   const [isEditInfoOpen, setIsEditInfoOpen] = useState(false);
   const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
   const [isUploadPhotoOpen, setIsUploadPhotoOpen] = useState(false);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [confirmActionContext, setConfirmActionContext] = useState(null);
   const [isRequestSubmittedOpen, setIsRequestSubmittedOpen] = useState(false);
+  const [submittedType, setSubmittedType] = useState(null);
 
   // Pending states
   const [isAddressPending, setIsAddressPending] = useState(false);
@@ -82,15 +85,11 @@ export default function MyProfilePage() {
   const [passwordMask, setPasswordMask] = useState('**********');
 
   const handleChangePassword = () => {
-    const newPass = window.prompt("Enter new password (optional, press OK to submit):");
-    if (newPass !== null) {
-      if (newPass.length > 0) {
-        setPasswordMask('*'.repeat(newPass.length));
-        alert("Password change request submitted successfully!");
-      } else {
-        alert("Password change request submitted successfully!");
-      }
-    }
+    setIsChangePasswordOpen(true);
+  };
+
+  const handleChangePasswordSubmit = (data) => {
+    setConfirmActionContext({ type: 'password', data });
   };
 
   // Resignation toggle or action
@@ -157,8 +156,13 @@ export default function MyProfilePage() {
       }));
       setIsAddressPending(true);
       setIsEditAddressOpen(false);
+    } else if (confirmActionContext?.type === 'password') {
+      const data = confirmActionContext.data;
+      setPasswordMask('*'.repeat(data.newPassword.length));
+      setIsChangePasswordOpen(false);
     }
     
+    setSubmittedType(confirmActionContext?.type);
     setConfirmActionContext(null);
     setIsRequestSubmittedOpen(true);
   };
@@ -604,16 +608,30 @@ export default function MyProfilePage() {
         />
       )}
 
+      {isChangePasswordOpen && (
+        <ChangePasswordModal
+          onClose={() => setIsChangePasswordOpen(false)}
+          onSubmit={handleChangePasswordSubmit}
+        />
+      )}
+
       {confirmActionContext && (
         <ConfirmActionModal
           onClose={handleCancelConfirm}
           onConfirm={handleConfirmAction}
+          message={
+            confirmActionContext.type === 'password'
+              ? "Are you sure you want to change your password? You'll need to use your new password the next time you sign in."
+              : undefined
+          }
         />
       )}
 
       {isRequestSubmittedOpen && (
         <RequestSubmittedModal
           onClose={() => setIsRequestSubmittedOpen(false)}
+          title={submittedType === 'password' ? 'Password Updated' : undefined}
+          message={submittedType === 'password' ? 'Your new password is now active. Be sure to use it the next time you log in.' : undefined}
         />
       )}
     </div>

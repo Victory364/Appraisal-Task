@@ -34,7 +34,7 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
     gender: initialData?.gender || 'Male',
     ssnType: initialData?.ssnType || 'National Identity Number',
     nin: initialData?.nin || '',
-    ssnDocument: null
+    idNumber: initialData?.idNumber || ''
   });
 
   // Calendar states
@@ -161,7 +161,7 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
         gender: formData.gender,
         ssnType: formData.ssnType,
         ...(formData.ssnType === 'National Identity Number' ? { nin: formData.nin.trim() } : {}),
-        ...((formData.ssnType === 'Passport' || formData.ssnType === "Driver's License") ? { ssnDocument: formData.ssnDocument } : {})
+        ...((formData.ssnType === 'Passport' || formData.ssnType === "Driver's License") ? { idNumber: formData.idNumber.trim() } : {})
       });
     }
   };
@@ -367,12 +367,13 @@ export default function EditBasicInfoModal({ onClose, onSubmit, initialData }) {
 
             {(formData.ssnType === 'Passport' || formData.ssnType === "Driver's License") && (
               <div className="edit-basic-info-field">
-                <label>Upload Document</label>
+                <label>{formData.ssnType} ID Number</label>
                 <input 
-                  type="file" 
-                  name="ssnDocument"
-                  accept="image/*,.pdf"
-                  onChange={(e) => setFormData(prev => ({ ...prev, ssnDocument: e.target.files[0] }))}
+                  type="text" 
+                  name="idNumber"
+                  value={formData.idNumber}
+                  placeholder={`Enter ${formData.ssnType} ID Number`}
+                  onChange={handleChange}
                   className="edit-basic-info-input" 
                   required
                 />
