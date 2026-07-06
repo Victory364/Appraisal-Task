@@ -646,6 +646,11 @@
   color: #334155;
 }
 
+.skill-tag.completed {
+  background-color: #e2fbe8; /* Light green background */
+  color: #22c55e; /* Green text color */
+}
+
 .skill-tag-icon {
   width: 18px;
   height: 18px;

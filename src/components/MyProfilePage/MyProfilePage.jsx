@@ -182,7 +182,7 @@ export default function MyProfilePage() {
       setIsStartTrainingOpen(false);
     } else if (confirmActionContext?.type === 'completeTraining') {
       const data = confirmActionContext.data;
-      setTrainings(prev => prev.filter(t => t !== data));
+      setTrainings(prev => prev.map(t => t === data ? { ...t, completed: true } : t));
       setIsOngoingTrainingOpen(false);
     }
     
@@ -463,12 +463,14 @@ export default function MyProfilePage() {
                     {trainings.map((training, index) => (
                       <div 
                         key={index} 
-                        className="skill-tag" 
+                        className={`skill-tag ${training.completed ? 'completed' : ''}`} 
                         onClick={() => {
-                          setSelectedTraining(training);
-                          setIsOngoingTrainingOpen(true);
+                          if (!training.completed) {
+                            setSelectedTraining(training);
+                            setIsOngoingTrainingOpen(true);
+                          }
                         }}
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: training.completed ? 'default' : 'pointer' }}
                       >
                         <span className="skill-tag-icon">
                           <img src={certificateIcon} alt="Icon" />
