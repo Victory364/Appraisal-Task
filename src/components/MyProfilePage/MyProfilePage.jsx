@@ -7,6 +7,7 @@ import UploadImageModal from '../modals/UploadImageModal/UploadImageModal';
 import ConfirmActionModal from '../modals/ConfirmActionModal/ConfirmActionModal';
 import RequestSubmittedModal from '../modals/RequestSubmittedModal/RequestSubmittedModal';
 import ChangePasswordModal from '../modals/ChangePasswordModal/ChangePasswordModal';
+import StartTrainingModal from '../modals/StartTrainingModal/StartTrainingModal';
 
 // Icon imports
 import noStarIcon from '../../assets/Fowgate Folder/No star.svg';
@@ -65,6 +66,10 @@ export default function MyProfilePage() {
   const [confirmActionContext, setConfirmActionContext] = useState(null);
   const [isRequestSubmittedOpen, setIsRequestSubmittedOpen] = useState(false);
   const [submittedType, setSubmittedType] = useState(null);
+  
+  // Training states
+  const [isStartTrainingOpen, setIsStartTrainingOpen] = useState(false);
+  const [trainings, setTrainings] = useState([]);
 
   // Pending states
   const [isAddressPending, setIsAddressPending] = useState(false);
@@ -109,6 +114,10 @@ export default function MyProfilePage() {
 
   const handleEditAddressSubmit = (data) => {
     setConfirmActionContext({ type: 'address', data });
+  };
+
+  const handleStartTrainingSubmit = (data) => {
+    setConfirmActionContext({ type: 'startTraining', data });
   };
 
   const handleConfirmAction = () => {
@@ -160,6 +169,10 @@ export default function MyProfilePage() {
       const data = confirmActionContext.data;
       setPasswordMask('*'.repeat(data.newPassword.length));
       setIsChangePasswordOpen(false);
+    } else if (confirmActionContext?.type === 'startTraining') {
+      const data = confirmActionContext.data;
+      setTrainings(prev => [...prev, data]);
+      setIsStartTrainingOpen(false);
     }
     
     setSubmittedType(confirmActionContext?.type);
@@ -420,17 +433,32 @@ export default function MyProfilePage() {
             <div className="profile-card skill-card">
               <div className="profile-card-header">
                 <h3 className="card-title">Skill Growth</h3>
-                <a href="#training" className="card-header-link">
+                <a href="#training" className="card-header-link" onClick={(e) => { e.preventDefault(); setIsStartTrainingOpen(true); }}>
                   Start a training
                   <img src={arrowRightIcon} alt="arrow right" className="link-arrow-icon" />
                 </a>
               </div>
-              <div className="profile-card-body empty-state">
-                <div className="empty-badge">
-                  <img src={certificateIcon} alt="Medal" className="empty-badge-icon" />
-                </div>
-                <p className="empty-main-text">Nothing here yet.</p>
-                <p className="empty-sub-text">Add a skill to get started</p>
+              <div className={`profile-card-body ${trainings.length === 0 ? 'empty-state' : ''}`}>
+                {trainings.length === 0 ? (
+                  <>
+                    <div className="empty-badge">
+                      <img src={certificateIcon} alt="Medal" className="empty-badge-icon" />
+                    </div>
+                    <p className="empty-main-text">Nothing here yet.</p>
+                    <p className="empty-sub-text">Add a skill to get started</p>
+                  </>
+                ) : (
+                  <div className="skills-list">
+                    {trainings.map((training, index) => (
+                      <div key={index} className="skill-tag">
+                        <span className="skill-tag-icon">
+                          <img src={certificateIcon} alt="Icon" />
+                        </span>
+                        {training.title}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -615,6 +643,13 @@ export default function MyProfilePage() {
         />
       )}
 
+      {isStartTrainingOpen && (
+        <StartTrainingModal
+          onClose={() => setIsStartTrainingOpen(false)}
+          onSubmit={handleStartTrainingSubmit}
+        />
+      )}
+
       {confirmActionContext && (
         <ConfirmActionModal
           onClose={handleCancelConfirm}
@@ -622,6 +657,8 @@ export default function MyProfilePage() {
           message={
             confirmActionContext.type === 'password'
               ? "Are you sure you want to change your password? You'll need to use your new password the next time you sign in."
+              : confirmActionContext.type === 'startTraining'
+              ? "Are you sure you want to proceed with starting this training? Your training session will begin immediately."
               : undefined
           }
         />
@@ -630,8 +667,14 @@ export default function MyProfilePage() {
       {isRequestSubmittedOpen && (
         <RequestSubmittedModal
           onClose={() => setIsRequestSubmittedOpen(false)}
-          title={submittedType === 'password' ? 'Password Updated' : undefined}
-          message={submittedType === 'password' ? 'Your new password is now active. Be sure to use it the next time you log in.' : undefined}
+          title={
+            submittedType === 'password' ? 'Password Updated' :
+            submittedType === 'startTraining' ? 'Training Started!' : undefined
+          }
+          message={
+            submittedType === 'password' ? 'Your new password is now active. Be sure to use it the next time you log in.' :
+            submittedType === 'startTraining' ? 'Your training is ready. You can now access and begin the training.' : undefined
+          }
         />
       )}
     </div>

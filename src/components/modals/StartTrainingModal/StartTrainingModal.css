@@ -1,0 +1,295 @@
+.start-training-modal {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-training-form {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+}
+
+.start-training-scroll {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.start-training-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.start-training-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1E293B;
+}
+
+.start-training-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1E293B;
+  outline: none;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.start-training-input::placeholder {
+  color: #94A3B8;
+}
+
+.start-training-input:focus {
+  border-color: #3B82F6;
+}
+
+/* Custom Select Dropdown */
+.start-training-select-wrap {
+  position: relative;
+}
+
+.start-training-select-trigger {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1E293B;
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.start-training-select-trigger:focus {
+  border-color: #3B82F6;
+}
+
+.text-placeholder {
+  color: #94A3B8;
+}
+
+.start-training-select-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.start-training-select-arrow.is-open {
+  transform: rotate(180deg);
+}
+
+.start-training-dropdown-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: auto;
+  min-width: 180px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  z-index: 110;
+  padding: 6px 0;
+  box-sizing: border-box;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.start-training-dropdown-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.start-training-dropdown-item:hover {
+  background-color: #f8fafc;
+  color: #1f66c7;
+}
+
+.start-training-dropdown-item.is-selected {
+  background-color: #eff6ff;
+  color: #1f66c7;
+  font-weight: 500;
+}
+
+/* Date Input Wrapper */
+.start-training-date-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.start-training-date-input {
+  cursor: pointer;
+}
+
+.date-icon {
+  position: absolute;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Calendar Styles */
+.dob-calendar-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 318px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow:
+    0 20px 60px -10px rgba(31, 102, 199, 0.14),
+    0 8px 24px -4px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  padding: 18px 16px 16px;
+  box-sizing: border-box;
+  animation: dobCalendarFadeIn 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes dobCalendarFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dob-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 0 2px;
+}
+
+.dob-calendar-month-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dob-calendar-nav-btn {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  line-height: 1;
+}
+
+.dob-calendar-nav-btn:hover {
+  background: #1f66c7;
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.dob-calendar-month-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.dob-calendar-year-select {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.dob-calendar-weekdays,
+.dob-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.dob-calendar-weekdays {
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.dob-calendar-weekdays div {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 0;
+}
+
+.dob-calendar-empty,
+.dob-calendar-day-btn {
+  aspect-ratio: 1;
+}
+
+.dob-calendar-day-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  transition: background 0.13s, color 0.13s, transform 0.1s, box-shadow 0.13s;
+  position: relative;
+}
+
+.dob-calendar-day-btn:hover:not(.is-selected) {
+  background: #eff6ff;
+  color: #1f66c7;
+  font-weight: 600;
+  transform: scale(1.07);
+}
+
+.dob-calendar-day-btn.is-selected {
+  background: linear-gradient(135deg, #1f66c7 0%, #3b82f6 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 9px;
+  box-shadow: 0 4px 12px rgba(31, 102, 199, 0.38);
+  transform: scale(1.08);
+}

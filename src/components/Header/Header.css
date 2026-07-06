@@ -47,6 +47,11 @@
   flex-direction: column;
   justify-content: space-between;
 
+  /* Sticky Positioning — keeps the header at the top during scroll */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
   /* Padding — sides and top only; no bottom padding so tabs touch the edge */
   padding: 24px 32px 0 32px;
   box-sizing: border-box;

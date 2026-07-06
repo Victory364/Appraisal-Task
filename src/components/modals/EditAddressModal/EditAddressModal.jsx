@@ -63,7 +63,7 @@ export default function EditAddressModal({ onClose, onSubmit, initialData }) {
       <div className="claim-modal edit-address-modal">
         <div className="claim-modal-header">
           <h3 className="claim-modal-title">
-            <img src={locationIcon} alt="Location" className="claim-modal-title-icon" style={{ filter: 'brightness(0) invert(1)' }} />
+            <img src={locationIcon} alt="Location" className="claim-modal-title-icon" />
             Edit address
           </h3>
           <button onClick={onClose} type="button" className="claim-modal-close">✕</button>

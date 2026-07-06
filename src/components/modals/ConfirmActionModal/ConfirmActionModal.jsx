@@ -8,7 +8,7 @@ export default function ConfirmActionModal({ onClose, onConfirm, message }) {
       <div className="claim-modal confirm-action-modal">
         <div className="claim-modal-header">
           <h3 className="claim-modal-title">
-            <img src={helpIcon} alt="Help" className="claim-modal-title-icon" style={{ filter: 'brightness(0) invert(1)' }} />
+            <img src={helpIcon} alt="Help" className="claim-modal-title-icon" />
             Confirm Action
           </h3>
           <button onClick={onClose} type="button" className="claim-modal-close">x</button>

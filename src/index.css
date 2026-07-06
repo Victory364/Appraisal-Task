@@ -175,8 +175,8 @@ select {
   flex-direction: row;
   width: 100%;
   max-width: none;
-  /* full viewport width — no max constraint */
-  min-height: 100vh;
+  /* strictly bound to viewport to prevent body scroll */
+  height: 100vh;
   background-color: var(--bg-white);
   border-radius: 0;
   box-shadow: none;
@@ -202,6 +202,9 @@ select {
   /* offset for the fixed 250 px sidebar */
   background-color: var(--bg-white);
   align-items: stretch;
+  /* This area handles all vertical scrolling */
+  height: 100vh;
+  overflow-y: auto;
 }
 
 /**

@@ -2,14 +2,11 @@ import { useState } from 'react';
 import '../ModalBase/ModalBase.css';
 import './ChangePasswordModal.css';
 
+import securitySafe from '../../../assets/Fowgate Folder/security-safe.svg';
+
+
 // We'll use an inline SVG for the eye icon, checkmarks, and shield lock
-const ShieldLockIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="claim-modal-title-icon" style={{ filter: 'brightness(0) invert(1)' }}>
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-    <path d="M12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
-    <path d="M12 11v3"></path>
-  </svg>
-);
+
 
 const EyeIcon = ({ show, onClick }) => (
   <svg onClick={onClick} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ cursor: 'pointer', position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)' }}>
@@ -76,7 +73,7 @@ export default function ChangePasswordModal({ onClose, onSubmit }) {
       <div className="claim-modal change-password-modal">
         <div className="claim-modal-header">
           <h3 className="claim-modal-title">
-            <ShieldLockIcon />
+            <img src={securitySafe} alt="Security Safe" className="claim-modal-title-icon" />
             Change Password
           </h3>
           <button onClick={onClose} type="button" className="claim-modal-close">✕</button>
