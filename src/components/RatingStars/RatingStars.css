@@ -1,0 +1,24 @@
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #2b2d31;
+  font-weight: 500;
+  font-size: 0.98rem;
+}
+
+.rating-stars .star-icon {
+  width: 18px;
+  height: 18px;
+  color: #ff9f1c;
+  stroke-width: 2;
+}
+
+.rating-stars .star-icon.filled {
+  fill: #ff9f1c;
+}
+
+.rating-stars.compact-rating {
+  gap: 6px;
+  font-weight: 700;
+}
