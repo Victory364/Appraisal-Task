@@ -39,7 +39,7 @@ import './App.css';
 
 function App() {
   // Track which header tab is currently active
-  const [activeTab, setActiveTab] = useState('Loans & Advances');
+  const [activeTab, setActiveTab] = useState('My Profile');
 
   // Render the correct page component based on the active tab
   const renderPage = () => {
