@@ -71,3 +71,82 @@
   margin-top: auto;
   border-top: 0.5px solid #eaeaea;
 }
+
+/* ── Modal button styling ── */
+.modal-overlay button {
+  transform: translateY(0) scale(1);
+  transition: all 0.18s ease;
+}
+
+.modal-overlay button:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(31, 102, 199, 0.18);
+}
+
+.modal-overlay button:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 10px rgba(31, 102, 199, 0.12);
+}
+
+.modal-btn-submit {
+  min-width: 98px;
+  width: max-content;
+  padding: 0 16px;
+  height: 42px;
+  border-radius: 4px;
+  border: none;
+  background-color: #e8f0fb;
+  color: #1f66c7;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn-submit:hover {
+  background-color: #1f66c7 !important;
+  color: #ffffff !important;
+}
+
+.modal-btn-primary {
+  width: 100%;
+  height: 42px;
+  border-radius: 4px;
+  border: none;
+  background-color: #1f66c7;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn-primary:hover {
+  background-color: #154c9c;
+}
+
+.modal-btn-cancel {
+  min-width: 98px;
+  width: max-content;
+  padding: 0 16px;
+  height: 42px;
+  border-radius: 4px;
+  border: 0.5px solid #d9dfe8;
+  background-color: #ffffff;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn-cancel:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
