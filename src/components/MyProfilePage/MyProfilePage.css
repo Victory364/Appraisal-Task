@@ -300,7 +300,7 @@
    ============================================================================= */
 .profile-main-content {
   flex-grow: 1;
-  width: 100%;
+  min-width: 0;
 }
 
 /* Custom scrollbars for the sticky containers */
@@ -923,9 +923,9 @@
 }
 
 .btn-change-password {
-  background-color: #ffffff;
-  border: 1px solid #d9dfe8;
-  color: #64748b;
+  background-color: #eff6ff;
+  border: none;
+  color: var(--primary-blue, #0f52ba);
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 13px;
@@ -937,9 +937,8 @@
 }
 
 .btn-change-password:hover {
-  background-color: #f8fafc;
-  border-color: #cbd5e1;
-  color: #1e293b;
+  background-color: #dbeafe;
+  color: var(--primary-blue, #0f52ba);
 }
 
 /* =============================================================================
