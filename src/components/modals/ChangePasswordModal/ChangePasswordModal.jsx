@@ -37,9 +37,10 @@ const CheckIcon = ({ isValid }) => {
 };
 
 export default function ChangePasswordModal({ onClose, onSubmit }) {
-  const [currentPassword, setCurrentPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('123456');
   const [newPassword, setNewPassword] = useState('');
   const [retypePassword, setRetypePassword] = useState('');
+
 
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
