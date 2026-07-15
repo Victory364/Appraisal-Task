@@ -16,7 +16,7 @@
   background-color: #ffffff;
   border-radius: 4px;
   width: min(528px, calc(100vw - 48px));
-  height: min(704px, calc(100vh - 48px));
+  height: auto;
   max-height: calc(100vh - 48px);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
   display: flex;

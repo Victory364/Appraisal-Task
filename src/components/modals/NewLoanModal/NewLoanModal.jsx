@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+import '../ModalBase/ModalBase.css';
+import '../ClaimStatusModal/ClaimStatusModal.css';
 import './NewLoanModal.css';
+
+
 import loanHeaderIcon from '../../../assets/Fowgate Folder/Add Expense Claim.svg';
 import { loanPurposes, currencyOptions } from '../../../utils/constants';
 import { formatMoney } from '../../../utils/helpers';

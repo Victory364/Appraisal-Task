@@ -1,3 +1,8 @@
+/* Override the base class height for tall form modals */
+.claim-modal:has(.add-edit-form) {
+  height: min(704px, calc(100vh - 48px));
+}
+
 .add-edit-form {
   display: flex;
   flex-direction: column;
@@ -5,6 +10,7 @@
   box-sizing: border-box;
   overflow: hidden;
 }
+
 
 .add-edit-title {
   font-size: 20px;

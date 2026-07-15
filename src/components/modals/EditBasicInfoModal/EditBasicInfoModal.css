@@ -1,7 +1,6 @@
 .edit-basic-info-modal {
-  width: 528px !important;
-  /* Use auto height or up to max-height, but user said 'use the same height' as Add Expense Claim which is min(704px, calc(100vh - 48px)) */
-  height: 704px !important;
+  width: 528px;
+  height: min(704px, calc(100vh - 48px));
   max-height: calc(100vh - 48px);
 }
 
