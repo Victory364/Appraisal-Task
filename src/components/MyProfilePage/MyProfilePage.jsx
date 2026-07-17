@@ -97,6 +97,7 @@ export default function MyProfilePage() {
   };
 
   const handleChangePasswordSubmit = (data) => {
+    setIsChangePasswordOpen(false);
     setConfirmActionContext({ type: 'password', data });
   };
 
@@ -112,28 +113,30 @@ export default function MyProfilePage() {
   };
 
   const handleEditInfoSubmit = (data) => {
+    setIsEditInfoOpen(false);
     setConfirmActionContext({ type: 'info', data });
   };
 
   const handleEditAddressSubmit = (data) => {
+    setIsEditAddressOpen(false);
     setConfirmActionContext({ type: 'address', data });
   };
 
   const handleStartTrainingSubmit = (data) => {
+    setIsStartTrainingOpen(false);
     setConfirmActionContext({ type: 'startTraining', data });
   };
 
   const handleOngoingTrainingSubmit = () => {
+    setIsOngoingTrainingOpen(false);
     setConfirmActionContext({ type: 'completeTraining', data: selectedTraining });
   };
 
   const handleConfirmAction = () => {
     if (confirmActionContext?.type === 'info') {
       const data = confirmActionContext.data;
-      // Map fields from modal to page state
       const newSsn = data.ssnType || data.ssn;
       
-      // Determine which fields changed
       const updatedFields = [];
       if (data.fullName !== basicInfo.fullName) updatedFields.push('fullName');
       if (data.dob !== basicInfo.dob) updatedFields.push('dob');
@@ -157,8 +160,6 @@ export default function MyProfilePage() {
         setPendingInfoFields(prev => [...new Set([...prev, ...updatedFields])]);
         setIsBasicInfoPending(true);
       }
-      
-      setIsEditInfoOpen(false);
     } else if (confirmActionContext?.type === 'address') {
       const data = confirmActionContext.data;
       setAddress(prev => ({
@@ -171,19 +172,15 @@ export default function MyProfilePage() {
         address2: data.address2
       }));
       setIsAddressPending(true);
-      setIsEditAddressOpen(false);
     } else if (confirmActionContext?.type === 'password') {
       const data = confirmActionContext.data;
       setPasswordMask('*'.repeat(data.newPassword.length));
-      setIsChangePasswordOpen(false);
     } else if (confirmActionContext?.type === 'startTraining') {
       const data = confirmActionContext.data;
       setTrainings(prev => [...prev, data]);
-      setIsStartTrainingOpen(false);
     } else if (confirmActionContext?.type === 'completeTraining') {
       const data = confirmActionContext.data;
       setTrainings(prev => prev.map(t => t === data ? { ...t, completed: true } : t));
-      setIsOngoingTrainingOpen(false);
     }
     
     setSubmittedType(confirmActionContext?.type);
@@ -192,6 +189,12 @@ export default function MyProfilePage() {
   };
 
   const handleCancelConfirm = () => {
+    // Reopen the originating modal so the user can go back and edit
+    if (confirmActionContext?.type === 'info') setIsEditInfoOpen(true);
+    else if (confirmActionContext?.type === 'address') setIsEditAddressOpen(true);
+    else if (confirmActionContext?.type === 'password') setIsChangePasswordOpen(true);
+    else if (confirmActionContext?.type === 'startTraining') setIsStartTrainingOpen(true);
+    else if (confirmActionContext?.type === 'completeTraining') setIsOngoingTrainingOpen(true);
     setConfirmActionContext(null);
   };
 
@@ -473,7 +476,9 @@ export default function MyProfilePage() {
                         style={{ cursor: training.completed ? 'default' : 'pointer' }}
                       >
                         <span className="skill-tag-icon">
-                          <img src={certificateIcon} alt="Icon" />
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.86667 1.33301C7.73333 1.33301 7.6 1.39967 7.53333 1.46634L6.6 2.33301L5.53333 2.13301C5.2 2.06634 5 2.26634 4.93333 2.53301L4.73333 3.73301L3.6 4.26634C3.33333 4.39967 3.26667 4.66634 3.4 4.93301L3.93333 5.99967L3.4 7.06634C3.26667 7.33301 3.4 7.59967 3.6 7.73301L4.73333 8.26634L4.93333 9.46634C5 9.73301 5.26667 9.93301 5.53333 9.86634L6.8 9.66634L7.73333 10.533C7.93333 10.733 8.26667 10.733 8.46667 10.533L9.4 9.66634L10.6667 9.86634C10.9333 9.93301 11.2 9.73301 11.2667 9.46634L11.4667 8.26634L12.6 7.73301C12.8667 7.59967 12.9333 7.33301 12.8 7.06634L12.0667 5.99967L12.6 4.93301C12.7333 4.66634 12.6667 4.39967 12.4 4.26634L11.2667 3.73301L11.0667 2.53301C11 2.26634 10.7333 2.06634 10.4667 2.13301L9.2 2.33301L8.26667 1.46634C8.2 1.33301 8 1.33301 7.86667 1.33301ZM4.06667 8.73301L2 12.8663L4.4 12.533L5.6 14.6663L7.33333 11.133L7.2 10.9997L6.53333 10.3997L5.6 10.533C5 10.5997 4.4 10.1997 4.26667 9.59967L4.06667 8.73301ZM11.9333 8.73301L11.7333 9.59967C11.6 10.133 11.1333 10.533 10.6 10.533H10.4667L9.53333 10.3997L8.86667 10.9997L8.73333 11.133L10.4667 14.6663L11.6667 12.5997L14.0667 12.933L11.9333 8.73301Z" />
+                          </svg>
                         </span>
                         {training.title}
                       </div>
@@ -487,7 +492,7 @@ export default function MyProfilePage() {
             <div className="profile-card certifications-card">
               <div className="profile-card-header">
                 <div className="title-with-badge">
-                  <h3 className="card-title">Recommended Certifications</h3>
+                  <h3 className="card-title">Recommended Certs</h3>
                   <span className="ai-badge">
                     <span className="ai-badge-stars">
                       <img src={starsIcon} alt="stars" />

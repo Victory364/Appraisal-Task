@@ -665,7 +665,7 @@ export default function ExpenseClaimsPage() {
       </div>
 
       {/* Styled React Form Modal */}
-      {isModalOpen && ['editing', 'confirm'].includes(formStatus) && (
+      {isModalOpen && formStatus === 'editing' && (
         <AddEditClaimModal
           modalMode={modalMode}
           modalStep={modalStep}

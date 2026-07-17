@@ -12,7 +12,7 @@ const monthNames = [
 
 const parseDateStr = (dateStr) => {
   if (!dateStr) return new Date();
-  const parts = dateStr.split('-');
+  const parts = dateStr.includes('/') ? dateStr.split('/') : dateStr.split('-');
   if (parts.length === 3) {
     const day = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10) - 1; // 0-based
@@ -32,6 +32,11 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
     endDate: ''
   });
 
+  const [errors, setErrors] = useState({
+    startDate: '',
+    endDate: ''
+  });
+
   const [isProviderOpen, setIsProviderOpen] = useState(false);
   const [activeCalendar, setActiveCalendar] = useState(null); // 'start' | 'end' | null
   const [calendarDate, setCalendarDate] = useState(() => new Date());
@@ -46,10 +51,10 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
       if (providerRef.current && !providerRef.current.contains(e.target)) {
         setIsProviderOpen(false);
       }
-      if (startWrapRef.current && !startWrapRef.current.contains(e.target) && activeCalendar === 'start') {
+      if (startWrapRef.current && !startWrapRef.current.contains(e.target) && activeCalendar === 'startDate') {
         setActiveCalendar(null);
       }
-      if (endWrapRef.current && !endWrapRef.current.contains(e.target) && activeCalendar === 'end') {
+      if (endWrapRef.current && !endWrapRef.current.contains(e.target) && activeCalendar === 'endDate') {
         setActiveCalendar(null);
       }
     };
@@ -67,8 +72,99 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleDateChange = (e, field) => {
+    let value = e.target.value;
+    const prevValue = formData[field] || '';
+    if (value.length < prevValue.length) {
+      if (prevValue.endsWith('/') && !value.endsWith('/')) {
+        value = value.slice(0, -1);
+      }
+    }
+    const clean = value.replace(/\D/g, '').slice(0, 8);
+    let formatted = clean;
+    if (clean.length > 2) {
+      formatted = `${clean.slice(0, 2)}/${clean.slice(2, 4)}`;
+    }
+    if (clean.length > 4) {
+      formatted = `${clean.slice(0, 2)}/${clean.slice(2, 4)}/${clean.slice(4, 8)}`;
+    }
+    setFormData(prev => ({ ...prev, [field]: formatted }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    const newErrors = { startDate: '', endDate: '' };
+    let hasError = false;
+    
+    const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    
+    const isValidDate = (d, m, y) => {
+      const date = new Date(y, m - 1, d);
+      return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d;
+    };
+    
+    // Validate Start Date
+    const startMatch = formData.startDate.match(dateRegex);
+    if (!startMatch) {
+      newErrors.startDate = 'Must be in DD/MM/YYYY format';
+      hasError = true;
+    } else {
+      const d = parseInt(startMatch[1], 10);
+      const m = parseInt(startMatch[2], 10);
+      const y = parseInt(startMatch[3], 10);
+      if (!isValidDate(d, m, y)) {
+        newErrors.startDate = 'Please enter a valid date';
+        hasError = true;
+      }
+    }
+    
+    // Validate End Date
+    const endMatch = formData.endDate.match(dateRegex);
+    if (!endMatch) {
+      newErrors.endDate = 'Must be in DD/MM/YYYY format';
+      hasError = true;
+    } else {
+      const d = parseInt(endMatch[1], 10);
+      const m = parseInt(endMatch[2], 10);
+      const y = parseInt(endMatch[3], 10);
+      if (!isValidDate(d, m, y)) {
+        newErrors.endDate = 'Please enter a valid date';
+        hasError = true;
+      }
+    }
+    
+    // Compare dates if no format/validity issues
+    if (!hasError) {
+      const startMatchVal = formData.startDate.match(dateRegex);
+      const endMatchVal = formData.endDate.match(dateRegex);
+      
+      const sD = parseInt(startMatchVal[1], 10);
+      const sM = parseInt(startMatchVal[2], 10);
+      const sY = parseInt(startMatchVal[3], 10);
+      
+      const eD = parseInt(endMatchVal[1], 10);
+      const eM = parseInt(endMatchVal[2], 10);
+      const eY = parseInt(endMatchVal[3], 10);
+      
+      const startDateObj = new Date(sY, sM - 1, sD);
+      const endDateObj = new Date(eY, eM - 1, eD);
+      
+      if (startDateObj > endDateObj) {
+        newErrors.startDate = 'Start date cannot be after end date';
+        newErrors.endDate = 'End date cannot be before start date';
+        hasError = true;
+      }
+    }
+    
+    if (hasError) {
+      setErrors(newErrors);
+      return;
+    }
+    
     if (onSubmit) onSubmit(formData);
   };
 
@@ -109,10 +205,13 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
     const year = calendarDate.getFullYear();
     const month = (calendarDate.getMonth() + 1).toString().padStart(2, '0');
     const dayStr = day.toString().padStart(2, '0');
-    const formattedDate = `${dayStr}-${month}-${year}`;
+    const formattedDate = `${dayStr}/${month}/${year}`;
     
     setFormData(prev => ({ ...prev, [field]: formattedDate }));
     setActiveCalendar(null);
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
   };
 
   const isSelectedDate = (day, field) => {
@@ -248,9 +347,9 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
                   name="startDate"
                   value={formData.startDate}
                   placeholder="dd/mm/yyyy"
+                  onChange={(e) => handleDateChange(e, 'startDate')}
                   onClick={() => openCalendar('startDate')}
-                  readOnly
-                  className="start-training-input start-training-date-input" 
+                  className={`start-training-input start-training-date-input ${errors.startDate ? 'input-error' : ''}`} 
                   required
                 />
                 <img 
@@ -261,6 +360,7 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
                 />
                 {activeCalendar === 'startDate' && renderCalendar('startDate')}
               </div>
+              {errors.startDate && <span className="field-error-msg">{errors.startDate}</span>}
             </div>
 
             <div className="start-training-field">
@@ -271,9 +371,9 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
                   name="endDate"
                   value={formData.endDate}
                   placeholder="dd/mm/yyyy"
+                  onChange={(e) => handleDateChange(e, 'endDate')}
                   onClick={() => openCalendar('endDate')}
-                  readOnly
-                  className="start-training-input start-training-date-input" 
+                  className={`start-training-input start-training-date-input ${errors.endDate ? 'input-error' : ''}`} 
                   required
                 />
                 <img 
@@ -284,6 +384,7 @@ export default function StartTrainingModal({ onClose, onSubmit }) {
                 />
                 {activeCalendar === 'endDate' && renderCalendar('endDate')}
               </div>
+              {errors.endDate && <span className="field-error-msg">{errors.endDate}</span>}
             </div>
 
           </div>

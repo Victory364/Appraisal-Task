@@ -665,10 +665,27 @@
   opacity: 0.8;
 }
 
+.skill-tag-icon svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.skill-tag-icon svg path {
+  fill: #d97706; /* Golden yellow for ongoing */
+  transition: fill 0.2s ease;
+}
+
+.skill-tag.completed .skill-tag-icon svg path {
+  fill: #22c55e; /* Green for completed */
+}
+
 /* Certifications list styling */
 .title-with-badge {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   gap: 10px;
 }
 
