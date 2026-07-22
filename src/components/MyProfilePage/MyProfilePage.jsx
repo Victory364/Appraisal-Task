@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Eye } from 'lucide-react';
 import './MyProfilePage.css';
 
 import EditBasicInfoModal from '../modals/EditBasicInfoModal/EditBasicInfoModal';
@@ -9,6 +10,8 @@ import RequestSubmittedModal from '../modals/RequestSubmittedModal/RequestSubmit
 import ChangePasswordModal from '../modals/ChangePasswordModal/ChangePasswordModal';
 import StartTrainingModal from '../modals/StartTrainingModal/StartTrainingModal';
 import OngoingTrainingModal from '../modals/OngoingTrainingModal/OngoingTrainingModal';
+import WriteResignationModal from '../modals/WriteResignationModal/WriteResignationModal';
+import ViewResignationModal from '../modals/ViewResignationModal/ViewResignationModal';
 
 // Icon imports
 import noStarIcon from '../../assets/Fowgate Folder/No star.svg';
@@ -64,6 +67,9 @@ export default function MyProfilePage() {
   const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
   const [isUploadPhotoOpen, setIsUploadPhotoOpen] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isWriteResignationOpen, setIsWriteResignationOpen] = useState(false);
+  const [isViewResignationOpen, setIsViewResignationOpen] = useState(false);
+  const [resignationLetter, setResignationLetter] = useState(null);
   const [confirmActionContext, setConfirmActionContext] = useState(null);
   const [isRequestSubmittedOpen, setIsRequestSubmittedOpen] = useState(false);
   const [submittedType, setSubmittedType] = useState(null);
@@ -101,15 +107,23 @@ export default function MyProfilePage() {
     setConfirmActionContext({ type: 'password', data });
   };
 
-  // Resignation toggle or action
   const handleResignation = () => {
-    if (window.confirm("Are you sure you want to submit a resignation request?")) {
-      setBasicInfo(prev => ({
-        ...prev,
-        employmentStatus: 'Resigned',
-        availability: 'Unavailable'
-      }));
+    if (resignationLetter) {
+      setIsViewResignationOpen(true);
+      return;
     }
+
+    setIsWriteResignationOpen(true);
+  };
+
+  const handleSubmitResignation = (data) => {
+    setIsWriteResignationOpen(false);
+    setConfirmActionContext({ type: 'submitResignation', data });
+  };
+
+  const handleSaveResignation = (data) => {
+    setIsViewResignationOpen(false);
+    setConfirmActionContext({ type: 'saveResignation', data });
   };
 
   const handleEditInfoSubmit = (data) => {
@@ -181,6 +195,15 @@ export default function MyProfilePage() {
     } else if (confirmActionContext?.type === 'completeTraining') {
       const data = confirmActionContext.data;
       setTrainings(prev => prev.map(t => t === data ? { ...t, completed: true } : t));
+    } else if (confirmActionContext?.type === 'submitResignation') {
+      setResignationLetter(confirmActionContext.data);
+      setBasicInfo(prev => ({
+        ...prev,
+        employmentStatus: 'Resigned',
+        availability: 'Unavailable'
+      }));
+    } else if (confirmActionContext?.type === 'saveResignation') {
+      setResignationLetter(confirmActionContext.data);
     }
     
     setSubmittedType(confirmActionContext?.type);
@@ -195,6 +218,8 @@ export default function MyProfilePage() {
     else if (confirmActionContext?.type === 'password') setIsChangePasswordOpen(true);
     else if (confirmActionContext?.type === 'startTraining') setIsStartTrainingOpen(true);
     else if (confirmActionContext?.type === 'completeTraining') setIsOngoingTrainingOpen(true);
+    else if (confirmActionContext?.type === 'submitResignation') setIsWriteResignationOpen(true);
+    else if (confirmActionContext?.type === 'saveResignation') setIsViewResignationOpen(true);
     setConfirmActionContext(null);
   };
 
@@ -248,9 +273,16 @@ export default function MyProfilePage() {
                   Edit info
                 </button>
               )}
-              <button className="profile-btn-resignation" onClick={handleResignation}>
-                <img src={pencilRed} alt='Pencil red'/>
-                Resignation
+              <button
+                className={`profile-btn-resignation ${resignationLetter ? 'is-view-resignation' : ''}`}
+                onClick={handleResignation}
+              >
+                {resignationLetter ? (
+                  <Eye size={14} strokeWidth={1.8} aria-hidden="true" />
+                ) : (
+                  <img src={pencilRed} alt=''/>
+                )}
+                {resignationLetter ? 'View Resignation' : 'Resignation'}
               </button>
             </div>
           </div>
@@ -684,6 +716,22 @@ export default function MyProfilePage() {
         />
       )}
 
+      {isWriteResignationOpen && (
+        <WriteResignationModal
+          onClose={() => setIsWriteResignationOpen(false)}
+          onSubmit={handleSubmitResignation}
+          initialData={resignationLetter}
+        />
+      )}
+
+      {isViewResignationOpen && resignationLetter && (
+        <ViewResignationModal
+          onClose={() => setIsViewResignationOpen(false)}
+          onSave={handleSaveResignation}
+          resignation={resignationLetter}
+        />
+      )}
+
       {confirmActionContext && (
         <ConfirmActionModal
           onClose={handleCancelConfirm}
@@ -691,6 +739,10 @@ export default function MyProfilePage() {
           message={
             confirmActionContext.type === 'password'
               ? "Are you sure you want to change your password? You'll need to use your new password the next time you sign in."
+              : confirmActionContext.type === 'submitResignation'
+              ? "Are you sure you want to submit this letter of resignation? Once submitted, changes may not be allowed"
+              : confirmActionContext.type === 'saveResignation'
+              ? "Are you sure you want to save changes made to this letter of resignation?"
               : confirmActionContext.type === 'startTraining'
               ? "Are you sure you want to proceed with starting this training? Your training session will begin immediately."
               : confirmActionContext.type === 'completeTraining'
@@ -705,11 +757,15 @@ export default function MyProfilePage() {
           onClose={() => setIsRequestSubmittedOpen(false)}
           title={
             submittedType === 'password' ? 'Password Updated' :
+            submittedType === 'submitResignation' ? 'Letter Sent!' :
+            submittedType === 'saveResignation' ? 'Changes Saved!' :
             submittedType === 'startTraining' ? 'Training Started!' :
             submittedType === 'completeTraining' ? 'Training Complete!' : undefined
           }
           message={
             submittedType === 'password' ? 'Your new password is now active. Be sure to use it the next time you log in.' :
+            submittedType === 'submitResignation' ? 'Resignation letter submitted successfully! Reach out if you have questions.' :
+            submittedType === 'saveResignation' ? 'The changes to the resignation letter were successfully made. HR will be notified of the update.' :
             submittedType === 'startTraining' ? 'Your training is ready. You can now access and begin the training.' :
             submittedType === 'completeTraining' ? 'Training completed successfully! Reach out if you have questions.' : undefined
           }

@@ -1,0 +1,420 @@
+.resignation-modal {
+  width: min(528px, calc(100vw - 32px));
+}
+
+.write-resignation-modal {
+  max-height: min(760px, calc(100vh - 40px));
+}
+
+.resignation-modal-header {
+  height: 64px;
+}
+
+.resignation-title-icon {
+  filter: brightness(0) invert(1);
+}
+
+.resignation-form {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: calc(100vh - 104px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.resignation-form::-webkit-scrollbar {
+  display: none;
+}
+
+.resignation-row,
+.resignation-field,
+.resignation-compose-header {
+  padding: 18px 24px;
+  border-bottom: 0.5px solid #eaeaea;
+}
+
+.resignation-subject-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resignation-muted-label {
+  color: #8c8c8c;
+  font-size: 13px;
+}
+
+.resignation-subject {
+  color: #292929;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.resignation-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resignation-field label,
+.resignation-compose-header label {
+  color: #292929;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.resignation-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.resignation-template-select-wrapper {
+  position: relative;
+  width: 158px;
+}
+
+.resignation-select,
+.resignation-template-select {
+  height: 44px;
+  width: 100%;
+  border: 0.5px solid #d9dfe8;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #292929;
+  font-size: 14px;
+  padding: 0 34px 0 14px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.resignation-select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.resignation-select:focus,
+.resignation-template-select:focus,
+.resignation-editor:focus {
+  border-color: #1f66c7;
+  box-shadow: 0 0 0 3px rgba(31, 102, 199, 0.1);
+}
+
+.resignation-compose-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: none;
+  padding-bottom: 10px;
+}
+
+.resignation-template-select {
+  height: 34px;
+  font-size: 12px;
+}
+
+.resignation-editor-wrap {
+  margin: 0 24px 0;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.resignation-editor {
+  width: 100%;
+  min-height: 182px;
+  max-height: 280px;
+  overflow-y: auto;
+  border: none;
+  outline: none;
+  padding: 16px;
+  color: #292929;
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.resignation-editor[contenteditable]:empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+  display: block;
+}
+
+.resignation-editor ul,
+.resignation-editor ol {
+  padding-left: 24px;
+  margin: 6px 0;
+}
+
+.resignation-editor-toolbar {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 12px;
+  border-top: 0.5px solid #f0f0f0;
+  background-color: #ffffff;
+}
+
+.resignation-format-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resignation-format-actions button {
+  min-width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: #eff6ff;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.resignation-format-actions button:hover {
+  background-color: #dbeafe;
+}
+
+.resignation-format-actions button img {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+}
+
+.resignation-counter {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.resignation-cancel-btn {
+  border: none;
+  background: transparent;
+}
+
+.write-resignation-signature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+  padding: 16px 24px 14px;
+}
+
+.signature-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 48px;
+  position: relative;
+}
+
+.signature-upload-input {
+  display: none;
+}
+
+.signature-upload-trigger {
+  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 8px;
+  color: #7a7a7a;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  user-select: none;
+}
+
+.signature-upload-trigger img {
+  width: 15px;
+  height: 15px;
+  opacity: 0.72;
+}
+
+.signature-preview-box {
+  position: relative;
+  width: 100%;
+  min-height: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.signature-transform-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: grab;
+  user-select: none;
+  border: 1px dashed #1f66c7;
+  border-radius: 3px;
+  padding: 2px;
+  margin-bottom: 2px;
+}
+
+.signature-transform-wrapper:active {
+  cursor: grabbing;
+}
+
+.signature-preview-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.transform-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border: 1.5px solid #1f66c7;
+  border-radius: 1px;
+  z-index: 10;
+}
+
+.corner-tl {
+  top: -4px;
+  left: -4px;
+  cursor: nwse-resize;
+}
+
+.corner-tr {
+  top: -4px;
+  right: -4px;
+  cursor: nesw-resize;
+}
+
+.corner-bl {
+  bottom: -4px;
+  left: -4px;
+  cursor: nesw-resize;
+}
+
+.corner-br {
+  bottom: -4px;
+  right: -4px;
+  cursor: nwse-resize;
+}
+
+.signature-remove-btn {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  color: #ffffff;
+  border: none;
+  font-size: 10px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 12;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.signature-date {
+  color: #7a7a7a;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.signature-line {
+  width: 100%;
+  height: 1px;
+  background-color: #6b7280;
+}
+
+.signature-caption {
+  color: #4b5563;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.signature-name {
+  color: #3f3f46;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.signature-adjust-controls label {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  align-items: center;
+  gap: 10px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.signature-adjust-controls input {
+  width: 100%;
+  accent-color: #1f66c7;
+}
+
+.resignation-form .claim-modal-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+@media (max-width: 560px) {
+  .resignation-row,
+  .resignation-field,
+  .resignation-compose-header {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .resignation-editor-wrap {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .resignation-compose-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .resignation-template-select {
+    width: 100%;
+  }
+
+  .write-resignation-signature-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
