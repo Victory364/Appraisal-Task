@@ -214,19 +214,19 @@
   background: transparent;
 }
 
-.write-resignation-signature-row {
+.write-resignation-signature-row,
+.view-resignation-signature-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 52px;
-  padding: 16px 24px 14px;
+  padding: 18px 24px 14px;
 }
 
 .signature-block {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
-  min-height: 48px;
+  width: 100%;
   position: relative;
 }
 
@@ -235,33 +235,34 @@
 }
 
 .signature-upload-trigger {
-  width: max-content;
-  display: inline-flex;
-  align-items: center;
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: flex-end;
   justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
   gap: 8px;
-  color: #7a7a7a;
-  font-size: 13px;
+  color: #6b7280;
+  font-size: 14px;
   cursor: pointer;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   user-select: none;
 }
 
 .signature-upload-trigger img {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   opacity: 0.72;
+  margin-bottom: 2px;
 }
 
 .signature-preview-box {
   position: relative;
   width: 100%;
-  min-height: 28px;
+  height: 36px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  margin-bottom: 6px;
 }
 
 .signature-transform-wrapper {
@@ -272,7 +273,6 @@
   border: 1px dashed #1f66c7;
   border-radius: 3px;
   padding: 2px;
-  margin-bottom: 2px;
 }
 
 .signature-transform-wrapper:active {
@@ -342,31 +342,42 @@
 }
 
 .signature-date {
-  color: #7a7a7a;
-  font-size: 13px;
+  width: 100%;
+  height: 36px;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 400;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  text-align: center;
 }
 
 .signature-line {
   width: 100%;
   height: 1px;
   background-color: #6b7280;
+  display: block;
 }
 
 .signature-caption {
   color: #4b5563;
-  font-size: 12px;
+  font-size: 13px;
   text-align: center;
-  margin-top: 4px;
+  margin-top: 6px;
+  display: block;
+  width: 100%;
 }
 
 .signature-name {
   color: #3f3f46;
-  font-size: 13px;
-  margin-top: 4px;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 6px;
+  display: block;
+  width: 100%;
+  padding-left: 0;
 }
 
 .signature-adjust-controls label {
