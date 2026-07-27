@@ -265,7 +265,8 @@
   flex-shrink: 0;
 }
 
-.notif-icon-calendar {
+.notif-icon-calendar,
+.notif-icon-bell {
   background: #E8EFF9;
   border: none;
 }
@@ -274,25 +275,87 @@
 .notif-content {
   flex: 1;
   min-width: 0;
+  padding-right: 12px;
+}
+
+.notif-item-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px;
+  line-height: 1.35;
 }
 
 .notif-message {
   font-size: 13.5px;
-  color: #1e293b;
+  color: #475569;
   line-height: 1.5;
-  margin: 0 0 5px;
+  margin: 0 0 6px;
 }
 
 .notif-message strong {
   font-weight: 700;
 }
 
+.notif-chips-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.notif-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background-color: #eef2ff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  outline: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+}
+
+.notif-chip-btn:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.notif-chip-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
 .notif-meta {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 12.5px;
   color: #94a3b8;
+}
+
+.notif-circle-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  display: inline-block;
+  margin: 0 2px;
 }
 
 .notif-dot-sep {
@@ -312,7 +375,9 @@
   border-radius: 50%;
   background: #ef4444;
   flex-shrink: 0;
-  margin-top: 4px;
+  position: absolute;
+  right: 16px;
+  top: 20px;
 }
 
 /* ── Action card ────────────────────────────────────────────────────────── */
