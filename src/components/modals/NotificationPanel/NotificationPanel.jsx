@@ -25,6 +25,7 @@ import PdfIcon from '../../../assets/Fowgate Folder/pdf-file-svgrepo-com 1.svg';
 import SettingsIcon from '../../../assets/Fowgate Folder/Settings.svg';
 import BellIcon from '../../../assets/Fowgate Folder/Group 1226.svg';
 import ViewDocumentModal from '../ViewDocumentModal/ViewDocumentModal';
+import NotificationBell from '../../../assets/Fowgate Folder/Notification - Blue.svg'
 
 // ── Static notification data ──────────────────────────────────────────────────
 const INBOX_NOTIFICATIONS = [
