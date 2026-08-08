@@ -33,13 +33,14 @@ import ExpenseClaimsPage from './components/ExpenseClaimsPage/ExpenseClaimsPage'
 import MyAppraisalsPage from './components/MyAppraisalsPage/MyAppraisalsPage';
 import MyProfilePage from './components/MyProfilePage/MyProfilePage';
 import LoanManagement from './components/LoanManagement/LoanManagement';
+import CasesPage from './components/CasesPage/CasesPage';
 
 // App-level CSS (currently just a comment; global styles live in index.css)
 import './App.css';
 
 function App() {
   // Track which header tab is currently active
-  const [activeTab, setActiveTab] = useState('My Profile');
+  const [activeTab, setActiveTab] = useState('Cases');
 
   // Render the correct page component based on the active tab
   const renderPage = () => {
@@ -52,6 +53,8 @@ function App() {
         return <ExpenseClaimsPage />;
       case 'Loans & Advances':
         return <LoanManagement />;
+      case 'Cases':
+        return <CasesPage />;
       default:
         // Placeholder for tabs not yet implemented
         return (
