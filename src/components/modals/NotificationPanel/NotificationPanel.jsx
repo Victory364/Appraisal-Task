@@ -245,6 +245,9 @@ export default function NotificationPanel({ isOpen, onClose }) {
               <CheckIcon />
               Mark all as read
             </button>
+            <button className="notif-close-btn" onClick={onClose} aria-label="Close notifications">
+              ✕
+            </button>
           </div>
         </div>
 
