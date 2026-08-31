@@ -660,26 +660,21 @@
 
 /* Base transition for every modal button — no visible transform by default */
 .modal-overlay button {
-  transform: translateY(0) scale(1);
   transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
     background-color 0.18s ease,
     border-color 0.18s ease,
     color 0.18s ease,
     opacity 0.18s ease;
 }
 
-/* Lift the button 2 px and add a blue shadow when hovered */
+/* Hover — smooth color transition without movement */
 .modal-overlay button:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 20px rgba(31, 102, 199, 0.18);
+  /* Keep buttons stationary on hover */
 }
 
-/* Press / active — push back down slightly so it feels like a physical click */
+/* Press / active */
 .modal-overlay button:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 4px 10px rgba(31, 102, 199, 0.12);
+  /* Keep buttons stationary on click */
 }
 
 /* Keyboard-focus ring — accessible blue outline for keyboard navigation */

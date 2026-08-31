@@ -251,6 +251,17 @@
   background-color: rgba(255, 255, 255, 0.03);
 }
 
+/* Disabled nav items */
+.sidebar-menu-item.disabled .menu-item-link {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sidebar-menu-item.disabled .menu-item-link:hover {
+  color: #a3a3a3;
+  background-color: transparent;
+}
+
 /* Icon inside a nav item (SVG or IMG element) */
 .menu-item-link svg,
 .menu-item-link img {

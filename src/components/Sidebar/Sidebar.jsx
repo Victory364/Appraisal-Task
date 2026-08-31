@@ -186,8 +186,6 @@ export default function Sidebar({ activeItem = 'My Account', onNavChange }) {
             {/* List of nav items in this group */}
             <ul className="sidebar-menu-list">
               {group.items.map((item, itemIdx) => {
-                // Compare this item's name to the activeItem prop to decide
-                // whether to apply the 'active' CSS class
                 const isSelected = item.name === activeItem;
 
                 return (
@@ -199,9 +197,9 @@ export default function Sidebar({ activeItem = 'My Account', onNavChange }) {
                       href={`#${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                       className="menu-item-link"
                       onClick={(e) => {
-                        if (item.tab && onNavChange) {
-                          e.preventDefault();
-                          onNavChange(item.tab);
+                        e.preventDefault();
+                        if (onNavChange) {
+                          onNavChange(item.name);
                         }
                       }}
                     >
@@ -211,6 +209,7 @@ export default function Sidebar({ activeItem = 'My Account', onNavChange }) {
                   </li>
                 );
               })}
+
             </ul>
           </div>
 

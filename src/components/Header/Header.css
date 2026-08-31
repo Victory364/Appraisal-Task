@@ -57,6 +57,17 @@
   box-sizing: border-box;
 }
 
+/* Standalone HCM pages retain the global header controls, but do not reserve
+   space for the My Account tab row. */
+.fowgate-header--compact {
+  min-height: 76px;
+  padding: 16px 32px;
+}
+
+.fowgate-header--compact .header-top-bar {
+  margin-bottom: 0;
+}
+
 
 /* =============================================================================
    2. TOP BAR  (title + search + actions)
@@ -356,6 +367,11 @@
   .fowgate-header {
     min-height: 136px;
     padding: 20px 24px 0;
+  }
+
+  .fowgate-header--compact {
+    min-height: 112px;
+    padding-bottom: 20px;
   }
 
   /* Smaller page title */
