@@ -24,6 +24,12 @@
   overflow: hidden;
 }
 
+/* Allow update-policy and add-policy modals to use full available height for scrolling */
+.update-policy-modal,
+.add-policy-modal {
+  height: calc(100vh - 48px);
+}
+
 .claim-modal-header {
   height: 78px;
   background-color: #1f66c7;
@@ -70,22 +76,20 @@
   background-color: #ffffff;
   margin-top: auto;
   border-top: 0.5px solid #eaeaea;
+  flex-shrink: 0;
 }
 
 /* ── Modal button styling ── */
 .modal-overlay button {
-  transform: translateY(0) scale(1);
-  transition: all 0.18s ease;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
 .modal-overlay button:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 20px rgba(31, 102, 199, 0.18);
+  /* Keep buttons stationary on hover; color transitions only */
 }
 
 .modal-overlay button:active:not(:disabled) {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 4px 10px rgba(31, 102, 199, 0.12);
+  /* Keep buttons stationary on click */
 }
 
 .modal-btn-submit {
