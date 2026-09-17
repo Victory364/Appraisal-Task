@@ -32,6 +32,7 @@ function App() {
 
   const renderPage = () => {
     if (activeSidebarItem === 'Compliance Management') return <ComplianceManagement />;
+    if (activeSidebarItem === 'Payroll') return <PayrollExpenseClaimsPage />;
     if (!isAccountArea) return null;
     switch (activeTab) {
       case 'My Profile':
@@ -39,9 +40,7 @@ function App() {
       case 'Appraisals':
         return <MyAppraisalsPage />;
       case 'Expense Claims':
-        return activeSidebarItem === 'Payroll'
-          ? <PayrollExpenseClaimsPage />
-          : <ExpenseClaimsPage activeSidebarItem={activeSidebarItem} />;
+        return <ExpenseClaimsPage activeSidebarItem={activeSidebarItem} />;
       case 'Loans & Advances':
         return <LoanManagement />;
       case 'Cases':
