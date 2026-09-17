@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FileText, HelpCircle, AtSign, RotateCcw, Smile, X } from 'lucide-react';
 import './PayrollClaimReviewModal.css';
+import alfredBeckettAvatar from '../../../assets/Fowgate Folder/alfred_beckett.png';
 
 export default function PayrollClaimReviewModal({
   claim,
@@ -173,10 +174,7 @@ export default function PayrollClaimReviewModal({
             <div className="payroll-person-card">
               <div className="payroll-person-left">
                 <img
-                  src={
-                    claim.user?.avatar ||
-                    `https://i.pravatar.cc/80?u=${encodeURIComponent(claim.user?.name || claim.id)}`
-                  }
+                  src={claim.user?.avatar || alfredBeckettAvatar}
                   alt={claim.user?.name || 'Employee'}
                 />
                 <div>

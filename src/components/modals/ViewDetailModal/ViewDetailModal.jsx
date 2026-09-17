@@ -3,6 +3,7 @@ import './ViewDetailModal.css';
 import viewDetailIcon from '../../../assets/Fowgate Folder/file-02.svg';
 import AttachmentIcon from '../AttachmentIcon/AttachmentIcon';
 import { formatAttachmentDate, formatFileSize } from '../attachmentUtils';
+import alfredBeckettAvatar from '../../../assets/Fowgate Folder/alfred_beckett.png';
 
 export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
   const dateCreated = claim.dateCreated || claim.date || '-';
@@ -25,7 +26,7 @@ export default function ViewDetailModal({ claim, formatCurrency, onClose }) {
           <div className="view-detail-person-row">
             <div className="view-detail-person">
               <div className="view-detail-avatar">
-                <img src="https://i.pravatar.cc/100" alt="avatar" />
+                <img src={claim.user?.avatar || alfredBeckettAvatar} alt="avatar" />
               </div>
               <div>
                 <div className="view-detail-name">{claim.user?.name || 'David Adeniyi'}</div>
