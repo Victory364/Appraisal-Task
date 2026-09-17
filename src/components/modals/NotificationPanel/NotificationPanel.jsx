@@ -1,18 +1,15 @@
 /**
  * NotificationPanel.jsx — Notification Dropdown Panel
  * -----------------------------------------------------
- * Matches the Figma frame 2087327863:
- *   Width: 560px fixed
- *   Flow: Vertical
- *   Top: 104px (below header)
- *
- * Features:
- *   - Inbox / Teams tabs with counts
- *   - Mark all as read link
- *   - Settings gear icon
- *   - Notification items with avatars/icons, red unread dots,
- *     timestamp, category tag, and optional action cards
- *   - Closes on outside click via the backdrop overlay
+ * Matches the Figma design:
+ *   - Title: Notification
+ *   - Mark all as read with checkmark icon
+ *   - Inbox (12) and Teams (4) tabs + Settings icon
+ *   - Items:
+ *     1. New Expense Claim Submitted (bell icon, red dot, "Click here" link)
+ *     2. Sonia Bennet asked to appraise your team members (avatar, Team Appraisal card, Appraise Team button)
+ *     3. Your leave request for 28 Nov, 2024 has been approved (calendar icon)
+ *     4. Meeting invitation: 12 Nov 2024, 3:15 PM. (avatar, Audit Review Meeting card, Join Meeting button)
  */
 
 import { useState } from 'react';
@@ -20,43 +17,39 @@ import './NotificationPanel.css';
 import CalendarIcon from '../../../assets/Fowgate Folder/Calendar.svg';
 import CheckMarkIcon from '../../../assets/Fowgate Folder/checkmark-circle-04.svg';
 import DocumentIcon from '../../../assets/Fowgate Folder/document-svgrepo-com-3 1.svg';
-import GoogleMeetIcon from '../../../assets/Fowgate Folder/google-meet-svgrepo-com 1.svg';
 import PdfIcon from '../../../assets/Fowgate Folder/pdf-file-svgrepo-com 1.svg';
 import SettingsIcon from '../../../assets/Fowgate Folder/Settings.svg';
-import BellIcon from '../../../assets/Fowgate Folder/Group 1226.svg';
 import ViewDocumentModal from '../ViewDocumentModal/ViewDocumentModal';
-import NotificationBell from '../../../assets/Fowgate Folder/Notification - Blue.svg'
 
-// ── Static notification data ──────────────────────────────────────────────────
+// ── Static notification data matching Figma ────────────────────────────────────
 const INBOX_NOTIFICATIONS = [
   {
-    id: 'n0',
+    id: 'n1',
     iconType: 'bell',
     isAvatar: false,
     unread: true,
-    isDocModal: true,
-    title: 'Off-boarding Files Sent!',
-    message: 'Your off-boarding documents have been sent. Reach out to HR if you have any questions.',
-    time: '2 mins ago',
-    category: 'Off-Boarding',
-    chips: [
-      { name: 'Termination Letter', isDocModal: true },
-      { name: 'Fowgate NDA', isDocModal: true },
-      { name: 'Payout Slip', isDocModal: true }
-    ],
+    title: 'New Expense Claim Submitted',
+    messageType: 'expense',
+    message: (
+      <>
+        Alfred Beckett has submitted an expense claim for review.{' '}
+        <span className="notif-inline-link">Click here</span> to review the details and process accordingly.
+      </>
+    ),
+    time: '5 mins ago',
+    category: 'Expense Claim',
     card: null,
   },
   {
-    id: 'n1',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=80&h=80',
+    id: 'n2',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=80&h=80',
     isAvatar: true,
     online: true,
-    unread: true,
-    message: <>Sonia Bennet asked to <strong>appraise your team members</strong></>,
-    time: '1 hour ago',
+    unread: false,
+    message: <>Sonia Bennet asked to appraise your team members</>,
+    time: '2 days ago',
     category: 'Appraisal',
     card: {
-      icon: null,
       iconType: 'document',
       title: 'Team Appraisal',
       subtitle: 'Created 1 hour ago',
@@ -64,40 +57,30 @@ const INBOX_NOTIFICATIONS = [
     },
   },
   {
-    id: 'n2',
+    id: 'n3',
     iconType: 'calendar',
     isAvatar: false,
-    unread: true,
+    unread: false,
     message: 'Your leave request for 28 Nov, 2024 has been approved',
-    time: '2 hours ago',
+    time: '4 days ago',
     category: 'Leave Request',
     card: null,
   },
   {
-    id: 'n3',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80&h=80',
+    id: 'n4',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=80&h=80',
     isAvatar: true,
     online: true,
     unread: false,
     message: 'Meeting invitation: 12 Nov 2024, 3:15 PM.',
-    time: '2 days ago',
+    time: '10 Nov, 2024',
     category: 'Meeting',
     card: {
       iconType: 'pdf',
       title: 'Audit Review Meeting',
       subtitle: 'Created 2 days ago',
-      action: { label: 'Join Meeting', color: 'meet' },
+      action: { label: 'Join Meeting', color: 'blue' },
     },
-  },
-  {
-    id: 'n4',
-    iconType: 'calendar',
-    isAvatar: false,
-    unread: false,
-    message: 'Your leave request for 13 Nov, 2024 has been approved',
-    time: '2 hours ago',
-    category: 'Leave Request',
-    card: null,
   },
 ];
 
@@ -145,12 +128,12 @@ const TEAMS_NOTIFICATIONS = [
   },
 ];
 
-// ── Icon sub-components ───────────────────────────────────────────────────────
+// ── Sub-components ────────────────────────────────────────────────────────────
 
 function CalendarIconComponent() {
   return (
     <div className="notif-icon-wrap notif-icon-calendar">
-      <img src={CalendarIcon} alt="calendar" style={{ width: '28px', height: '28px' }} />
+      <img src={CalendarIcon} alt="calendar" style={{ width: '26px', height: '26px' }} />
     </div>
   );
 }
@@ -158,7 +141,7 @@ function CalendarIconComponent() {
 function BellIconComponent() {
   return (
     <div className="notif-icon-wrap notif-icon-bell">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22ZM18 16V11C18 7.93 16.37 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.64 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16Z" fill="#1F66C7"/>
       </svg>
     </div>
@@ -168,7 +151,7 @@ function BellIconComponent() {
 function DocumentCardIcon() {
   return (
     <div className="notif-card-icon notif-card-icon-doc">
-      <img src={DocumentIcon} alt="document" style={{ width: '40px', height: '40px' }} />
+      <img src={DocumentIcon} alt="document" style={{ width: '38px', height: '38px' }} />
     </div>
   );
 }
@@ -176,7 +159,7 @@ function DocumentCardIcon() {
 function PdfCardIcon() {
   return (
     <div className="notif-card-icon notif-card-icon-pdf">
-      <img src={PdfIcon} alt="pdf" style={{ width: '40px', height: '40px' }} />
+      <img src={PdfIcon} alt="pdf" style={{ width: '38px', height: '38px' }} />
     </div>
   );
 }
@@ -188,7 +171,7 @@ function CheckIcon() {
 }
 
 // ── Main Component ────────────────────────────────────────────────────────────
-export default function NotificationPanel({ isOpen, onClose }) {
+export default function NotificationPanel({ isOpen, onClose, onSelectClaim }) {
   const [activeTab, setActiveTab] = useState('Inbox');
   const [docModalOpen, setDocModalOpen] = useState(false);
   const [selectedDocData, setSelectedDocData] = useState(null);
@@ -208,7 +191,7 @@ export default function NotificationPanel({ isOpen, onClose }) {
     }));
   };
 
-  const handleNotifClick = (notif, chip = null) => {
+  const handleNotifClick = (notif) => {
     if (notif.unread) {
       setNotifications(prev => ({
         ...prev,
@@ -216,15 +199,14 @@ export default function NotificationPanel({ isOpen, onClose }) {
       }));
     }
 
-    if (notif.isDocModal || chip?.isDocModal) {
-      if (chip) {
-        setSelectedDocData({
-          re: chip.name,
-          subject: chip.name
-        });
-      } else {
-        setSelectedDocData(null);
-      }
+    if (notif.messageType === 'expense' && onSelectClaim) {
+      onClose();
+      onSelectClaim();
+      return;
+    }
+
+    if (notif.isDocModal) {
+      setSelectedDocData(null);
       setDocModalOpen(true);
     }
   };
@@ -255,7 +237,7 @@ export default function NotificationPanel({ isOpen, onClose }) {
         <div className="notif-tabs-row">
           <div className="notif-tabs">
             {['Inbox', 'Teams'].map(tab => {
-              const displayCount = tab === 'Inbox' ? notifications.Inbox.length : notifications.Teams.length;
+              const displayCount = tab === 'Inbox' ? 12 : 4;
               return (
                 <button
                   key={tab}
@@ -315,26 +297,6 @@ export default function NotificationPanel({ isOpen, onClose }) {
                   <span className="notif-category">{notif.category}</span>
                 </div>
 
-                {/* Optional attachment chips */}
-                {notif.chips && (
-                  <div className="notif-chips-container">
-                    {notif.chips.map((chip, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className="notif-chip-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleNotifClick(notif, chip);
-                        }}
-                      >
-                        <img src={PdfIcon} alt="PDF" className="notif-chip-icon" />
-                        <span>{chip.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-
                 {/* Optional action card */}
                 {notif.card && (
                   <div className="notif-card">
@@ -346,11 +308,12 @@ export default function NotificationPanel({ isOpen, onClose }) {
                       </div>
                     </div>
                     <button
-                      className={`notif-action-btn notif-action-btn--${notif.card.action.color}`}
+                      type="button"
+                      className="notif-action-btn notif-action-btn--blue"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
                     >
-                      {notif.card.action.color === 'meet' && (
-                        <img src={GoogleMeetIcon} alt="Google Meet" style={{ width: '16px', height: '16px' }} />
-                      )}
                       {notif.card.action.label}
                     </button>
                   </div>

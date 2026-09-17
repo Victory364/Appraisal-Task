@@ -3,7 +3,8 @@ import './Header.css';
 import NotificationPanel from '../modals/NotificationPanel/NotificationPanel';
 
 import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
-import bellIcon   from '../../assets/Fowgate Folder/Group 1226.svg';
+import bellIcon from '../../assets/Fowgate Folder/Group 1226.svg';
+import { AiBotIcon } from '../Icons/Icons';
 
 export default function Header({
   title = 'My Account',
@@ -53,6 +54,16 @@ export default function Header({
           </div>
 
           <div className="header-actions-area">
+            {/* AI Assistant Icon Button */}
+            <button
+              className="alert-bell-button header-ai-btn"
+              aria-label="AI Assistant"
+              type="button"
+            >
+              <AiBotIcon size={22} />
+            </button>
+
+            {/* Notification Bell Button */}
             <button
               className={`alert-bell-button${notifOpen ? ' active' : ''}`}
               aria-label="Notifications"
@@ -104,6 +115,7 @@ export default function Header({
         )}
       </header>
 
+      {/* Notification panel — rendered outside <header> so it overlays the page */}
       <NotificationPanel
         isOpen={notifOpen}
         onClose={() => setNotifOpen(false)}

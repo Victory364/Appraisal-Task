@@ -204,3 +204,40 @@ export function JaneSmithAvatar({ size = 20 }) {
     </svg>
   );
 }
+
+export function AiBotIcon({ size = 22, className = '' }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Antennas */}
+      <line x1="8.5" y1="6.5" x2="8.5" y2="3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+      <circle cx="8.5" cy="2.2" r="1.3" fill="currentColor"/>
+      
+      <line x1="15.5" y1="6.5" x2="15.5" y2="3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+      <circle cx="15.5" cy="2.2" r="1.3" fill="currentColor"/>
+
+      {/* Left Ear */}
+      <path d="M4 11.5C2.8 11.5 2.2 12.5 2.2 13.5C2.2 14.5 2.8 15.5 4 15.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+
+      {/* Right Ear */}
+      <path d="M20 11.5C21.2 11.5 21.8 12.5 21.8 13.5C21.8 14.5 21.2 15.5 20 15.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+
+      {/* Head / Speech Bubble Outline */}
+      <path d="M7.5 6.5H16.5C18.4 6.5 20 8.1 20 10V14.5C20 16.4 18.4 18 16.5 18H14.5L14 21.2L11 18H7.5C5.6 18 4 16.4 4 14.5V10C4 8.1 5.6 6.5 7.5 6.5Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+
+      {/* Eyes */}
+      <circle cx="9.5" cy="11.5" r="1.3" fill="currentColor"/>
+      <circle cx="14.5" cy="11.5" r="1.3" fill="currentColor"/>
+
+      {/* Smile */}
+      <path d="M9.8 14.3C10.5 15.4 13.5 15.4 14.2 14.3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+    </svg>
+  );
+}

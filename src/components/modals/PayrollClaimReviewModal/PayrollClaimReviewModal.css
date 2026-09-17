@@ -1,0 +1,469 @@
+/* =============================================================================
+   PayrollClaimReviewModal.css
+   Matches Figma design node 1157-39343:
+   1. View Expense Claim modal
+   2. Reject Expense Claim modal
+   3. Confirm Action modal
+============================================================================= */
+
+.payroll-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  box-sizing: border-box;
+  animation: payrollModalFade 0.2s ease-out;
+}
+
+@keyframes payrollModalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.payroll-claim-dialog {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  animation: payrollModalZoom 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes payrollModalZoom {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.payroll-view-dialog {
+  width: min(480px, calc(100vw - 32px));
+  max-height: min(680px, calc(100vh - 40px));
+}
+
+.payroll-reject-dialog {
+  width: min(520px, calc(100vw - 32px));
+  max-height: min(520px, calc(100vh - 40px));
+}
+
+.payroll-confirm-dialog {
+  width: min(500px, calc(100vw - 32px));
+  max-height: min(320px, calc(100vh - 40px));
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.payroll-modal-blue-header {
+  background-color: #1f66c7;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 62px;
+  padding: 0 22px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.payroll-modal-heading {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16.5px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.payroll-modal-heading svg {
+  flex-shrink: 0;
+}
+
+.payroll-modal-x-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+
+.payroll-modal-x-btn:hover {
+  opacity: 1;
+}
+
+/* ── View Modal Body ─────────────────────────────────────────────────── */
+.payroll-view-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 20px 22px;
+  box-sizing: border-box;
+}
+
+.payroll-person-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.payroll-person-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.payroll-person-left img {
+  border-radius: 50%;
+  height: 38px;
+  width: 38px;
+  object-fit: cover;
+}
+
+.payroll-person-left strong {
+  display: block;
+  color: #1f2937;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.payroll-person-left span {
+  display: block;
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.payroll-meta-bar {
+  background: #f1f3f6;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+
+.payroll-meta-bar > div {
+  text-align: left;
+}
+
+.payroll-meta-bar strong {
+  display: block;
+  font-size: 12px;
+  color: #1e293b;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.payroll-meta-bar span {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #8c8c8c;
+  margin-top: 3px;
+  letter-spacing: 0.4px;
+}
+
+.payroll-detail-section {
+  margin-bottom: 14px;
+}
+
+.payroll-detail-section h4 {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 4px;
+}
+
+.payroll-detail-section p {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #64748b;
+  margin: 0;
+}
+
+.payroll-expense-breakdown {
+  margin-top: 16px;
+  border-top: 1px solid #f0f2f5;
+  padding-top: 12px;
+}
+
+.payroll-breakdown-head {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #64748b;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.payroll-breakdown-row {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr;
+  align-items: center;
+  font-size: 11px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.payroll-cat-cell {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.payroll-detail-cell {
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+}
+
+.payroll-amount-cell {
+  color: #0f172a;
+  font-weight: 600;
+  text-align: left;
+}
+
+.payroll-view-footer {
+  border-top: 1px solid #f0f2f5;
+  padding: 14px 22px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.payroll-btn-reject-pill {
+  background-color: #fee4e2;
+  color: #f04438;
+  border: none;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  height: 36px;
+  min-width: 90px;
+  cursor: pointer;
+  padding: 0 18px;
+  transition: all 0.15s ease;
+}
+
+.payroll-btn-reject-pill:hover {
+  background-color: #fecdca;
+}
+
+.payroll-btn-approve-pill {
+  background-color: #e0eaff;
+  color: #1f66c7;
+  border: none;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  height: 36px;
+  min-width: 90px;
+  cursor: pointer;
+  padding: 0 18px;
+  transition: all 0.15s ease;
+}
+
+.payroll-btn-approve-pill:hover {
+  background-color: #c7d7fe;
+}
+
+/* ── 2. Reject Modal Body ─────────────────────────────────────────────── */
+.payroll-reject-body {
+  padding: 22px 24px 16px;
+  box-sizing: border-box;
+}
+
+.payroll-reject-prompt {
+  color: #334155;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.payroll-reject-editor {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.payroll-reject-editor:focus-within {
+  border-color: #1f66c7;
+  box-shadow: 0 0 0 1px #1f66c7;
+}
+
+.payroll-reject-editor textarea {
+  border: none;
+  outline: none;
+  font: inherit;
+  font-size: 12.5px;
+  color: #1e293b;
+  height: 110px;
+  padding: 12px 14px;
+  resize: none;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.payroll-reject-editor textarea::placeholder {
+  color: #94a3b8;
+}
+
+.payroll-reject-editor-footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px 8px;
+  border-top: 1px solid #f8fafc;
+}
+
+.payroll-reject-tools {
+  display: flex;
+  gap: 8px;
+}
+
+.payroll-reject-tools button {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  height: 24px;
+  width: 24px;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+
+.payroll-reject-tools button:hover {
+  background-color: #edf4ff;
+  color: #1f66c7;
+  border-color: #bfdbfe;
+}
+
+.payroll-reject-editor-footer small {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.payroll-reject-footer {
+  border-top: 1px solid #f0f2f5;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.payroll-btn-cancel {
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-radius: 4px;
+  color: #344054;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  height: 38px;
+  min-width: 86px;
+  padding: 0 16px;
+  transition: background 0.15s ease;
+}
+
+.payroll-btn-cancel:hover {
+  background: #f8fafc;
+}
+
+.payroll-btn-submit {
+  background: #e0eaff;
+  border: none;
+  border-radius: 4px;
+  color: #1f66c7;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  height: 38px;
+  min-width: 90px;
+  padding: 0 18px;
+  transition: all 0.15s ease;
+}
+
+.payroll-btn-submit:hover:not(:disabled) {
+  background: #1f66c7;
+  color: #ffffff;
+}
+
+.payroll-btn-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── 3. Confirm Action Modal ─────────────────────────────────────────── */
+.payroll-confirm-body {
+  padding: 24px 26px 18px;
+  box-sizing: border-box;
+}
+
+.payroll-confirm-prompt {
+  color: #334155;
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin: 0;
+  font-weight: 400;
+}
+
+.payroll-confirm-footer {
+  border-top: 1px solid #f0f2f5;
+  padding: 14px 24px 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.payroll-btn-confirm-yes {
+  background-color: #e0eaff;
+  color: #1f66c7;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  height: 38px;
+  min-width: 105px;
+  cursor: pointer;
+  padding: 0 18px;
+  transition: all 0.15s ease;
+}
+
+.payroll-btn-confirm-yes:hover {
+  background-color: #1f66c7;
+  color: #ffffff;
+}

@@ -7,7 +7,8 @@
 /* ── Confirm action modal ── */
 .claim-status-modal {
   width: min(528px, calc(100vw - 48px));
-  /* height is auto via .claim-modal base */
+  height: fit-content;
+  align-self: center;
 }
 
 .claim-status-title-icon {
@@ -18,7 +19,6 @@
 
 .claim-status-copy {
   padding: 24px;
-  flex: 1;
   color: #292929;
   font-size: 14px;
   line-height: 1.5;
@@ -26,6 +26,7 @@
 
 .claim-status-actions {
   border-top: none;
+  margin-top: 0;
 }
 
 .claim-status-confirm-button {

@@ -78,7 +78,8 @@
 ============================================================================= */
 .header-top-bar {
   display: flex;
-  justify-content: space-between; /* title left, search centre, actions right */
+  justify-content: space-between;
+  /* title left, search centre, actions right */
   align-items: center;
   width: 100%;
   margin-bottom: 24px;
@@ -125,13 +126,15 @@
 .header-search-input {
   width: 100%;
   height: 100%;
-  padding: 10px 48px 10px 18px; /* 48px right keeps text clear of the icon */
+  padding: 10px 48px 10px 18px;
+  /* 48px right keeps text clear of the icon */
   border-radius: 8px;
   border: 0.5px solid #eaeaea;
   background-color: #ffffff;
   color: var(--text-primary);
   font-size: 13.5px;
-  outline: none;               /* remove default browser focus ring */
+  outline: none;
+  /* remove default browser focus ring */
   transition: all 0.2s ease-in-out;
 }
 
@@ -139,7 +142,8 @@
 .header-search-input:focus {
   border-color: var(--primary-blue);
   background-color: var(--bg-white);
-  box-shadow: 0 0 0 3px rgba(15, 82, 186, 0.1); /* 3px soft blue ring */
+  box-shadow: 0 0 0 3px rgba(15, 82, 186, 0.1);
+  /* 3px soft blue ring */
 }
 
 /* Search icon — pinned to the right side of the input, vertically centred */
@@ -147,11 +151,13 @@
   position: absolute;
   right: 18px;
   top: 50%;
-  transform: translateY(-50%); /* vertical centering trick */
+  transform: translateY(-50%);
+  /* vertical centering trick */
   width: 24px;
   height: 24px;
   color: var(--text-secondary);
-  pointer-events: none; /* clicks pass through to the input behind */
+  pointer-events: none;
+  /* clicks pass through to the input behind */
   opacity: 0.7;
 }
 
@@ -197,7 +203,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  position: relative;       /* anchor for the red dot badge */
+  position: relative;
+  /* anchor for the red dot badge */
   color: var(--text-primary);
   transition: all 0.2s;
 }
@@ -230,9 +237,12 @@
   right: 10px;
   width: 7px;
   height: 7px;
-  background-color: #ef4444;      /* standard notification red */
-  border-radius: 50%;             /* make it a perfect circle */
-  border: 1px solid var(--bg-white); /* white ring separates dot from button bg */
+  background-color: #ef4444;
+  /* standard notification red */
+  border-radius: 50%;
+  /* make it a perfect circle */
+  border: 1px solid var(--bg-white);
+  /* white ring separates dot from button bg */
 }
 
 
@@ -253,7 +263,8 @@
   gap: 8px;
   padding: 4px 8px;
   border: 1px solid var(--border-light);
-  border-radius: 20px;        /* pill shape */
+  border-radius: 20px;
+  /* pill shape */
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -270,14 +281,16 @@
   height: 32px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #e2e8f0; /* placeholder background while image loads */
+  background-color: #e2e8f0;
+  /* placeholder background while image loads */
 }
 
 /* The <img> inside the avatar wrapper — covers the full circle */
 .avatar-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* crops the image to fill the circle without distortion */
+  object-fit: cover;
+  /* crops the image to fill the circle without distortion */
 }
 
 /* The small chevron / caret icon next to the avatar */
@@ -312,11 +325,14 @@
 .header-sub-nav {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* spread tabs evenly across the full width */
+  justify-content: space-between;
+  /* spread tabs evenly across the full width */
   gap: 16px;
-  overflow-x: auto;   /* horizontal scroll when tabs overflow on small screens */
+  overflow-x: auto;
+  /* horizontal scroll when tabs overflow on small screens */
   width: 100%;
-  padding-bottom: 2px; /* prevents the bottom border from being clipped */
+  padding-bottom: 2px;
+  /* prevents the bottom border from being clipped */
 
   /* Hide the horizontal scrollbar in Firefox */
   scrollbar-width: none;
@@ -329,15 +345,21 @@
 
 /* Individual tab link */
 .sub-nav-tab-item {
-  flex: 0 0 auto;     /* prevents flex shrinking — each tab keeps its natural width */
+  flex: 0 0 auto;
+  /* prevents flex shrinking — each tab keeps its natural width */
   font-family: 'Rubik', var(--font-family);
-  color: var(--text-secondary);    /* muted grey for inactive tabs */
+  color: var(--text-secondary);
+  /* muted grey for inactive tabs */
   font-size: 13.5px;
-  font-weight: 264px;  /* Note: this looks like a Figma value — effectively 'normal' */
+  font-weight: 264px;
+  /* Note: this looks like a Figma value — effectively 'normal' */
   text-decoration: none;
-  padding: 10px 2px 14px 2px;      /* top/bottom creates click area; bottom pushes tab down */
-  border-bottom: 2px solid transparent; /* reserve space for the active underline */
-  white-space: nowrap;  /* prevent multi-word tabs from wrapping */
+  padding: 10px 2px 14px 2px;
+  /* top/bottom creates click area; bottom pushes tab down */
+  border-bottom: 2px solid transparent;
+  /* reserve space for the active underline */
+  white-space: nowrap;
+  /* prevent multi-word tabs from wrapping */
   transition: all 0.2s;
 }
 
@@ -363,6 +385,7 @@
 
 /* Tablet-landscape / smaller laptop (901 px – 1366 px) */
 @media (max-width: 1366px) and (min-width: 901px) {
+
   /* Slightly shorter header, less inner padding */
   .fowgate-header {
     min-height: 136px;
@@ -392,6 +415,7 @@
 
 /* Narrow laptop (901 px – 1180 px) */
 @media (max-width: 1180px) and (min-width: 901px) {
+
   /* Further reduce side padding */
   .fowgate-header {
     padding-left: 20px;

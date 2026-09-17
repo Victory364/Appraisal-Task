@@ -472,20 +472,32 @@
   align-self: flex-start;
 }
 
+.notif-inline-link {
+  color: #1f66c7;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.notif-inline-link:hover {
+  color: #144ba3;
+}
+
 .notif-action-btn--blue {
-  background: #0f52ba;
+  background: #1f66c7;
   color: #ffffff;
 }
 
 .notif-action-btn--blue:hover {
-  background: #0c4399;
+  background: #18529e;
 }
 
 .notif-action-btn--meet {
-  background: #0f52ba;
+  background: #1f66c7;
   color: #ffffff;
 }
 
 .notif-action-btn--meet:hover {
-  background: #0c4399;
+  background: #18529e;
 }

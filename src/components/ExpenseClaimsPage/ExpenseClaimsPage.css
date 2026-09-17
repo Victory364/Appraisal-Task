@@ -23,12 +23,23 @@
 .expense-claims-page {
   width: 100%;
   height: auto;
-  min-height: 810px;         /* ensures the page fills the viewport even with few claims */
+  min-height: 810px;
+  /* ensures the page fills the viewport even with few claims */
   display: flex;
   flex-direction: column;
-  gap: 32px;                 /* 32 px vertical gap between every direct child section */
-  padding: 32px;             /* inner breathing room on all four sides */
+  gap: 32px;
+  /* 32 px vertical gap between every direct child section */
+  padding: 32px;
+  /* inner breathing room on all four sides */
   box-sizing: border-box;
+}
+
+.expense-breadcrumb {
+  font-family: 'Rubik', var(--font-family);
+  font-size: 13px;
+  font-weight: 400;
+  color: #7a7a7a;
+  margin-bottom: -16px; /* offset some of the parent flex gap to pull the title row closer */
 }
 
 
@@ -42,7 +53,8 @@
 ============================================================================= */
 .expense-page-title-row {
   display: flex;
-  justify-content: space-between; /* heading on left, filter pill on right */
+  justify-content: space-between;
+  /* heading on left, filter pill on right */
   align-items: center;
   width: 100%;
 }
@@ -57,7 +69,8 @@
   line-height: 140%;
   letter-spacing: 0;
   color: #292929;
-  white-space: nowrap; /* prevents the title from wrapping onto a second line */
+  white-space: nowrap;
+  /* prevents the title from wrapping onto a second line */
 }
 
 /* ── Filter-by dropdown pill (e.g. "Filter by: MAY 2026") ─────────────────── */
@@ -71,14 +84,17 @@
   font-family: 'Rubik', var(--font-family);
   font-size: 14px;
   line-height: 140%;
-  color: #7a7a7a;           /* muted grey for the "Filter by:" label text */
+  color: #7a7a7a;
+  /* muted grey for the "Filter by:" label text */
   cursor: pointer;
-  transition: all 0.2s;    /* smooth colour change on hover */
+  transition: all 0.2s;
+  /* smooth colour change on hover */
 }
 
 /* The plain "Filter by:" text label (no box around it) */
 .filter-by-label {
-  font-weight: 400;         /* regular weight to keep it secondary */
+  font-weight: 400;
+  /* regular weight to keep it secondary */
 }
 
 /* The actual pill/button that shows the selected month (e.g. "MAY 2026") */
@@ -90,7 +106,8 @@
   width: 117px;
   height: 40px;
   padding: 10px 12px;
-  border: 0.5px solid #eaeaea;  /* very subtle border so it looks like a chip */
+  border: 0.5px solid #eaeaea;
+  /* very subtle border so it looks like a chip */
   border-radius: 4px;
   background-color: #ffffff;
   color: #292929;
@@ -109,8 +126,10 @@
   width: 18px;
   height: 18px;
   fill: #292929;
-  pointer-events: none; /* icon should not capture mouse events */
-  flex: 0 0 auto;       /* prevent the icon from shrinking */
+  pointer-events: none;
+  /* icon should not capture mouse events */
+  flex: 0 0 auto;
+  /* prevent the icon from shrinking */
 }
 
 
@@ -127,10 +146,12 @@
 ============================================================================= */
 .expense-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* four equal columns */
+  grid-template-columns: repeat(4, 1fr);
+  /* four equal columns */
   gap: 20px;
   width: 100%;
-  overflow-x: auto; /* horizontal scroll safety net for narrow viewports */
+  overflow-x: auto;
+  /* horizontal scroll safety net for narrow viewports */
 }
 
 /* ── Individual metric card ────────────────────────────────────────────────── */
@@ -145,10 +166,13 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;              /* space between the label row and the value row */
+  gap: 12px;
+  /* space between the label row and the value row */
   position: relative;
-  transition: all 0.2s;  /* smooth shadow/border animation on hover */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01); /* very soft default shadow */
+  transition: all 0.2s;
+  /* smooth shadow/border animation on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+  /* very soft default shadow */
 }
 
 /* Slightly deeper shadow + darker border when the user hovers over a card */
@@ -161,7 +185,8 @@
 .metric-card-label {
   font-size: 13px;
   font-weight: 500;
-  color: var(--text-secondary); /* muted grey defined in index.css */
+  color: var(--text-secondary);
+  /* muted grey defined in index.css */
   display: flex;
   align-items: center;
   gap: 6px;
@@ -173,7 +198,8 @@
 .metric-card-icon {
   width: 14px;
   height: 14px;
-  opacity: 0.6; /* slightly faded so the label text reads first */
+  opacity: 0.6;
+  /* slightly faded so the label text reads first */
   display: block;
 }
 
@@ -182,7 +208,8 @@
 .metric-value-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* align badge to the bottom of the value text */
+  align-items: flex-end;
+  /* align badge to the bottom of the value text */
 }
 
 /* The large bold currency amount (e.g. ₦45,000.00) */
@@ -190,7 +217,8 @@
   font-size: 26px;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.5px; /* tight spacing looks better for large numbers */
+  letter-spacing: -0.5px;
+  /* tight spacing looks better for large numbers */
 }
 
 /* Green pill badge showing the growth percentage (e.g. "+15.6%") */
@@ -198,10 +226,13 @@
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  background-color: var(--status-green-bg);   /* light green background */
-  color: var(--status-green-text);            /* dark green text */
+  background-color: var(--status-green-bg);
+  /* light green background */
+  color: var(--status-green-text);
+  /* dark green text */
   padding: 4px 8px;
-  border-radius: 12px;  /* fully rounded pill shape */
+  border-radius: 12px;
+  /* fully rounded pill shape */
   font-size: 11px;
   font-weight: 600;
 }
@@ -222,7 +253,8 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* 24 px gap between: header row → table → pagination */
+  gap: 24px;
+  /* 24 px gap between: header row → table → pagination */
   width: 100%;
   min-height: 620px;
 }
@@ -239,7 +271,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;  /* wraps to a second row on smaller screens */
+  flex-wrap: wrap;
+  /* wraps to a second row on smaller screens */
   gap: 12px;
   width: 100%;
 }
@@ -249,8 +282,10 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1;       /* takes up all remaining space so controls stay right-aligned */
-  min-width: 0;  /* prevents flex overflow on very small containers */
+  flex: 1;
+  /* takes up all remaining space so controls stay right-aligned */
+  min-width: 0;
+  /* prevents flex overflow on very small containers */
   height: 42px;
 }
 
@@ -267,7 +302,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0; /* prevent this group from shrinking when space is tight */
+  flex-shrink: 0;
+  /* prevent this group from shrinking when space is tight */
 }
 
 /* Inner flex row just for the interactive controls (excludes the title) */
@@ -296,12 +332,15 @@
 .history-search-input {
   width: 100%;
   height: 100%;
-  padding: 8px 42px 8px 12px; /* right padding reserves space for the icon */
+  padding: 8px 42px 8px 12px;
+  /* right padding reserves space for the icon */
   border: 0.5px solid #eaeaea;
   border-radius: 8px;
   font-size: 12.5px;
-  outline: none;               /* remove default browser outline */
-  background-color: #f8fafc;  /* very light grey, looks recessed */
+  outline: none;
+  /* remove default browser outline */
+  background-color: #f8fafc;
+  /* very light grey, looks recessed */
   transition: all 0.2s;
 }
 
@@ -317,12 +356,14 @@
   position: absolute;
   right: 12px;
   top: 50%;
-  transform: translateY(-50%); /* vertically centres the icon in the input */
+  transform: translateY(-50%);
+  /* vertically centres the icon in the input */
   width: 18px;
   height: 18px;
   color: var(--text-secondary);
   opacity: 0.7;
-  pointer-events: none; /* icon is decorative — clicks pass through to input */
+  pointer-events: none;
+  /* icon is decorative — clicks pass through to input */
 }
 
 
@@ -368,7 +409,8 @@
   height: 16px;
   display: block;
   flex-shrink: 0;
-  filter: brightness(0) opacity(0.65); /* converts any colour icon to dark grey */
+  filter: brightness(0) opacity(0.65);
+  /* converts any colour icon to dark grey */
 }
 
 
@@ -412,7 +454,8 @@
   height: 40px;
   width: 130px;
   gap: 6px;
-  background-color: #004cff;                       /* Fowgate brand blue */
+  background-color: #004cff;
+  /* Fowgate brand blue */
   color: var(--text-white);
   border: none;
   padding: 10px 14px;
@@ -421,7 +464,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 6px rgba(0, 76, 255, 0.15);   /* soft blue glow */
+  box-shadow: 0 4px 6px rgba(0, 76, 255, 0.15);
+  /* soft blue glow */
   white-space: nowrap;
 }
 
@@ -430,7 +474,8 @@
   width: 16px;
   height: 16px;
   flex-shrink: 0;
-  filter: brightness(0) invert(1); /* converts any colour to pure white */
+  filter: brightness(0) invert(1);
+  /* converts any colour to pure white */
 }
 
 /* Darker shade + stronger glow on hover to signal interactivity */
@@ -459,7 +504,8 @@
   width: 203px;
   min-height: 236px;
   padding: 0;
-  margin: 40px auto; /* vertically push it down a bit and horizontally centre it */
+  margin: 40px auto;
+  /* vertically push it down a bit and horizontally centre it */
   text-align: center;
 }
 
@@ -467,7 +513,8 @@
 .empty-state-icon-wrapper {
   width: 120px;
   height: 120px;
-  color: #a8a8a8; /* fallback colour for SVG icons that use currentColor */
+  color: #a8a8a8;
+  /* fallback colour for SVG icons that use currentColor */
 }
 
 /* If the icon is an inline SVG, fill it with the parent's currentColor */
@@ -559,7 +606,8 @@
 .claims-table th,
 .claims-table td {
   padding: 14px 12px;
-  border-bottom: 1px solid var(--border-light); /* subtle row separator */
+  border-bottom: 1px solid var(--border-light);
+  /* subtle row separator */
   font-size: 13.5px;
   vertical-align: middle;
 }
@@ -569,7 +617,8 @@
 .claims-table th {
   font-weight: 600;
   color: #292929;
-  background-color: #eef3f9; /* light steel-blue tint */
+  background-color: #eef3f9;
+  /* light steel-blue tint */
 }
 
 .claims-table th:nth-child(6),
@@ -630,21 +679,26 @@
 .claim-status-pill {
   display: inline-flex;
   padding: 4px 10px;
-  border-radius: 12px; /* fully rounded pill shape */
+  border-radius: 12px;
+  /* fully rounded pill shape */
   font-size: 11px;
   font-weight: 600;
 }
 
 /* Orange/amber — claim submitted but waiting for approval */
 .claim-status-pill.pending {
-  background-color: #fef3c7; /* soft amber background */
-  color: #d97706;             /* dark amber text for good contrast */
+  background-color: #fef3c7;
+  /* soft amber background */
+  color: #d97706;
+  /* dark amber text for good contrast */
 }
 
 /* Green — claim has been approved and will be reimbursed */
 .claim-status-pill.approved {
-  background-color: #d1fae5; /* soft green background */
-  color: #059669;             /* dark green text */
+  background-color: #d1fae5;
+  /* soft green background */
+  color: #059669;
+  /* dark green text */
 }
 
 /* Note: a "rejected" pill can be added here with red colours when needed */
@@ -693,7 +747,8 @@
   height: 42px;
   border-radius: 4px;
   border: none;
-  background-color: #e8f0fb; /* pale blue — softer than the primary */
+  background-color: #e8f0fb;
+  /* pale blue — softer than the primary */
   color: #1f66c7;
   font-size: 14px;
   font-weight: 500;
@@ -712,11 +767,13 @@
 /* ── Variant: Primary button (solid blue — the main confirm action) ──────── */
 /* Used for the final "Okay" button on success screens */
 .modal-btn-primary {
-  width: 100%;  /* stretches full-width inside narrow success modals */
+  width: 100%;
+  /* stretches full-width inside narrow success modals */
   height: 42px;
   border-radius: 4px;
   border: none;
-  background-color: #1f66c7; /* Fowgate blue */
+  background-color: #1f66c7;
+  /* Fowgate blue */
   color: #ffffff;
   font-size: 14px;
   font-weight: 500;
@@ -727,7 +784,8 @@
 }
 
 .modal-btn-primary:hover {
-  background-color: #154c9c; /* darker shade on hover */
+  background-color: #154c9c;
+  /* darker shade on hover */
 }
 
 /* ── Variant: Cancel button (white bg, light border) ────────────────────── */
@@ -766,11 +824,13 @@
        overflow-x:auto on the wrapper allows horizontal scrolling if needed.
 ============================================================================= */
 @media (max-width: 1366px) and (min-width: 901px) {
+
   /* Tighter outer padding and smaller gap between sections */
   .expense-claims-page {
     gap: 24px;
     padding: 24px;
-    min-height: calc(100vh - 136px); /* fills remaining viewport under header+nav */
+    min-height: calc(100vh - 136px);
+    /* fills remaining viewport under header+nav */
   }
 
   /* Metric cards switch to flexible minmax columns */
@@ -840,6 +900,7 @@
    The header controls wrap to a second row so they never overflow.
 ============================================================================= */
 @media (max-width: 1180px) and (min-width: 901px) {
+
   /* Further reduce outer padding */
   .expense-claims-page {
     padding: 20px;
@@ -850,7 +911,8 @@
   .expense-metrics-grid {
     grid-template-columns: repeat(4, minmax(168px, 1fr));
     overflow-x: auto;
-    padding-bottom: 2px; /* prevents the scrollbar from clipping card shadows */
+    padding-bottom: 2px;
+    /* prevents the scrollbar from clipping card shadows */
   }
 
   .metric-card {
@@ -933,14 +995,34 @@
 
 /* Keyframe: new page slides IN from the RIGHT (going forward in pages) */
 @keyframes slideInFromRight {
-  from { transform: translateX(40px); opacity: 0; } /* starts shifted right + invisible */
-  to   { transform: translateX(0);    opacity: 1; } /* settles at natural position */
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+
+  /* starts shifted right + invisible */
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* settles at natural position */
 }
 
 /* Keyframe: new page slides IN from the LEFT (going backward in pages) */
 @keyframes slideInFromLeft {
-  from { transform: translateX(-40px); opacity: 0; } /* starts shifted left + invisible */
-  to   { transform: translateX(0);     opacity: 1; } /* settles at natural position */
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+
+  /* starts shifted left + invisible */
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* settles at natural position */
 }
 
 /* Applied to the <table> when the user moves to a HIGHER page number
@@ -973,10 +1055,12 @@
 .expense-pagination {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* pushes the controls to the right edge of the card */
+  justify-content: flex-end;
+  /* pushes the controls to the right edge of the card */
   gap: 6px;
   margin-top: auto;
-  padding: 16px 4px 4px;    /* 16 px top gap separates it from the table */
+  padding: 16px 4px 4px;
+  /* 16 px top gap separates it from the table */
 }
 
 /* ── Shared base style for EVERY button in the pagination bar ───────────── */
@@ -985,30 +1069,36 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;      /* ensures numbers like "10" don't look cramped */
+  min-width: 32px;
+  /* ensures numbers like "10" don't look cramped */
   height: 32px;
   padding: 0 6px;
-  border: 1px solid #d9dfe8; /* light grey border by default */
+  border: 1px solid #d9dfe8;
+  /* light grey border by default */
   border-radius: 6px;
   background-color: #ffffff;
   color: #292929;
   font-size: 13px;
   font-weight: 500;
-  font-family: inherit;  /* inherits the page's Rubik font */
+  font-family: inherit;
+  /* inherits the page's Rubik font */
   cursor: pointer;
   transition:
     background-color 0.18s ease,
     border-color 0.18s ease,
     color 0.18s ease,
     box-shadow 0.18s ease;
-  user-select: none;   /* prevents accidental text selection on rapid clicks */
+  user-select: none;
+  /* prevents accidental text selection on rapid clicks */
   line-height: 1;
 }
 
 /* Hover state — only applies to buttons that are NOT disabled and NOT active */
 .pagination-btn:hover:not(:disabled):not(.active) {
-  background-color: #f0f5ff; /* very light blue tint */
-  border-color: #1f66c7;     /* blue border on hover */
+  background-color: #f0f5ff;
+  /* very light blue tint */
+  border-color: #1f66c7;
+  /* blue border on hover */
   color: #1f66c7;
 }
 
@@ -1019,21 +1109,25 @@
   border-color: #1f66c7;
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(31, 102, 199, 0.25); /* soft blue glow */
-  cursor: default; /* not clickable — you're already on this page */
+  box-shadow: 0 2px 8px rgba(31, 102, 199, 0.25);
+  /* soft blue glow */
+  cursor: default;
+  /* not clickable — you're already on this page */
 }
 
 /* ── Arrow buttons (‹ and ›) ─────────────────────────────────────────────── */
 /* Slightly narrower than numbered buttons since they only hold an SVG icon */
 .pagination-btn.pagination-arrow {
   min-width: 30px;
-  color: #5f6c7b; /* medium grey — arrows are secondary to the page numbers */
+  color: #5f6c7b;
+  /* medium grey — arrows are secondary to the page numbers */
 }
 
 /* Disabled state — when on page 1 the ‹ arrow is locked; when on the last
    page the › arrow is locked.  pointer-events:none prevents any click. */
 .pagination-btn.pagination-arrow:disabled {
-  opacity: 0.35;       /* visually faded so it reads as "unavailable" */
+  opacity: 0.35;
+  /* visually faded so it reads as "unavailable" */
   cursor: not-allowed;
   pointer-events: none;
 }
