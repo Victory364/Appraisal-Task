@@ -18,7 +18,7 @@ import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
 import arrowUpRight from '../../assets/Fowgate Folder/arrow-up-right-03.svg';
 
 
-export default function ExpenseClaimsPage() {
+export default function ExpenseClaimsPage({ activeSidebarItem }) {
   const [claims, setClaims] = useState(() => {
     const savedClaims = sessionStorage.getItem('expense_claims');
     if (savedClaims) {
@@ -361,6 +361,11 @@ export default function ExpenseClaimsPage() {
 
   return (
     <div className="expense-claims-page">
+      {/* Page Breadcrumb */}
+      <div className="expense-breadcrumb">
+        {activeSidebarItem === 'Payroll' ? 'Payroll' : 'My Account'} / Expense Claims
+      </div>
+
       {/* Page Title & Filter */}
       <div className="expense-page-title-row">
         <h2 className="expense-page-title">Expense Management</h2>
@@ -519,7 +524,7 @@ export default function ExpenseClaimsPage() {
                   setIsModalOpen(true);
                 }}
               >
-                <img src={plusIcon} alt="Add Claim" /> 
+                <img src={plusIcon} alt="Add Claim" />
                 <span> Add Claim</span>
               </button>
             </div>
@@ -626,40 +631,40 @@ export default function ExpenseClaimsPage() {
             </div>
             {/* Pagination Controls */}
             <div className="expense-pagination">
-                <button
-                  className="pagination-btn pagination-arrow"
-                  onClick={() => goToPage(safePage - 1)}
-                  disabled={safePage === 1}
-                  aria-label="Previous page"
-                >
-                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 1L1 6L6 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
+              <button
+                className="pagination-btn pagination-arrow"
+                onClick={() => goToPage(safePage - 1)}
+                disabled={safePage === 1}
+                aria-label="Previous page"
+              >
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 1L1 6L6 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
 
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    className={`pagination-btn pagination-page${page === safePage ? ' active' : ''}`}
-                    onClick={() => goToPage(page)}
-                    aria-label={`Page ${page}`}
-                    aria-current={page === safePage ? 'page' : undefined}
-                  >
-                    {page}
-                  </button>
-                ))}
-
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
-                  className="pagination-btn pagination-arrow"
-                  onClick={() => goToPage(safePage + 1)}
-                  disabled={safePage === totalPages}
-                  aria-label="Next page"
+                  key={page}
+                  className={`pagination-btn pagination-page${page === safePage ? ' active' : ''}`}
+                  onClick={() => goToPage(page)}
+                  aria-label={`Page ${page}`}
+                  aria-current={page === safePage ? 'page' : undefined}
                 >
-                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  {page}
                 </button>
-              </div>
+              ))}
+
+              <button
+                className="pagination-btn pagination-arrow"
+                onClick={() => goToPage(safePage + 1)}
+                disabled={safePage === totalPages}
+                aria-label="Next page"
+              >
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
       </div>

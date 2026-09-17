@@ -34,7 +34,8 @@ import NotificationPanel from '../modals/NotificationPanel/NotificationPanel';
 
 // Search and bell icon assets imported from the shared Fowgate asset folder
 import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
-import bellIcon   from '../../assets/Fowgate Folder/Group 1226.svg';
+import bellIcon from '../../assets/Fowgate Folder/Group 1226.svg';
+import { AiBotIcon } from '../Icons/Icons';
 
 
 export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
@@ -68,114 +69,123 @@ export default function Header({ activeTab = 'Expense Claims', onTabChange }) {
 
   return (
     <>
-    {/**
+      {/**
      * <header> is the correct semantic HTML5 element for a page header.
      * fowgate-header applies the white background, bottom border, and the
      * flex-column layout that stacks the top bar above the tab row.
      */}
-    <header className="fowgate-header">
+      <header className="fowgate-header">
 
-      {/* ── Row 1: Top Bar ─────────────────────────────────────────────────
+        {/* ── Row 1: Top Bar ─────────────────────────────────────────────────
           Three regions side-by-side using space-between:
             Left   — "My Account" page title (h1 for accessibility/SEO)
             Centre — global search input
             Right  — notification bell + profile avatar dropdown          */}
-      <div className="header-top-bar">
+        <div className="header-top-bar">
 
-        {/* Page title — h1 is correct here because it's the main heading
+          {/* Page title — h1 is correct here because it's the main heading
             of the currently visible page content                         */}
-        <h1 className="header-title">My Account</h1>
+          <h1 className="header-title">My Account</h1>
 
-        {/* Search bar — positioned container so the icon can be pinned
+          {/* Search bar — positioned container so the icon can be pinned
             to the right side of the input without affecting text flow    */}
-        <div className="header-search-container">
-          {/* Icon is inside a wrapper so it can be centred precisely     */}
-          <div className="search-icon-wrapper">
-            <img src={searchIcon} alt="Search" />
+          <div className="header-search-container">
+            {/* Icon is inside a wrapper so it can be centred precisely     */}
+            <div className="search-icon-wrapper">
+              <img src={searchIcon} alt="Search" />
+            </div>
+            {/* The actual text input; placeholder guides the user           */}
+            <input
+              type="text"
+              placeholder="Search here..."
+              className="header-search-input"
+            />
           </div>
-          {/* The actual text input; placeholder guides the user           */}
-          <input
-            type="text"
-            placeholder="Search here..."
-            className="header-search-input"
-          />
-        </div>
 
-        {/* Right action area — bell + profile grouped with a gap         */}
-        <div className="header-actions-area">
+          {/* Right action area — AI bot + bell + profile grouped with a gap */}
+          <div className="header-actions-area">
 
-          {/* Notification Bell Button */}
-          <button
-            className={`alert-bell-button${notifOpen ? ' active' : ''}`}
-            aria-label="Notifications"
-            id="header-bell-btn"
-            onClick={handleBellClick}
-          >
-            <img src={bellIcon} alt="Notifications" />
-            <span className="bell-badge-dot" />
-          </button>
+            {/* AI Assistant Icon Button */}
+            <button
+              className="alert-bell-button header-ai-btn"
+              aria-label="AI Assistant"
+              type="button"
+            >
+              <AiBotIcon size={22} />
+            </button>
 
-          {/* Profile Dropdown Trigger
+            {/* Notification Bell Button */}
+            <button
+              className={`alert-bell-button${notifOpen ? ' active' : ''}`}
+              aria-label="Notifications"
+              id="header-bell-btn"
+              onClick={handleBellClick}
+            >
+              <img src={bellIcon} alt="Notifications" />
+              <span className="bell-badge-dot" />
+            </button>
+
+            {/* Profile Dropdown Trigger
               Shows the user's avatar and a chevron caret (▾) to hint that
               clicking opens a dropdown menu (dropdown behaviour not yet
               implemented in this prototype — just the visual shell).    */}
-          <div className="header-profile-dropdown">
-            {/* Circular avatar — overflow:hidden + border-radius:50% clips
+            <div className="header-profile-dropdown">
+              {/* Circular avatar — overflow:hidden + border-radius:50% clips
                 the rectangular image into a circle                       */}
-            <div className="avatar-wrapper">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100"
-                alt="User Profile"
-              />
+              <div className="avatar-wrapper">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100"
+                  alt="User Profile"
+                />
+              </div>
+              {/* Chevron / caret icon signals "click to open dropdown"    */}
+              <div className="dropdown-arrow-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 10l5 5 5-5z" />
+                </svg>
+              </div>
             </div>
-            {/* Chevron / caret icon signals "click to open dropdown"    */}
-            <div className="dropdown-arrow-icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 10l5 5 5-5z" />
-              </svg>
-            </div>
+
           </div>
-
-        </div>
-      </div>{/* end header-top-bar */}
+        </div>{/* end header-top-bar */}
 
 
-      {/* ── Row 2: Sub-Navigation Tabs ─────────────────────────────────────
+        {/* ── Row 2: Sub-Navigation Tabs ─────────────────────────────────────
           A horizontal scrollable <nav> with one <a> per tab.
           Scrolling is enabled but the scrollbar is visually hidden (see
           Header.css) so it looks clean on all screen sizes.
 
           Each tab href is generated from the tab name so direct links
           work in a real router setup (e.g. "#expense-claims").         */}
-      <nav className="header-sub-nav">
-        {tabs.map((tab, idx) => {
-          // Compare this tab to the activeTab prop
-          const isActive = tab === activeTab;
-          return (
-            <a
-              key={idx}
-              href={`#${tab.toLowerCase().replace(/\s+/g, '-')}`}
-              className={`sub-nav-tab-item ${isActive ? 'active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                if (onTabChange) {
-                  onTabChange(tab);
-                }
-              }}
-            >
-              {tab}
-            </a>
-          );
-        })}
-      </nav>
+        <nav className="header-sub-nav">
+          {tabs.map((tab, idx) => {
+            // Compare this tab to the activeTab prop
+            const isActive = tab === activeTab;
+            return (
+              <a
+                key={idx}
+                href={`#${tab.toLowerCase().replace(/\s+/g, '-')}`}
+                className={`sub-nav-tab-item ${isActive ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onTabChange) {
+                    onTabChange(tab);
+                  }
+                }}
+              >
+                {tab}
+              </a>
+            );
+          })}
+        </nav>
 
-    </header>
+      </header>
 
-    {/* Notification panel — rendered outside <header> so it overlays the page */}
-    <NotificationPanel
-      isOpen={notifOpen}
-      onClose={() => setNotifOpen(false)}
-    />
-  </>
+      {/* Notification panel — rendered outside <header> so it overlays the page */}
+      <NotificationPanel
+        isOpen={notifOpen}
+        onClose={() => setNotifOpen(false)}
+      />
+    </>
   );
 }

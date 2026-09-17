@@ -1,0 +1,53 @@
+.payroll-rejection-success {
+  align-items: center;
+  background: #ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 42px 36px 36px;
+  text-align: center;
+  width: min(440px, calc(100vw - 32px));
+  height: auto;
+  animation: payrollModalZoom 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.payroll-rejection-success img {
+  height: 84px;
+  width: 84px;
+  margin-bottom: 22px;
+}
+
+.payroll-rejection-success h3 {
+  color: #1e293b;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.payroll-rejection-success p {
+  color: #64748b;
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 0 0 28px;
+  max-width: 320px;
+}
+
+.payroll-rejection-success button {
+  background: #1f66c7;
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  height: 44px;
+  width: 100%;
+  transition: background-color 0.15s ease;
+}
+
+.payroll-rejection-success button:hover {
+  background: #1953a3;
+}

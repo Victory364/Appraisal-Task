@@ -34,6 +34,7 @@ import MyAppraisalsPage from './components/MyAppraisalsPage/MyAppraisalsPage';
 import MyProfilePage from './components/MyProfilePage/MyProfilePage';
 import LoanManagement from './components/LoanManagement/LoanManagement';
 import CasesPage from './components/CasesPage/CasesPage';
+import PayrollExpenseClaimsPage from './components/PayrollExpenseClaimsPage/PayrollExpenseClaimsPage';
 
 // App-level CSS (currently just a comment; global styles live in index.css)
 import './App.css';
@@ -41,6 +42,18 @@ import './App.css';
 function App() {
   // Track which header tab is currently active
   const [activeTab, setActiveTab] = useState('Cases');
+  // Track which sidebar option is active
+  const [activeSidebarItem, setActiveSidebarItem] = useState('My Account');
+
+  // Handle clicks on sidebar links
+  const handleSidebarChange = (itemName) => {
+    setActiveSidebarItem(itemName);
+    if (itemName === 'Payroll') {
+      setActiveTab('Expense Claims');
+    } else if (itemName === 'My Account') {
+      setActiveTab('Cases');
+    }
+  };
 
   // Render the correct page component based on the active tab
   const renderPage = () => {
@@ -50,7 +63,9 @@ function App() {
       case 'Appraisals':
         return <MyAppraisalsPage />;
       case 'Expense Claims':
-        return <ExpenseClaimsPage />;
+        return activeSidebarItem === 'Payroll'
+          ? <PayrollExpenseClaimsPage />
+          : <ExpenseClaimsPage activeSidebarItem={activeSidebarItem} />;
       case 'Loans & Advances':
         return <LoanManagement />;
       case 'Cases':
@@ -88,7 +103,7 @@ function App() {
       {/* ── Left Sidebar ──────────────────────────────────────────────────
           Fixed column, always visible. activeItem controls which link
           is highlighted with the white left-border indicator.          */}
-      <Sidebar activeItem="My Account" />
+      <Sidebar activeItem={activeSidebarItem} onNavChange={handleSidebarChange} />
 
       {/* ── Main Content Column ───────────────────────────────────────────
           Grows to fill the remaining width after the 250 px sidebar.
@@ -96,14 +111,21 @@ function App() {
       <main className="dashboard-main-area">
 
         {/* Header — "My Account" title, search bar, bell, profile, and
-            the horizontal tab row. activeTab keeps the selected tab
-            underlined in blue.                                          */}
-        <Header activeTab={activeTab} onTabChange={setActiveTab} />
+            the horizontal tab row. Hidden on Payroll to match Figma.    */}
+        {activeSidebarItem !== 'Payroll' && (
+          <Header 
+            activeTab={activeTab} 
+            onTabChange={(tab) => {
+              setActiveTab(tab);
+              setActiveSidebarItem('My Account');
+            }} 
+          />
+        )}
 
         {/* Scrollable page body — wraps the active feature page.
             The page-content-wrapper class adds 40 px bottom padding so
             content is never flush against the bottom of the viewport.  */}
-        <div className={`page-content-wrapper${activeTab === 'Appraisals' ? ' appraisals-content-wrapper' : ''}`}>
+        <div className={`page-content-wrapper${activeTab === 'Appraisals' ? ' appraisals-content-wrapper' : ''}${activeSidebarItem === 'Payroll' ? ' payroll-view-wrapper' : ''}`}>
           {renderPage()}
         </div>
 
