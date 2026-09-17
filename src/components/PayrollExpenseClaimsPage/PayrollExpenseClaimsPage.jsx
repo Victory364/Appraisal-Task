@@ -17,102 +17,22 @@ import NotificationPanel from '../modals/NotificationPanel/NotificationPanel';
 import bellIcon from '../../assets/Fowgate Folder/Group 1226.svg';
 import { AiBotIcon } from '../Icons/Icons';
 
-const CLAIMS_STORAGE_KEY = 'payroll_claims_data_v2';
-
-const DEFAULT_PAYROLL_CLAIMS = [
-  {
-    id: 'CL-001',
-    user: { name: 'Alfred Beckett', role: 'Software Engineer', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '12 Jan, 2024',
-    date: '12 Jan, 2024',
-    amount: 35000,
-    status: 'Pending',
-    approvedBy: '',
-    reviewerComment: 'The expense details have been reviewed and is in line with company policies. Reimbursement will be processed shortly.'
-  },
-  {
-    id: 'CL-002',
-    user: { name: 'Samuel Adeniyi', role: 'Product Designer', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '03 Jan, 2024',
-    date: '03 Jan, 2024',
-    amount: 20000,
-    status: 'Approved',
-    approvedBy: 'HR Manager',
-    dateApproved: '04 Jan, 2024'
-  },
-  {
-    id: 'CL-003',
-    user: { name: 'Jane Smith', role: 'Operations Lead', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '23 Dec, 2024',
-    date: '23 Dec, 2024',
-    amount: 10000,
-    status: 'Pending',
-    approvedBy: ''
-  },
-  {
-    id: 'CL-004',
-    user: { name: 'Emma Brown', role: 'HR Specialist', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '18 Dec, 2024',
-    date: '18 Dec, 2024',
-    amount: 15000,
-    status: 'Approved',
-    approvedBy: 'HR Manager',
-    dateApproved: '19 Dec, 2024'
-  },
-  {
-    id: 'CL-005',
-    user: { name: 'William Garcia', role: 'Accountant', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '06 Dec, 2024',
-    date: '06 Dec, 2024',
-    amount: 10000,
-    status: 'Pending',
-    approvedBy: ''
-  },
-  {
-    id: 'CL-006',
-    user: { name: 'Sophia Martinez', role: 'Marketing Manager', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '30 Nov, 2024',
-    date: '30 Nov, 2024',
-    amount: 10000,
-    status: 'Rejected',
-    approvedBy: 'HR Manager'
-  },
-  {
-    id: 'CL-007',
-    user: { name: 'Benjamin Wilson', role: 'Legal Counsel', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '24 Nov, 2024',
-    date: '24 Nov, 2024',
-    amount: 30000,
-    status: 'Approved',
-    approvedBy: 'HR Manager'
-  },
-  {
-    id: 'CL-008',
-    user: { name: 'Ibrahim Abdullahi', role: 'Support Specialist', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&auto=format&fit=crop&q=80' },
-    purpose: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    dateCreated: '01 Nov, 2024',
-    date: '01 Nov, 2024',
-    amount: 20000,
-    status: 'Approved',
-    approvedBy: 'HR Manager'
-  }
-];
+// Share the same storage key as ExpenseClaimsPage so both views show the same data
+const CLAIMS_STORAGE_KEY = 'expense_claims';
 
 const readClaims = () => {
   try {
     const raw = sessionStorage.getItem(CLAIMS_STORAGE_KEY);
-    if (!raw) return DEFAULT_PAYROLL_CLAIMS;
+    if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length >= 8 ? parsed : DEFAULT_PAYROLL_CLAIMS;
+    if (!Array.isArray(parsed)) return [];
+    // Ensure every claim has a `user` object (Payroll table needs it)
+    return parsed.map((claim) => ({
+      ...claim,
+      user: claim.user || { name: claim.employeeName || 'Employee', role: claim.role || 'Employee' },
+    }));
   } catch {
-    return DEFAULT_PAYROLL_CLAIMS;
+    return [];
   }
 };
 
@@ -140,6 +60,7 @@ export default function PayrollExpenseClaimsPage() {
   const [notifOpen, setNotifOpen] = useState(false);
 
   useEffect(() => {
+    // Keep sessionStorage in sync so changes made in Payroll view reflect in My Account view too
     sessionStorage.setItem(CLAIMS_STORAGE_KEY, JSON.stringify(claims));
   }, [claims]);
 
@@ -349,8 +270,8 @@ export default function PayrollExpenseClaimsPage() {
         isOpen={notifOpen}
         onClose={() => setNotifOpen(false)}
         onSelectClaim={() => {
-          const alfred = claims.find((c) => c.user?.name === 'Alfred Beckett') || claims[0];
-          if (alfred) openReview(alfred, 'details');
+          const first = claims[0];
+          if (first) openReview(first, 'details');
         }}
       />
     </div>
