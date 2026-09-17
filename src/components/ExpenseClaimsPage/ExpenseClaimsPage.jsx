@@ -16,6 +16,7 @@ import balanceToReimburseIcon from '../../assets/Fowgate Folder/Balance to Reimb
 import totalNumberClaimsIcon from '../../assets/Fowgate Folder/user-multiple-02.svg';
 import searchIcon from '../../assets/Fowgate Folder/search-normal.svg';
 import arrowUpRight from '../../assets/Fowgate Folder/arrow-up-right-03.svg';
+import alfredBeckettAvatar from '../../assets/Fowgate Folder/alfred_beckett.png';
 
 
 export default function ExpenseClaimsPage({ activeSidebarItem }) {
@@ -327,7 +328,11 @@ export default function ExpenseClaimsPage({ activeSidebarItem }) {
         dateApproved: '-',
         lastEdited: formattedDate,
         status: 'Pending',
-        user: { name: 'David Adeniyi', role: 'Sales Manager' },
+        user: { 
+          name: 'David Adeniyi', 
+          role: 'Sales Manager',
+          avatar: alfredBeckettAvatar
+        },
         attachments
       };
       setClaims([addedClaim, ...claims]);

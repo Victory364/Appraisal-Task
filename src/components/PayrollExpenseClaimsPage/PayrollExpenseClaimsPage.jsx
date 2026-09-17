@@ -16,6 +16,7 @@ import PayrollCommentsPanel from '../modals/PayrollCommentsPanel/PayrollComments
 import NotificationPanel from '../modals/NotificationPanel/NotificationPanel';
 import bellIcon from '../../assets/Fowgate Folder/Group 1226.svg';
 import { AiBotIcon } from '../Icons/Icons';
+import alfredBeckettAvatar from '../../assets/Fowgate Folder/alfred_beckett.png';
 
 // Share the same storage key as ExpenseClaimsPage so both views show the same data
 const CLAIMS_STORAGE_KEY = 'expense_claims';
@@ -215,7 +216,7 @@ export default function PayrollExpenseClaimsPage() {
                       <div className="payroll-employee-cell">
                         <img
                           className="payroll-employee-avatar"
-                          src={claim.user?.avatar || `https://i.pravatar.cc/80?u=${encodeURIComponent(claim.user?.name || claim.id)}`}
+                          src={claim.user?.avatar || alfredBeckettAvatar}
                           alt=""
                         />
                         <span className="payroll-employee-info"><strong>{claim.user?.name || 'Employee'}</strong><span>{claim.user?.role || 'Employee'}</span></span>
